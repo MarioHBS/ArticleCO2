@@ -1,0 +1,11 @@
+.idea/
+.venv/
+venv/
+.iaenv/
+__pycache__/
+.ipynb_checkpoints/
+
+results/
+
+/data/downloads/
+/data/generated/
