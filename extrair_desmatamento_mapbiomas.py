@@ -1,7 +1,6 @@
-# path: src/extrair_desmatamento_mapbiomas.py
+# path: src/extrair_desmatamento_mapbiomas_v2.py
 
 import requests
-import pandas as pd
 import os
 
 # --- Configurações
@@ -12,7 +11,7 @@ PASSWORD = "xZyn$3*6Hh"
 api_login_url = "https://plataforma.alerta.mapbiomas.org/api/v2/graphql"
 api_query_url = "https://plataforma.alerta.mapbiomas.org/api/v2/graphql"
 
-# --- Etapa 1: Fazer login para obter o Token
+# --- Login para obter Token
 
 
 def obter_token(email, password):
@@ -39,72 +38,85 @@ def obter_token(email, password):
         print(f"Erro no login: {response.status_code}")
         return None
 
-# --- Etapa 2: Buscar URL do CSV
+# --- Buscar alertas reais paginados
 
 
-def buscar_url_csv(token):
-    query = {
-        "query": """
-        query relatoryAlert($format: RelatoryTypenameTypes!, $typename: RelatoryFormatTypes!) {
-          relatoryAlert(format: $format, typename: $typename) {
-            fileUrl
-          }
-        }
-        """,
-        "variables": {
-            "format": "Csv",
-            "typename": "Alerts"
-        }
-    }
+def buscar_alertas(token, limite=1000):
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
-    response = requests.post(api_query_url, json=query, headers=headers)
 
-    if response.status_code == 200:
-        data = response.json()
-        file_url = data['data']['relatoryAlert']['fileUrl']
-        return file_url
-    else:
-        print(f"Erro ao buscar URL: {response.status_code}")
-        return None
+    alerta_lista = []
+    offset = 0
+    continuar = True
 
-# --- Etapa 3: Baixar e corrigir CSV
+    while continuar:
+        query = {
+            "query": """
+            query alerts($limit: Int!, $offset: Int!) {
+              alerts(limit: $limit, offset: $offset) {
+                id
+                status
+                detected_year
+                area_ha
+                biome
+                state
+                city
+                source
+              }
+            }
+            """,
+            "variables": {
+                "limit": limite,
+                "offset": offset
+            }
+        }
 
+        response = requests.post(api_query_url, json=query, headers=headers)
 
-def baixar_csv(file_url, destino):
-    response = requests.get(file_url)
-    if response.status_code == 200:
-        with open(destino, "wb") as f:
-            f.write(response.content)
-        print(f"✅ CSV salvo em {destino}")
+        if response.status_code == 200:
+            data = response.json()
+            if 'data' not in data or 'alerts' not in data['data']:
+                print("❗ Erro na resposta da API!")
+                print("Resposta recebida:", data)
+                return []
+            alertas = data['data']['alerts']
 
-        try:
-            df = pd.read_csv(destino, sep=",", engine="python")
-        except pd.errors.ParserError:
-            df = pd.read_csv(destino, sep=";", engine="python")
+            if not alertas:
+                continuar = False
+            else:
+                alerta_lista.extend(alertas)
+                offset += limite
+                print(f"Coletados {len(alerta_lista)} registros...")
+        else:
+            print(f"Erro ao buscar alertas: {response.status_code}")
+            break
 
-        df.to_csv(destino, index=False)
-        print("✅ CSV reformatado com sucesso!")
-    else:
-        print(f"Erro ao baixar CSV: {response.status_code}")
+    return alerta_lista
 
 # --- Execução principal
 
 
 def main():
     os.makedirs("data/downloads", exist_ok=True)
+
     token = obter_token(EMAIL, PASSWORD)
     if not token:
         return
 
-    file_url = buscar_url_csv(token)
-    if not file_url:
+    alertas = buscar_alertas(token)
+    if not alertas:
+        print("Nenhum alerta coletado.")
         return
 
-    output_path = "data/downloads/alertas_mapbiomas.csv"
-    baixar_csv(file_url, output_path)
+    df = pd.DataFrame(alertas)
+
+    output_path = "data/downloads/alertas_mapbiomas_corrigido.csv"
+    df.to_csv(output_path, index=False)
+
+    print(f"\u2705 CSV de alertas reais salvo em: {output_path}")
+    print(f"Total de registros salvos: {len(df)}")
 
 
 if __name__ == "__main__":
