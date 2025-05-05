@@ -1,0 +1,11 @@
+# Required libraries for the project
+pandas
+easyocr
+matplotlib
+seaborn
+numpy
+scikit-learn
+geopandas
+requests
+unidecode
+xgboost
