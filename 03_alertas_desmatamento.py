@@ -1,5 +1,9 @@
-# extrair_alertas_serra.py
+# 03_alertas_desmatamento.py
 
+import requests
+import argparse
+import sys
+import os
 from map_biomas_api import MapBiomasAlertApi
 import pandas as pd
 
@@ -12,16 +16,11 @@ credentials = {
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-import argparse
-import requests
-import pandas as pd
 
 def get_token(base_url: str) -> str:
     """Obtem token da API local via /token."""
     email = os.getenv("MAPBIOMAS_EMAIL")
-    pwd   = os.getenv("MAPBIOMAS_PASSWORD")
+    pwd = os.getenv("MAPBIOMAS_PASSWORD")
     if not email or not pwd:
         print("Erro: defina MAPBIOMAS_EMAIL e MAPBIOMAS_PASSWORD", file=sys.stderr)
         sys.exit(1)
@@ -33,6 +32,7 @@ def get_token(base_url: str) -> str:
     resp.raise_for_status()
     return resp.json()["token"]
 
+
 def fetch_all_alerts(base_url: str, token: str, start_date: str, end_date: str, territory_ids: list[int]) -> list[dict]:
     """Chama /alerts/all e retorna a lista de alertas."""
     headers = {"Authorization": f"Bearer {token}"}
@@ -41,15 +41,20 @@ def fetch_all_alerts(base_url: str, token: str, start_date: str, end_date: str, 
         "endDate": end_date,
         "territoryIds": ",".join(str(i) for i in territory_ids)
     }
-    resp = requests.get(f"{base_url}/alerts/all", headers=headers, params=params, timeout=300)
+    resp = requests.get(f"{base_url}/alerts/all",
+                        headers=headers, params=params, timeout=300)
     resp.raise_for_status()
     data = resp.json()
     return data.get("collection", [])
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Extrai todos os alertas de desmatamento via API MapBiomas")
-    parser.add_argument("--start", "-s", required=True, help="Data inicial (YYYY-MM-DD)")
-    parser.add_argument("--end",   "-e", required=True, help="Data final (YYYY-MM-DD)")
+    parser = argparse.ArgumentParser(
+        description="Extrai todos os alertas de desmatamento via API MapBiomas")
+    parser.add_argument("--start", "-s", required=True,
+                        help="Data inicial (YYYY-MM-DD)")
+    parser.add_argument("--end",   "-e", required=True,
+                        help="Data final (YYYY-MM-DD)")
     parser.add_argument("--territories", "-t", required=True,
                         help="IDs de territórios separados por vírgula (ex: 19606,17294,17994)")
     parser.add_argument("--output", "-o", default="alertas_serra_penitente.csv",
@@ -61,7 +66,8 @@ def main():
     territory_ids = [int(x) for x in args.territories.split(",")]
 
     token = get_token(args.server)
-    alerts = fetch_all_alerts(args.server, token, args.start, args.end, territory_ids)
+    alerts = fetch_all_alerts(
+        args.server, token, args.start, args.end, territory_ids)
 
     if not alerts:
         print("Nenhum alerta retornado para esses parâmetros.")
@@ -73,6 +79,6 @@ def main():
 
     print(f"✅ {len(alerts)} alertas salvos em: {args.output}")
 
+
 if __name__ == "__main__":
     main()
-

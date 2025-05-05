@@ -47,4 +47,3 @@ plt.tight_layout()
 plt.savefig(fig2_path)
 plt.close()
 
-fig1_path, fig2_path
