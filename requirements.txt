@@ -9,3 +9,4 @@ geopandas
 requests
 unidecode
 xgboost
+earthengine-api
