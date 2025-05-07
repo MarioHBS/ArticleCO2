@@ -1,12 +1,24 @@
-# Required libraries for the project
-pandas
-easyocr
-matplotlib
-seaborn
-numpy
-scikit-learn
-geopandas
-requests
-unidecode
-xgboost
-earthengine-api
+# Data Processing
+pandas==2.2.3
+numpy==2.2.5
+geopandas==1.0.1
+openpyxl==3.1.5
+xlrd==2.0.1
+
+# Visualization
+matplotlib==3.10.1
+seaborn==0.13.2
+
+# Machine Learning
+scikit-learn==1.6.1
+xgboost==3.0.0
+
+# Earth Engine API
+earthengine-api==1.5.14
+
+# OCR
+easyocr==1.7.2
+
+# Utilities
+requests==2.32.3
+unidecode==1.4.0
