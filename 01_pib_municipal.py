@@ -10,7 +10,7 @@ import easyocr
 # Fonte: https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html
 
 # 1) Cria a pasta de saída
-os.makedirs("data/generated", exist_ok=True)
+os.makedirs("data/partial", exist_ok=True)
 
 
 def strip_accents_and_punct(s: str) -> str:
@@ -118,7 +118,7 @@ def processar_imagens():
         "pib_precos_correntes", "impostos_liquidos", "pib_per_capita",
         "vab_total", "vab_agro", "vab_industria", "vab_servicos", "vab_adm_publica"
     ]]
-    out = "data/generated/pib_municipal_serra_penitente.csv"
+    out = "data/partial/pib_municipal_serra_penitente.csv"
     df.to_csv(out, index=False, encoding="utf-8-sig")
     print(f"\n✅ CSV gerado em: {out}")
 

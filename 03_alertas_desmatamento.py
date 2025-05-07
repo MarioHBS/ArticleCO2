@@ -13,9 +13,6 @@ credentials = {
     "password": "xZyn$3*6Hh"
 }
 
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 
 def get_token(base_url: str) -> str:
     """Obtem token da API local via /token."""
@@ -57,7 +54,7 @@ def main():
                         help="Data final (YYYY-MM-DD)")
     parser.add_argument("--territories", "-t", required=True,
                         help="IDs de territórios separados por vírgula (ex: 19606,17294,17994)")
-    parser.add_argument("--output", "-o", default="alertas_serra_penitente.csv",
+    parser.add_argument("--output", "-o", default="data/partial/alertas_serra_penitente.csv",
                         help="Caminho do arquivo CSV de saída")
     parser.add_argument("--server", "-u", default="http://localhost:8000",
                         help="URL base do servidor API (padrão: http://localhost:8000)")

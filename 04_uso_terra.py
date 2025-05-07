@@ -1,16 +1,15 @@
-# path: src/uso_terra_serra_penitente.py
+# path: src/04_uso_terra.py
 
 import geopandas as gpd
-import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Diretórios
-os.makedirs('data/generated', exist_ok=True)
+os.makedirs('data/partial', exist_ok=True)
 
 # Caminho do shapefile
-shapefile_path = 'data/coberturausogcs_grd_MA_final_2020.shp'
+shapefile_path = 'data/raw/landcover/landcover_ma_2020.shp'
 
 # Municípios alvo
 municipios_alvo = ['Balsas', 'Tasso Fragoso', 'Alto Parnaíba']
@@ -57,7 +56,7 @@ if 'USO2020' in gdf.columns:
 
     # Salvar o dataset
     uso_agrupado.to_csv(
-        'data/generated/uso_terra_serra_penitente.csv', index=False)
+        'data/partial/uso_terra_serra_penitente.csv', index=False)
 
     # Exibir resultado
     print(uso_agrupado)

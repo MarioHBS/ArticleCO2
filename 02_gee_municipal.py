@@ -16,12 +16,12 @@ gdf = gpd.read_file("data/raw/municipalities/municipalities.shp")
 
 def salva_municipios(gdf):
     # 2) Salva todos os nomes únicos dos municípios em um .txt
-    os.makedirs("data/generated", exist_ok=True)
+    os.makedirs("data/other", exist_ok=True)
     mun_names = sorted(gdf["name"].unique())
-    with open("data/generated/municipios.txt", "w", encoding="utf-8") as f:
+    with open("data/other/municipios.txt", "w", encoding="utf-8") as f:
         for m in mun_names:
             f.write(f"{m}\n")
-    print(f"✅ {len(mun_names)} municípios salvos em data/generated/municipios.txt")
+    print(f"✅ {len(mun_names)} municípios salvos em data/other/municipios.txt")
 # salva_municipios(gdf)
 
 
@@ -72,5 +72,5 @@ features = result_fc.getInfo()["features"]
 rows = [f["properties"] for f in features]
 df = pd.DataFrame(rows)
 
-df.to_csv("data/generated/gee_serra_penitente.csv", index=False)
+df.to_csv("data/partial/gee_serra_penitente.csv", index=False)
 print("✅ gee_serra_penitente.csv gerado em data/generated/")
