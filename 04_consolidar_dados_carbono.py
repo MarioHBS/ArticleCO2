@@ -85,7 +85,7 @@ plt.ylabel('PIB (R$)')
 plt.xlabel('Ano')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('results/figures/evolucao_pib_serra_penitente.png')
+plt.savefig('results/figures/figura1_evolucao_pib_serra_penitente[02-21].png')
 plt.close()
 
 # Evolução de GEE
@@ -97,7 +97,7 @@ plt.ylabel('GEE (tCO2e)')
 plt.xlabel('Ano')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('results/figures/evolucao_gee_serra_penitente.png')
+plt.savefig('results/figures/figura2_evolucao_gee_serra_penitente[85-23].png')
 plt.close()
 
 # Evolução da área desmatada
@@ -109,5 +109,6 @@ plt.ylabel('Área Desmatada (ha)')
 plt.xlabel('Ano')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('results/figures/evolucao_desmatamento_serra_penitente.png')
+plt.savefig(
+    'results/figures/figura3_evolucao_desmatamento_serra_penitente[2019-2024].png')
 plt.close()
