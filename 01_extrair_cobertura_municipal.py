@@ -1,12 +1,15 @@
-# 02_extrair_cobertura_mapbiomas.py
+# -*- coding: utf-8 -*-
+# 01_extrair_gee_municipal_excel.py
 # Extrai estatísticas de cobertura por bioma do arquivo MapBiomas
 # Fonte: mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx (planilha COVERAGE_9)
 
 import os
 import pandas as pd
 
+from variaveis import INPUT_PATHS, OUTPUT_PATHS
+
 # 1) Defina o caminho do arquivo MapBiomas
-arquivo_mapb = "data/raw/mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx"
+arquivo_mapb = INPUT_PATHS.mapbiomas
 
 # 2) Lista de códigos IBGE dos municípios de Serra do Penitente
 municipios_alvo = ["2100501", "2101400", "2112001"]
@@ -48,7 +51,8 @@ for col in anos:
 
 # 9) Transforma para formato longo
 id_vars = ["codigo_ibge", "municipio", "uf", "bioma",
-           "classe_codigo", "classe_level_0", "classe_level_1", "classe_level_2"]
+           "classe_codigo", "classe_level_0",
+           "classe_level_1", "classe_level_2"]
 df_long = df_mapb.melt(
     id_vars=id_vars,
     value_vars=anos,
@@ -61,7 +65,7 @@ df_long["ano"] = df_long["ano"].astype(str)
 
 # 10) Ordena e exporta
 df_long = df_long.sort_values(["codigo_ibge", "bioma", "classe_codigo", "ano"])
-output_path = "data/partial/mapbiomas_cobertura_municipal_long.csv"
+output_path = OUTPUT_PATHS.mapbiomas_long_csv
 df_long.to_csv(output_path, index=False)
 
 print(f"✅ CSV long de cobertura MapBiomas gerado em: {output_path}")
