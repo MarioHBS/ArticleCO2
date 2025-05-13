@@ -1,0 +1,4 @@
+.gitO/
+.venv/
+
+src/__pycache__/
