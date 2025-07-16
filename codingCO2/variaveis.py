@@ -26,6 +26,7 @@ INPUT_PATHS = SimpleNamespace(
     pib_2002_2009="data/raw/PIB dos Municípios - base de dados 2002-2009.xls",
     pib_2010_2021="data/raw/PIB dos Municípios - base de dados 2010-2021.xlsx",
     mapbiomas="data/raw/mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx",
+    indicadores_socioeconomicos="data/raw/indicadores_socioeconomicos_serra_penitente.xlsx",
     uso_timeseries="data/partial/uso_terra_serra_penitente_timeseries.csv",
     alertas="data/partial/alertas_serra_penitente.csv",
     pib_municipal="data/partial/pib_municipal_serra_penitente_ibge.csv",
