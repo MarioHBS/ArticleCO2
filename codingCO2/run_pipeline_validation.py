@@ -23,7 +23,6 @@ stages = [
     ("00_extrair_pib_municipal.py", [OUTPUT_PATHS.pib_ibge_csv]),
     ("01_extrair_gee_municipal_excel.py", [OUTPUT_PATHS.mapbiomas_long_csv]),
     ("02_extrair_alertas_desmatamento.py", [OUTPUT_PATHS.alertas_csv]),
-    ("03_extrair_uso_terra_timeseries.py", [INPUT_PATHS.uso_timeseries]),
     ("04_consolidar_modelar_carbono.py", [
         OUTPUT_PATHS.carbono_consolidado_csv,
         OUTPUT_PATHS.model_results_csv
