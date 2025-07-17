@@ -17,7 +17,7 @@ from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
 
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS
+from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, PROCESSED_PATHS
 
 # 1) Cria diretórios de saída
 os.makedirs("results/figures", exist_ok=True)
@@ -27,6 +27,7 @@ os.makedirs("data/generated", exist_ok=True)
 df_pib = pd.read_csv(INPUT_PATHS.pib_municipal,       encoding='utf-8-sig')
 df_gee = pd.read_csv(INPUT_PATHS.cobertura_municipal, encoding='utf-8-sig')
 df_alertas = pd.read_csv(INPUT_PATHS.alertas,             encoding='utf-8-sig')
+df_socio = pd.read_csv(PROCESSED_PATHS.indicadores_socioeconomicos, encoding='utf-8-sig')
 
 # 3) Extrai 'municipio' de crossedCitiesList e o 'ano'
 
@@ -77,10 +78,16 @@ df_final = pd.merge(df_merge_pib, df_merge_gee, on=[
                     'municipio', 'ano'], how='outer')
 df_final = pd.merge(df_final,    df_desmat,     on=[
                     'municipio', 'ano'], how='outer')
+df_final = pd.merge(df_final,    df_socio,      on=[
+                    'municipio', 'ano'], how='left') # Usar left join para manter todos os anos de pib/gee/desmat
 
 # 7) Seleciona colunas e exporta CSV consolidado
-df_final = df_final[['municipio', 'ano',
-                     'pib', 'GEE_tCO2e', 'area_desmatada_ha']]
+# As colunas agora são dinâmicas, baseadas no FEATURE_COLS + identificadores
+all_cols = ['municipio', 'ano'] + FEATURE_COLS
+df_final = df_final.copy()
+for col in all_cols:
+    if col not in df_final.columns:
+        df_final[col] = pd.NA
 df_final.to_csv(
     'data/generated/carbono_serra_penitente.csv',
     index=False,
@@ -118,15 +125,21 @@ df_price = df_price[['ano', 'carbon_price_usd']].dropna().drop_duplicates()
 df_model = df_final.merge(df_price, on='ano', how='inner')
 
 # 8.3) Agrega único por município-ano
+agg_dict = {
+    'pib': 'first',
+    'GEE_tCO2e': 'sum',
+    'area_desmatada_ha': 'sum',
+    'carbon_price_usd': 'first'
+}
+# Adiciona as colunas socioeconômicas ao dicionário de agregação
+for col in FEATURE_COLS:
+    if col not in agg_dict:
+        agg_dict[col] = 'first' # Assumindo que são constantes por ano
+
 df_model = (
     df_model
     .groupby(['municipio', 'ano'], as_index=False)
-    .agg({
-        'pib': 'first',
-        'GEE_tCO2e': 'sum',
-        'area_desmatada_ha': 'sum',
-        'carbon_price_usd': 'first'
-    })
+    .agg(agg_dict)
 )
 
 # 8.4) Prepara features e target

@@ -46,5 +46,21 @@ OUTPUT_PATHS = SimpleNamespace(
     evolucao_desmat_png="results/figures/evolucao_desmatamento_serra_penitente.png",
 )
 
+# Caminhos de dados processados
+PROCESSED_PATHS = SimpleNamespace(
+    indicadores_socioeconomicos="data/partial/indicadores_socioeconomicos_serra_penitente.csv",
+)
+
 # Features padrão para modelagem
-FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
+FEATURE_COLS = [
+    'pib', 
+    'GEE_tCO2e', 
+    'area_desmatada_ha',
+    'IDHM 2010',
+    'IDHM Renda 2010',
+    'IDHM Longevidade 2010',
+    'IDHM Educação 2010',
+    'Renda per capita 2010',
+    'Taxa de analfabetismo - 18 a 24 anos 2010',
+    'Taxa de analfabetismo - 25 a 29 anos 2010'
+]
