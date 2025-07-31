@@ -45,18 +45,28 @@ fig_num = 1
 
 # 1) Carregar dados consolidados e verificar
 print("[INFO] Carregando dados consolidados de:", CARBONO_CONSOLIDADO)
-df = pd.read_csv(CARBONO_CONSOLIDADO, encoding='utf-8-sig')
-print(
-    f"[INFO] DataFrame carregado: {df.shape[0]} linhas, {df.shape[1]} colunas")
+try:
+    df = pd.read_csv(CARBONO_CONSOLIDADO, encoding='utf-8-sig')
+    print(
+        f"[INFO] DataFrame carregado: {df.shape[0]} linhas, {df.shape[1]} colunas")
+except FileNotFoundError:
+    print(f"[ERROR] Arquivo não encontrado: {CARBONO_CONSOLIDADO}")
+    print(f"Caminho absoluto: {os.path.abspath(CARBONO_CONSOLIDADO)}")
+    exit(1)
 
 # 2) Ler e mesclar preços de carbono (EU ETS)
 print("[INFO] Carregando série de preços de carbono de:",
       INPUT_PATHS.carbon_prices_raw)
-price_raw = pd.read_excel(
-    INPUT_PATHS.carbon_prices_raw,
-    sheet_name=0,
-    header=1
-)
+try:
+    price_raw = pd.read_excel(
+        INPUT_PATHS.carbon_prices_raw,
+        sheet_name=0,
+        header=1
+    )
+except FileNotFoundError:
+    print(f"[ERROR] Arquivo não encontrado: {INPUT_PATHS.carbon_prices_raw}")
+    print(f"Caminho absoluto: {os.path.abspath(INPUT_PATHS.carbon_prices_raw)}")
+    exit(1)
 print(
     f"[INFO] Série de preços carregada: {price_raw.shape[0]} linhas, {price_raw.shape[1]} colunas")
 year_cols = [c for c in price_raw.columns if isinstance(c, int)]
@@ -80,12 +90,16 @@ print(
 
 # 4) Agregar por município e ano
 print("[INFO] Agregando dados por município e ano...")
-df_agg = df.groupby(['municipio', 'ano'], as_index=False).agg({
+agg_dict = {
     'pib': 'first',
     'GEE_tCO2e': 'sum',
     'area_desmatada_ha': 'sum',
     'carbon_price_usd': 'first'
-})
+}
+for col in FEATURE_COLS:
+    if col not in agg_dict:
+        agg_dict[col] = 'first'
+df_agg = df.groupby(['municipio', 'ano'], as_index=False).agg(agg_dict)
 print(f"[INFO] DataFrame agregado: {df_agg.shape[0]} registros únicos")
 
 # --- Figura 01: Evolução do PIB Municipal ---

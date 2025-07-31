@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
+import sys
+
+# Redirect output to a file
+sys.stdout = open('analysis_results.txt', 'w', encoding='utf-8')
 
 # Carregar o arquivo data.xlsx
-file_path = 'data/raw/data.xlsx'
+file_path = 'data/raw/indicadores_socioeconomicos_serra_penitente.xlsx'
 print(f"Analisando o arquivo: {file_path}")
 print("="*60)
 
@@ -15,9 +19,10 @@ try:
     print(f"Número de colunas: {df.shape[1]}")
     print("\n" + "="*60)
     
-    # Mostrar as primeiras colunas
-    print("\nPrimeiras 10 colunas:")
-    print(list(df.columns[:10]))
+    # Mostrar todas as colunas
+    print("\nTodas as colunas:")
+    for i, col in enumerate(df.columns, 1):
+        print(f"{i:2d}. {col}")
     
     # Buscar por colunas relacionadas ao IDH
     print("\n" + "="*60)
@@ -146,3 +151,9 @@ try:
 except Exception as e:
     print(f"Erro ao carregar o arquivo: {e}")
     print("Verifique se o arquivo existe e está no formato correto.")
+finally:
+    # Close the file
+    if 'sys' in locals() and sys.stdout != sys.__stdout__:
+        sys.stdout.close()
+        # Restore original stdout
+        sys.stdout = sys.__stdout__

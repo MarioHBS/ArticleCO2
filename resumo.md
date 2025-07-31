@@ -72,16 +72,26 @@
 3. **Treinamento por fold:**
 
    ```python
-   for train_idx, test_idx in tscv.split(X):
-       Xtr, Xte = X.iloc[train_idx], X.iloc[test_idx]
-       ytr, yte = y.iloc[train_idx], y.iloc[test_idx]
-       scaler = StandardScaler().fit(Xtr)
-       Xtr_s, Xte_s = scaler.transform(Xtr), scaler.transform(Xte)
-       model.fit(Xtr_s, ytr)
-       pred = model.predict(Xte_s)
-       mse_fold = ((pred - yte) ** 2).mean()
-       ...
-   ```
+for name, model in models.items():
+    mse_scores = []
+    for train_idx, test_idx in tscv.split(X):
+        X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+        y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+
+        scaler = StandardScaler()
+        X_train_s = scaler.fit_transform(X_train)
+        X_test_s = scaler.transform(X_test)
+
+        model.fit(X_train_s, y_train)
+        preds = model.predict(X_test_s)
+        
+        mse_scores.append(mean_squared_error(y_test, preds))
+
+    results.append({
+        'model': name,
+        'MSE':   sum(mse_scores) / len(mse_scores) # Média do MSE
+    })
+```
 
 4. **Modelos avaliados:** Regressão Linear, Lasso, KNN, Decision Tree, Random Forest, MLP, SVR, Dummy, XGBoost.
 
@@ -94,10 +104,14 @@
 | **Tabela 1** | Contagem de registros e atributos em cada base           | Metodologia, § B |
 | **Tabela 2** | `mse_df` com colunas `Model` e `MSE` (média k-fold)      | Resultados, § A  |
 | **Tabela 3** | Seleção de atributos (ex.: prob. de inclusão ou RFECV)   | Resultados, § C  |
-| **Figura 1** | Painéis GEE (1985-2023) e PIB (2002-2021) com `axvspan`  | Metodologia, § B |
-| **Figura 2** | `sns.barplot(data=mse_df, x='Model', y='MSE')`           | Resultados, § A  |
-| **Figura 3** | `sns.barplot(x=FEATURE_COLS, y=rf.feature_importances_)` | Resultados, § C  |
-| **Figura 4** | `sns.heatmap(corr, annot=True, fmt='.2f')`               | Resultados, § D  |
+| **Figura 01** | `sns.lineplot` da evolução do PIB municipal. | Resultados |
+| **Figura 02** | `sns.lineplot` da evolução das emissões de GEE. | Resultados |
+| **Figura 03** | `sns.lineplot` da evolução do desmatamento. | Resultados |
+| **Figura 04** | `sns.barplot` do EQM (MSE) dos modelos. | Resultados, § A |
+| **Figura 05** | `sns.heatmap` da correlação entre variáveis. | Resultados, § D |
+| **Figura 07** | Scatters de valores reais vs. previstos para cada modelo. | Resultados |
+| **Figura 08** | `sns.barplot` da importância das variáveis (Random Forest). | Resultados, § C |
+| **Figura 09** | `sns.lineplot` da evolução do preço do carbono (EU-ETS). | Resultados |
 
 ## 5. Cálculo do potencial econômico (opcional)
 

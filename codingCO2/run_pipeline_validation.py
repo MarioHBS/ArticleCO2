@@ -2,7 +2,7 @@ import subprocess
 import os
 import sys
 import subprocess
-from variaveis import INPUT_PATHS, OUTPUT_PATHS
+# Paths are hardcoded below to avoid import/exec issues.
 
 # Utility to safely print possibly non-ASCII output without encoding errors
 
@@ -20,12 +20,12 @@ def safe_print(s: str):
 
 # Define each stage script and its expected output files
 stages = [
-    ("00_extrair_pib_municipal.py", [OUTPUT_PATHS.pib_ibge_csv]),
-    ("01_extrair_gee_municipal_excel.py", [OUTPUT_PATHS.mapbiomas_long_csv]),
-    ("02_extrair_alertas_desmatamento.py", [OUTPUT_PATHS.alertas_csv]),
-    ("04_consolidar_modelar_carbono.py", [
-        OUTPUT_PATHS.carbono_consolidado_csv,
-        OUTPUT_PATHS.model_results_csv
+    ("00_extrair_pib_municipal.py", ["data/partial/pib_municipal_serra_penitente_ibge.csv"]),
+    ("01_extrair_gee_municipal_excel.py", ["data/partial/mapbiomas_cobertura_municipal_long.csv"]),
+    ("02_extrair_alertas_desmatamento.py", ["data/partial/alertas_serra_penitente.csv"]),
+    ("04_consolidar_dados_carbono.py", [
+        "data/generated/carbono_serra_penitente.csv",
+        "results/carbon_price_model_all_results.csv"
     ]),
     ("05_gerar_figuras_carbono.py", None),  # Outputs checked dynamically
 ]
@@ -46,14 +46,18 @@ def check_files(files):
 
 all_ok = True
 
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 for script, outputs in stages:
     print(f"\n=== Running {script} ===")
-    result = subprocess.run([sys.executable, script],
-                            capture_output=True, text=True)
+    script_path = os.path.join(project_root, 'codingCO2', script)
+    result = subprocess.run([sys.executable, script_path],
+                            cwd=project_root,
+                            capture_output=True, text=True, encoding='utf-8', errors='replace')
     print(result.stdout)
     if result.returncode != 0:
-        safe_print(f"[ERROR] {script} failed(exit code {result.returncode}")
-        # stderr suppressed to avoid encoding issues
+        safe_print(f"[ERROR] {script} failed(exit code {result.returncode})\n")
+        safe_print(result.stderr)
         all_ok = False
         continue
 
@@ -63,7 +67,7 @@ for script, outputs in stages:
             all_ok = False
     else:
         # For stage 05, check numbered figures
-        fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
+        fig_dir = "results/figures"
         expected = []
         # Figures 01-05
         for i in range(1, 6):

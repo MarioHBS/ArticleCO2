@@ -5,7 +5,7 @@ import os
 import ast
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.linear_model import LinearRegression, Lasso
@@ -81,13 +81,12 @@ df_final = pd.merge(df_final,    df_desmat,     on=[
 df_final = pd.merge(df_final,    df_socio,      on=[
                     'municipio', 'ano'], how='left') # Usar left join para manter todos os anos de pib/gee/desmat
 
-# 7) Seleciona colunas e exporta CSV consolidado
-# As colunas agora são dinâmicas, baseadas no FEATURE_COLS + identificadores
-all_cols = ['municipio', 'ano'] + FEATURE_COLS
-df_final = df_final.copy()
-for col in all_cols:
-    if col not in df_final.columns:
-        df_final[col] = pd.NA
+# 7) Garante todas as colunas e exporta CSV consolidado
+# As colunas de df_socio já foram adicionadas no merge. 
+# Apenas preenchemos os valores NaN que podem ter surgido do 'outer' join
+fill_values = {'pib': 0, 'GEE_tCO2e': 0, 'area_desmatada_ha': 0}
+df_final.fillna(value=fill_values, inplace=True)
+
 df_final.to_csv(
     'data/generated/carbono_serra_penitente.csv',
     index=False,
@@ -148,12 +147,13 @@ for feat in FEATURE_COLS:
 X = df_model[FEATURE_COLS]
 y = df_model['carbon_price_usd']
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-scaler = StandardScaler()
-X_train_s = scaler.fit_transform(X_train)
-X_test_s = scaler.transform(X_test)
+# 8.5) Define e treina modelos com TimeSeriesSplit
+tscv = TimeSeriesSplit(n_splits=10)
+results = []
+
+# Ordena os dados pelo ano para garantir a ordem temporal
+Xy = df_model.sort_values('ano').dropna(subset=FEATURE_COLS + ['carbon_price_usd'])
+X, y = Xy[FEATURE_COLS], Xy['carbon_price_usd']
 
 # 8.5) Define e treina modelos, coleta métricas
 models = {
@@ -168,14 +168,28 @@ models = {
     'XGBoost':           XGBRegressor(random_state=42)
 }
 
-results = []
+# Loop de validação cruzada temporal
 for name, model in models.items():
-    model.fit(X_train_s, y_train)
-    preds = model.predict(X_test_s)
+    mse_scores = []
+    r2_scores = []
+    for train_idx, test_idx in tscv.split(X):
+        X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+        y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+
+        scaler = StandardScaler()
+        X_train_s = scaler.fit_transform(X_train)
+        X_test_s = scaler.transform(X_test)
+
+        model.fit(X_train_s, y_train)
+        preds = model.predict(X_test_s)
+        
+        mse_scores.append(mean_squared_error(y_test, preds))
+        r2_scores.append(r2_score(y_test, preds))
+
     results.append({
         'model': name,
-        'R2':    r2_score(y_test, preds),
-        'MSE':   mean_squared_error(y_test, preds)
+        'R2':    sum(r2_scores) / len(r2_scores),  # Média do R2
+        'MSE':   sum(mse_scores) / len(mse_scores) # Média do MSE
     })
 
 # 8.6) Salva métricas em CSV
