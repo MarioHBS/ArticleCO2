@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 01_extrair_gee_municipal_excel.py
 # Extrai estatísticas de cobertura por bioma do arquivo MapBiomas
-# Fonte: mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx (planilha COVERAGE_9)
+# Fonte: cobertura_solo_mapbiomas_municipios_brasil.xlsx (planilha COVERAGE_9)
 
 import os
 import pandas as pd

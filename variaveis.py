@@ -23,14 +23,15 @@ CARBONO_CONSOLIDADO = "data/generated/carbono_serra_penitente.csv"
 
 # Caminhos de entrada
 INPUT_PATHS = SimpleNamespace(
-    pib_2002_2009="data/raw/PIB dos Municípios - base de dados 2002-2009.xls",
-    pib_2010_2021="data/raw/PIB dos Municípios - base de dados 2010-2021.xlsx",
-    mapbiomas="data/raw/mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx",
+    pib_2002_2009="data/raw/pib_municipios_ibge_2002_2009.xls",
+    pib_2010_2021="data/raw/pib_municipios_ibge_2010_2021.xlsx",
+    mapbiomas="data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
+    idhm="data/raw/idhm_municipios_serra_penitente.xlsx",
     uso_timeseries="data/partial/uso_terra_serra_penitente_timeseries.csv",
     alertas="data/partial/alertas_serra_penitente.csv",
     pib_municipal="data/partial/pib_municipal_serra_penitente_ibge.csv",
     cobertura_municipal="data/partial/mapbiomas_cobertura_municipal_long.csv",
-    carbon_prices_raw="data/raw/carbon-prices-latest.xlsx",
+    carbon_prices_raw="data/raw/precos_carbono_eu_ets.xlsx",
 )
 
 # Caminhos de saída

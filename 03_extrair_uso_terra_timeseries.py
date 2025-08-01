@@ -3,7 +3,7 @@
 import os
 import pandas as pd
 
-RAW_EXCEL = "data/raw/mapbiomas_brazil_col_coverage_biome_state_municipality.xlsx"
+RAW_EXCEL = "data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx"
 PARTIAL_OUT = "data/partial/uso_terra_serra_penitente_timeseries.csv"
 SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
