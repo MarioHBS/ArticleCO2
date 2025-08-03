@@ -229,3 +229,22 @@ Essa análise permite identificar relações causais temporais entre as variáve
 * Validação: TimeSeriesSplit k=10
 
 Este fluxo assegura coerência metodológica, qualidade das figuras e robustez nas comparações quantitativas.
+
+## 7. Organização dos arquivos de resultados
+
+Todos os arquivos de resultados foram organizados na pasta `results/` para melhor estruturação do projeto:
+
+### Métricas de modelos:
+- **metricas_modelos_com_idhm.csv**: Métricas de performance dos 9 modelos testados com variáveis IDHM
+- **carbon_price_model_all_results.csv**: Métricas dos modelos originais sem IDHM
+
+### Importância de features:
+- **feature_importance_random_forest_com_idhm.csv**: Ranking de importância das variáveis no Random Forest
+- **feature_importance_decision_tree_com_idhm.csv**: Ranking de importância das variáveis no Decision Tree  
+- **feature_importance_xgboost_com_idhm.csv**: Ranking de importância das variáveis no XGBoost
+
+### Figuras:
+- **figures/**: Figuras PNG para visualização rápida
+- **figuras_consolidadas/**: Figuras PDF vetoriais para publicação
+
+Esta organização facilita a localização dos resultados e mantém a estrutura do projeto mais limpa e profissional.

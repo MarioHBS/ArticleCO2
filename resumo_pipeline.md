@@ -243,6 +243,23 @@ Resultados de modelagem e figuras:
   - Colunas: `Model`, `MSE`
   - Resultados do TimeSeriesSplit k=10
 
+- **metricas_modelos_com_idhm.csv**
+  - Métricas dos modelos com variáveis IDHM incluídas
+  - Colunas: `modelo`, `r2_score`, `mse`, `features_utilizadas`, `features_idhm`
+  - 9 modelos testados com 7 features (incluindo 4 do IDHM)
+
+- **feature_importance_random_forest_com_idhm.csv**
+  - Importância das variáveis no modelo Random Forest
+  - Mostra contribuição relativa de cada feature
+
+- **feature_importance_decision_tree_com_idhm.csv**
+  - Importância das variáveis no modelo Decision Tree
+  - Identifica features mais relevantes para predição
+
+- **feature_importance_xgboost_com_idhm.csv**
+  - Importância das variáveis no modelo XGBoost
+  - Ranking de relevância das features
+
 - **figures/** (figuras PNG)
 - **figuras_consolidadas/** (figuras PDF vetoriais)
 

@@ -10,14 +10,14 @@ class Municipio:
 
 
 # Lista de municípios alvo
-MUNICIPIOS = [
+MUNICIPIOS_ALVO = [
     Municipio(2100501, "Alto Parnaíba", "MA"),
     Municipio(2101400, "Balsas",        "MA"),
     Municipio(2112001, "Tasso Fragoso",  "MA"),
 ]
 
 # Região de estudo
-REGIAO = "Serra do Penitente"
+REGIAO_ESTUDO = "Serra do Penitente"
 
 CARBONO_CONSOLIDADO = "data/generated/carbono_serra_penitente.csv"
 
@@ -32,6 +32,8 @@ INPUT_PATHS = SimpleNamespace(
     pib_municipal="data/generated/pib_municipal_serra_penitente_ibge.csv",
     cobertura_municipal="data/generated/mapbiomas_cobertura_municipal_long.csv",
     carbon_prices_raw="data/raw/precos_carbono_eu_ets.xlsx",
+    pib="data/generated/pib_municipal_serra_penitente_ibge.csv",
+    precos_carbono="data/raw/precos_carbono_eu_ets.xlsx",
 )
 
 # Caminhos de saída
@@ -40,6 +42,10 @@ OUTPUT_PATHS = SimpleNamespace(
     mapbiomas_long_csv="data/generated/mapbiomas_cobertura_municipal_long.csv",
     alertas_csv="data/generated/alertas_serra_penitente.csv",
     model_results_csv="results/carbon_price_model_all_results.csv",
+    metricas_modelos_com_idhm_csv="results/metricas_modelos_com_idhm.csv",
+    feature_importance_rf_csv="results/feature_importance_random_forest_com_idhm.csv",
+    feature_importance_dt_csv="results/feature_importance_decision_tree_com_idhm.csv",
+    feature_importance_xgb_csv="results/feature_importance_xgboost_com_idhm.csv",
     scatter_xgboost_png="results/figures/scatter_real_vs_pred_xgboost.png",
     evolucao_pib_png="results/figures/evolucao_pib_serra_penitente.png",
     evolucao_gee_png="results/figures/evolucao_gee_serra_penitente.png",
@@ -48,6 +54,12 @@ OUTPUT_PATHS = SimpleNamespace(
 
 # Features padrão para modelagem
 FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
+
+# Features expandidas incluindo IDHM
+FEATURE_COLS_EXPANDIDO = [
+    'pib', 'GEE_tCO2e', 'area_desmatada_ha',
+    'idhm_', 'idhm_renda', 'idhm_educação', 'idhm_longevidade'
+]
 
 
 def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose=False):
