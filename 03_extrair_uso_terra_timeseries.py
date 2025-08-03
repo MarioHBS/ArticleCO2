@@ -9,7 +9,6 @@ SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
 SERRA_CODES = [2100501, 2101400, 2112001]
 
-
 def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
     """
     Carrega o Excel MapBiomas de cobertura multianual.

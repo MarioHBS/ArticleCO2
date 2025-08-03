@@ -13,6 +13,9 @@ seaborn==0.13.2
 scikit-learn==1.6.1
 xgboost==3.0.0
 
+# Statistical Analysis
+statsmodels==0.14.4
+
 # Earth Engine API
 earthengine-api==1.5.14
 

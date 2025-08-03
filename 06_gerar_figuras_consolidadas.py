@@ -10,7 +10,7 @@ Gera as figuras finais em formato vetorial PDF para uso em LaTeX
               (b) PIB municipal 2002-2021
   Figura02 – Comparação de MSE entre Modelos (TimeSeriesSplit k=10)
   Figura03 – Importância de Variáveis (Random Forest)
-  Figura04 – Matriz de Correlação
+  Figura04 – Matriz de Causalidade de Granger
 """
 
 import os
@@ -25,6 +25,7 @@ from variaveis import (
     INPUT_PATHS,
     FEATURE_COLS,
     OUTPUT_PATHS,
+    granger_causality_matrix,
 )
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import StandardScaler
@@ -53,7 +54,7 @@ OUTPUT_PATHS.figura01 = os.path.join(
 OUTPUT_PATHS.figura02 = os.path.join(output_dir, "Figura02_Comparacao_MSE.pdf")
 OUTPUT_PATHS.figura03 = os.path.join(output_dir, "Figura03_Importancia_RF.pdf")
 OUTPUT_PATHS.figura04 = os.path.join(
-    output_dir, "Figura04_Matriz_Correlacao.pdf")
+    output_dir, "Figura04_Matriz_Causalidade_Granger.pdf")
 
 # ---------------------------------------------------------------------------
 # 1 ▪ Carrega e prepara dados
@@ -163,12 +164,19 @@ plt.savefig(OUTPUT_PATHS.figura03, format="pdf", bbox_inches="tight")
 plt.close()
 
 # ---------------------------------------------------------------------------
-# 5 ▪ FIGURA 04 – Matriz de correlação
+# 5 ▪ FIGURA 04 – Matriz de Causalidade de Granger
 # ---------------------------------------------------------------------------
-corr = df[["pib", "GEE_tCO2e", "area_desmatada_ha", "carbon_price_usd"]].corr()
-plt.figure(figsize=(5.5, 5))
-sns.heatmap(corr, annot=True, fmt=".2f",
-            cmap="coolwarm", linewidths=0.5, square=True)
+causality_cols = ["pib", "GEE_tCO2e", "area_desmatada_ha", "carbon_price_usd"]
+# Ordenar dados por ano para análise temporal
+df_sorted = df.sort_values("ano")
+causality_matrix = granger_causality_matrix(df_sorted, causality_cols, maxlag=2, verbose=False)
+# Usar 1-p_valor para mostrar força da causalidade
+causality_strength = 1 - causality_matrix
+plt.figure(figsize=(6.5, 6))
+sns.heatmap(causality_strength, annot=True, fmt=".3f",
+            cmap="Reds", linewidths=0.5, square=True,
+            cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
+plt.title('Causalidade de Granger entre Variáveis\n(Linha causa Coluna)', fontsize=10)
 plt.tight_layout()
 plt.savefig(OUTPUT_PATHS.figura04, format="pdf", bbox_inches="tight")
 plt.close()

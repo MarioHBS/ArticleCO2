@@ -48,3 +48,57 @@ OUTPUT_PATHS = SimpleNamespace(
 
 # Features padrão para modelagem
 FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
+
+
+def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose=False):
+    """
+    Calcula matriz de causalidade de Granger entre variáveis.
+    
+    Args:
+        df: DataFrame com dados de séries temporais
+        columns: Lista de colunas para testar causalidade
+        maxlag: Número máximo de lags para teste (padrão: 4)
+        test: Tipo de teste estatístico (padrão: 'ssr_chi2test')
+        verbose: Se True, imprime resultados detalhados
+    
+    Returns:
+        DataFrame com matriz de p-valores da causalidade de Granger
+        (linha causa coluna)
+    """
+    import pandas as pd
+    import numpy as np
+    from statsmodels.tsa.stattools import grangercausalitytests
+    
+    # Criar matriz de p-valores
+    causality_matrix = pd.DataFrame(np.ones((len(columns), len(columns))), 
+                                   columns=columns, index=columns)
+    
+    for col_y in columns:
+        for col_x in columns:
+            if col_y != col_x:
+                try:
+                    # Preparar dados (remover NaN)
+                    data = df[[col_y, col_x]].dropna()
+                    
+                    if len(data) > maxlag * 2:  # Verificar se há dados suficientes
+                        # Teste de causalidade: col_x causa col_y?
+                        result = grangercausalitytests(data, maxlag=maxlag, verbose=False)
+                        
+                        # Extrair menor p-valor entre os lags testados
+                        p_values = [result[lag+1][0][test][1] for lag in range(maxlag)]
+                        min_p_value = min(p_values)
+                        
+                        causality_matrix.loc[col_x, col_y] = min_p_value
+                        
+                        if verbose:
+                            print(f"{col_x} -> {col_y}: p-valor = {min_p_value:.4f}")
+                    else:
+                        if verbose:
+                            print(f"Dados insuficientes para {col_x} -> {col_y}")
+                            
+                except Exception as e:
+                    if verbose:
+                        print(f"Erro ao testar {col_x} -> {col_y}: {e}")
+                    causality_matrix.loc[col_x, col_y] = 1.0  # p-valor = 1 (sem causalidade)
+    
+    return causality_matrix

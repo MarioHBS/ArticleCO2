@@ -11,7 +11,7 @@ Figura03_Evolucao_Desmatamento.png
 Figura04_EQM_Modelos.png
     - Barplot de EQM (MSE) comparando os 9 modelos treinados (antes em etapa 08)
 Figura05_Correlacoes.png
-    - Heatmap de correlação entre PIB, GEE, desmatamento e preço de carbono (antes em etapa 08)
+    - Heatmap de causalidade de Granger entre PIB, GEE, desmatamento e preço de carbono (antes em etapa 08)
 Figura07_x.png  (x = 1..9)
     - Scatters Real vs Previsto para cada modelo: 1=LinearRegression, 2=RandomForest, 3=KNN, 4=DecisionTree,
       5=MLP, 6=Lasso, 7=SVR, 8=Dummy, 9=XGBoost (antes em etapa 07)
@@ -34,7 +34,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, CARBONO_CONSOLIDADO
+from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, CARBONO_CONSOLIDADO, granger_causality_matrix
 
 sns.set(style='whitegrid')
 fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
@@ -149,16 +149,22 @@ plt.close()
 print(f"[OK] Figura {fig_num:02d} salva em {path}")
 fig_num += 1
 
-# --- Figura 05: Correlação entre Variáveis ---
+# --- Figura 05: Causalidade de Granger entre Variáveis ---
 print("[INFO] Gerando Figura 05")
-corr_cols = FEATURE_COLS + ['carbon_price_usd']
-corr = df_agg[corr_cols].corr()
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Correlacoes.png')
-plt.figure(figsize=(6, 6))
-sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm',
-            xticklabels=corr_cols, yticklabels=corr_cols)
+causality_cols = FEATURE_COLS + ['carbon_price_usd']
+# Ordenar dados por ano para análise temporal
+df_sorted = df_agg.sort_values('ano')
+causality_matrix = granger_causality_matrix(df_sorted, causality_cols, maxlag=2, verbose=True)
+path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Causalidade_Granger.png')
+plt.figure(figsize=(8, 6))
+# Usar 1-p_valor para mostrar força da causalidade (valores altos = causalidade forte)
+causality_strength = 1 - causality_matrix
+sns.heatmap(causality_strength, annot=True, fmt='.3f', cmap='Reds',
+            xticklabels=causality_cols, yticklabels=causality_cols,
+            cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
 plt.xticks(rotation=45)
-plt.title('Figura 05. Correlação entre Variáveis')
+plt.yticks(rotation=0)
+plt.title('Figura 05. Causalidade de Granger entre Variáveis\n(Linha causa Coluna)')
 plt.tight_layout()
 plt.savefig(path)
 plt.close()

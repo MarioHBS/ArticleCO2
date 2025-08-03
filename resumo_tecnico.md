@@ -108,7 +108,7 @@ for name, model in models.items():
 | **Figura 02** | `sns.lineplot` da evolução das emissões de GEE. | Resultados |
 | **Figura 03** | `sns.lineplot` da evolução do desmatamento. | Resultados |
 | **Figura 04** | `sns.barplot` do EQM (MSE) dos modelos. | Resultados, § A |
-| **Figura 05** | `sns.heatmap` da correlação entre variáveis. | Resultados, § D |
+| **Figura 05** | `sns.heatmap` da causalidade de Granger entre variáveis. | Resultados, § D |
 | **Figura 07** | Scatters de valores reais vs. previstos para cada modelo. | Resultados |
 | **Figura 08** | `sns.barplot` da importância das variáveis (Random Forest). | Resultados, § C |
 | **Figura 09** | `sns.lineplot` da evolução do preço do carbono (EU-ETS). | Resultados |
@@ -167,53 +167,57 @@ O servidor local `mapbiomas-alert-api` foi configurado para facilitar o acesso a
 
 Essa integração assegura acesso eficiente e estruturado aos dados de alertas, otimizando o fluxo de trabalho e a qualidade das análises realizadas.
 
-## 7. Matriz de correlação
+## 7. Matriz de Causalidade de Granger
 
-A matriz de correlação é uma ferramenta estatística utilizada para medir a relação entre variáveis numéricas. No contexto deste estudo, ela foi construída para analisar as interações entre as variáveis principais: PIB, emissões de GEE, área desmatada e preço do carbono.
+A matriz de causalidade de Granger é uma ferramenta estatística utilizada para testar relações causais temporais entre variáveis de séries temporais. No contexto deste estudo, ela foi construída para analisar as relações de causalidade entre as variáveis principais: PIB, emissões de GEE, área desmatada e preço do carbono.
 
 ### Construção:
 
-A matriz foi gerada utilizando o método `corr()` do Pandas, que calcula o coeficiente de correlação de Pearson entre pares de variáveis. Os dados utilizados foram agregados por município e ano, conforme descrito nas etapas anteriores. O código para gerar a matriz é o seguinte:
+A matriz foi gerada utilizando a função `granger_causality_matrix()` implementada em `variaveis.py`, que utiliza o teste de causalidade de Granger do pacote `statsmodels`. Os dados utilizados foram agregados por município e ano e ordenados temporalmente. O código para gerar a matriz é o seguinte:
 
 ```python
-corr = df[["pib", "GEE_tCO2e", "area_desmatada_ha", "carbon_price_usd"]].corr()
+causality_cols = ["pib", "GEE_tCO2e", "area_desmatada_ha", "carbon_price_usd"]
+df_sorted = df.sort_values("ano")
+causality_matrix = granger_causality_matrix(df_sorted, causality_cols, maxlag=2)
 ```
 
 ### Finalidade:
 
-A matriz de correlação serve para identificar relações lineares entre as variáveis do estudo. Isso é útil para:
+A matriz de causalidade de Granger serve para identificar relações causais temporais entre as variáveis do estudo. Isso é útil para:
 
-1. **Detectar colinearidade:** Identificar variáveis altamente correlacionadas que podem impactar negativamente modelos preditivos.
-2. **Explorar padrões:** Entender como as variáveis se relacionam entre si, como o impacto do desmatamento no preço do carbono.
-3. **Guiar a modelagem:** Selecionar variáveis relevantes para os modelos preditivos com base em suas correlações.
+1. **Detectar precedência temporal:** Identificar se valores passados de uma variável ajudam a prever valores futuros de outra.
+2. **Explorar relações causais:** Entender direções de causalidade entre variáveis, como se o desmatamento causa mudanças no preço do carbono.
+3. **Guiar políticas:** Identificar variáveis que podem ser usadas como indicadores antecipados de mudanças em outras variáveis.
 
 ### Interpretação:
 
-Cada célula da matriz contém um valor entre -1 e 1, que representa a força e a direção da relação linear entre duas variáveis:
+Cada célula da matriz contém um p-valor do teste de causalidade de Granger, onde:
 
-- **1.0:** Correlação positiva perfeita (quando uma variável aumenta, a outra também aumenta).
-- **-1.0:** Correlação negativa perfeita (quando uma variável aumenta, a outra diminui).
-- **0.0:** Nenhuma correlação linear.
+- **p-valor < 0.05:** Evidência significativa de que a variável da linha causa Granger a variável da coluna.
+- **p-valor ≥ 0.05:** Não há evidência significativa de causalidade de Granger.
 
-A matriz é visualizada como um heatmap, onde:
+Para visualização, utilizamos a "força da causalidade" (1 - p-valor), onde:
 
-- Cores mais quentes (vermelho) indicam correlações positivas fortes.
-- Cores mais frias (azul) indicam correlações negativas fortes.
-- Tons neutros indicam correlações fracas ou inexistentes.
+- **Valores próximos a 1:** Causalidade forte (p-valor baixo).
+- **Valores próximos a 0:** Causalidade fraca ou inexistente (p-valor alto).
+
+A matriz é visualizada como um heatmap em tons de vermelho, onde cores mais intensas indicam causalidade mais forte.
 
 ### Exemplo de visualização:
 
 A matriz gerada no estudo foi salva como um gráfico vetorial em PDF para inclusão no artigo. O heatmap foi criado com o seguinte código:
 
 ```python
-plt.figure(figsize=(5.5, 5))
-sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, square=True)
-plt.tight_layout()
-plt.savefig("Figura04_Matriz_Correlacao.pdf", format="pdf", bbox_inches="tight")
-plt.close()
+causality_strength = 1 - causality_matrix
+plt.figure(figsize=(6.5, 6))
+sns.heatmap(causality_strength, annot=True, fmt=".3f", cmap="Reds", 
+            linewidths=0.5, square=True,
+            cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
+plt.title('Causalidade de Granger entre Variáveis\n(Linha causa Coluna)')
+plt.savefig("Figura04_Matriz_Causalidade_Granger.pdf", format="pdf")
 ```
 
-Essa análise permite uma visão clara das relações entre as variáveis, auxiliando na interpretação dos resultados e na construção de modelos mais robustos.
+Essa análise permite identificar relações causais temporais entre as variáveis, fornecendo insights mais robustos sobre as dinâmicas do sistema estudado em comparação com análises de correlação simples.
 
 ---
 

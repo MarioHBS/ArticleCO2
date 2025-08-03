@@ -128,7 +128,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Carrega dados consolidados e métricas dos modelos
 - Gera figuras de evolução temporal (PIB, GEE, desmatamento)
 - Cria gráfico de barras comparando MSE dos modelos
-- Gera heatmap de correlação entre variáveis
+- Gera heatmap de causalidade de Granger entre variáveis
 - Produz scatters de valores reais vs. previstos para cada modelo
 - Cria gráfico de importância das variáveis (Random Forest)
 - Gera evolução temporal do preço do carbono
@@ -138,7 +138,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - `Figura02_Evolucao_GEE.png`
 - `Figura03_Evolucao_Desmatamento.png`
 - `Figura04_EQM_Modelos.png`
-- `Figura05_Correlacoes.png`
+- `Figura05_Causalidade_Granger.png`
 - `Figura07_1_LinearRegression.png` até `Figura07_9_XGBoost.png`
 - `Figura08_Importancia_Variaveis.png`
 - `Figura09_Evolucao_Preco_Carbono.png`
@@ -158,14 +158,14 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Gera painéis sincronizados de emissões GEE e PIB municipal
 - Cria comparação de MSE entre modelos usando TimeSeriesSplit
 - Produz gráfico de importância de variáveis
-- Gera matriz de correlação em formato vetorial
+- Gera matriz de causalidade de Granger em formato vetorial
 - Aplica configurações específicas para LaTeX (fontes, tamanhos)
 
 **Saídas (results/figuras_consolidadas/):**
 - `Figura01_Paineis_Sincronizados.pdf`
 - `Figura02_Comparacao_MSE_Modelos.pdf`
 - `Figura03_Importancia_Variaveis.pdf`
-- `Figura04_Matriz_Correlacao.pdf`
+- `Figura04_Matriz_Causalidade_Granger.pdf`
 
 ---
 
