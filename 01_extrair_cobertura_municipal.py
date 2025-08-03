@@ -68,4 +68,4 @@ df_long = df_long.sort_values(["codigo_ibge", "bioma", "classe_codigo", "ano"])
 output_path = OUTPUT_PATHS.mapbiomas_long_csv
 df_long.to_csv(output_path, index=False)
 
-print(f"✅ CSV long de cobertura MapBiomas gerado em: {output_path}")
+print(f"[OK] CSV long de cobertura MapBiomas gerado em: {output_path}")

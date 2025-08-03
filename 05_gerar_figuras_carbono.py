@@ -243,4 +243,4 @@ plt.savefig(path)
 plt.close()
 print(f"[OK] Figura09 salva em {path}")
 
-print('✅ Todas as figuras numeradas geradas com sucesso!')
+print('[OK] Todas as figuras numeradas geradas com sucesso!')

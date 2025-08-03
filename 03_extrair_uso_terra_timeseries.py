@@ -73,7 +73,7 @@ def save_partial(df: pd.DataFrame, out_fp: str):
     """Salva o CSV parcial em data/generated."""
     os.makedirs(os.path.dirname(out_fp), exist_ok=True)
     df.to_csv(out_fp, index=False, encoding='utf-8-sig')
-    print(f"✅ CSV gerado em: {out_fp}")
+    print(f"[OK] CSV gerado em: {out_fp}")
 
 
 def main():

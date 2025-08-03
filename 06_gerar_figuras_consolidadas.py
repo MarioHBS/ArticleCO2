@@ -181,4 +181,4 @@ plt.tight_layout()
 plt.savefig(OUTPUT_PATHS.figura04, format="pdf", bbox_inches="tight")
 plt.close()
 
-print("✅ Figuras 01-04 em PDF vetorial com validação temporal k=10 geradas com sucesso!")
+print("[OK] Figuras 01-04 em PDF vetorial com validacao temporal k=10 geradas com sucesso!")

@@ -95,7 +95,7 @@ def main():
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False, encoding="utf-8-sig")
 
-    print(f"✅ {len(alerts)} alertas salvos em: {output_path}")
+    print(f"[OK] {len(alerts)} alertas salvos em: {output_path}")
 
 
 if __name__ == "__main__":

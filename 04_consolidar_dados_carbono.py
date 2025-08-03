@@ -86,7 +86,7 @@ df_final.to_csv(
     index=False,
     encoding='utf-8-sig'
 )
-print('✅ Dataset final gerado: data/generated/carbono_serra_penitente.csv')
+print('[OK] Dataset final gerado: data/generated/carbono_serra_penitente.csv')
 
 # --- Removida aqui a geração de figuras 1–3, pois são recriadas em 05_gerar_figuras_carbono.py ---
 
@@ -172,4 +172,4 @@ df_res.to_csv(
     index=False,
     encoding='utf-8-sig'
 )
-print(f"✅ Métricas salvas em {OUTPUT_PATHS.model_results_csv}")
+print(f"[OK] Métricas salvas em {OUTPUT_PATHS.model_results_csv}")
