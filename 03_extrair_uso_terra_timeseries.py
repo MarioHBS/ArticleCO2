@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 RAW_EXCEL = "data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx"
-PARTIAL_OUT = "data/partial/uso_terra_serra_penitente_timeseries.csv"
+PARTIAL_OUT = "data/generated/uso_terra_serra_penitente_timeseries.csv"
 SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
 SERRA_CODES = [2100501, 2101400, 2112001]
@@ -71,10 +71,10 @@ def summarize_by_use_year(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def save_partial(df: pd.DataFrame, out_fp: str):
-    """Salva o CSV parcial em data/partial."""
+    """Salva o CSV parcial em data/generated."""
     os.makedirs(os.path.dirname(out_fp), exist_ok=True)
     df.to_csv(out_fp, index=False, encoding='utf-8-sig')
-    print(f"✅ CSV parcial gerado em: {out_fp}")
+    print(f"✅ CSV gerado em: {out_fp}")
 
 
 def main():

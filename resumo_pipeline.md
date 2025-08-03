@@ -24,7 +24,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Padroniza formato: `['codigo_ibge', 'municipio', 'ano', 'pib']`
 
 **Saída:**
-- `data/partial/pib_municipal_serra_penitente_ibge.csv`
+- `data/generated/pib_municipal_serra_penitente_ibge.csv`
 
 ---
 
@@ -44,7 +44,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Transforma dados de wide para long format usando `melt()`
 
 **Saída:**
-- `data/partial/mapbiomas_cobertura_municipal_long.csv`
+- `data/generated/mapbiomas_cobertura_municipal_long.csv`
 
 ---
 
@@ -64,7 +64,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Converte coordenadas e calcula áreas em hectares
 
 **Saída:**
-- `data/partial/alertas_serra_penitente.csv`
+- `data/generated/alertas_serra_penitente.csv`
 
 ---
 
@@ -84,7 +84,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Agrega dados por município, uso e ano
 
 **Saída:**
-- `data/partial/uso_terra_serra_penitente_timeseries.csv`
+- `data/generated/uso_terra_serra_penitente_timeseries.csv`
 
 ---
 
@@ -93,9 +93,9 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 **Função:** Consolida todos os dados processados, treina modelos de machine learning e gera métricas de avaliação.
 
 **Entradas:**
-- `data/partial/pib_municipal_serra_penitente_ibge.csv`
-- `data/partial/mapbiomas_cobertura_municipal_long.csv`
-- `data/partial/alertas_serra_penitente.csv`
+- `data/generated/pib_municipal_serra_penitente_ibge.csv`
+- `data/generated/mapbiomas_cobertura_municipal_long.csv`
+- `data/generated/alertas_serra_penitente.csv`
 - `data/raw/precos_carbono_eu_ets.xlsx`
 
 **Processamento:**
@@ -184,7 +184,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Interrompe execução em caso de erro
 
 **Validações:**
-- Arquivos CSV em `data/partial/` e `data/generated/`
+- Arquivos CSV em `data/generated/`
 - Figuras PNG em `results/figures/`
 - Métricas de modelos em `results/`
 
@@ -203,7 +203,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ## Estrutura de Arquivos Gerados
 
-### data/partial/
+### data/generated/
 Arquivos intermediários gerados durante o processamento:
 
 - **pib_municipal_serra_penitente_ibge.csv**

@@ -15,7 +15,7 @@ arquivo_mapb = INPUT_PATHS.mapbiomas
 municipios_alvo = ["2100501", "2101400", "2112001"]
 
 # 3) Cria diretório de saída, se necessário
-os.makedirs("data/partial", exist_ok=True)
+os.makedirs("data/generated", exist_ok=True)
 
 # 4) Carrega a planilha COVERAGE_9
 df_mapb = pd.read_excel(

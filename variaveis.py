@@ -27,18 +27,18 @@ INPUT_PATHS = SimpleNamespace(
     pib_2010_2021="data/raw/pib_municipios_ibge_2010_2021.xlsx",
     mapbiomas="data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
     idhm="data/raw/idhm_municipios_serra_penitente.xlsx",
-    uso_timeseries="data/partial/uso_terra_serra_penitente_timeseries.csv",
-    alertas="data/partial/alertas_serra_penitente.csv",
-    pib_municipal="data/partial/pib_municipal_serra_penitente_ibge.csv",
-    cobertura_municipal="data/partial/mapbiomas_cobertura_municipal_long.csv",
+    uso_timeseries="data/generated/uso_terra_serra_penitente_timeseries.csv",
+    alertas="data/generated/alertas_serra_penitente.csv",
+    pib_municipal="data/generated/pib_municipal_serra_penitente_ibge.csv",
+    cobertura_municipal="data/generated/mapbiomas_cobertura_municipal_long.csv",
     carbon_prices_raw="data/raw/precos_carbono_eu_ets.xlsx",
 )
 
 # Caminhos de saída
 OUTPUT_PATHS = SimpleNamespace(
-    pib_ibge_csv="data/partial/pib_municipal_serra_penitente_ibge.csv",
-    mapbiomas_long_csv="data/partial/mapbiomas_cobertura_municipal_long.csv",
-    alertas_csv="data/partial/alertas_serra_penitente.csv",
+    pib_ibge_csv="data/generated/pib_municipal_serra_penitente_ibge.csv",
+    mapbiomas_long_csv="data/generated/mapbiomas_cobertura_municipal_long.csv",
+    alertas_csv="data/generated/alertas_serra_penitente.csv",
     model_results_csv="results/carbon_price_model_all_results.csv",
     scatter_xgboost_png="results/figures/scatter_real_vs_pred_xgboost.png",
     evolucao_pib_png="results/figures/evolucao_pib_serra_penitente.png",
