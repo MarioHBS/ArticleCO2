@@ -17,7 +17,7 @@ from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
 
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS
+from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS
 
 # 1) Cria diretórios de saída
 os.makedirs("results/figures", exist_ok=True)
@@ -82,11 +82,11 @@ df_final = pd.merge(df_final,    df_desmat,     on=[
 df_final = df_final[['municipio', 'ano',
                      'pib', 'GEE_tCO2e', 'area_desmatada_ha']]
 df_final.to_csv(
-    'data/generated/carbono_serra_penitente.csv',
+    GENERATED_PATHS.carbono_consolidado_csv,
     index=False,
     encoding='utf-8-sig'
 )
-print('[OK] Dataset final gerado: data/generated/carbono_serra_penitente.csv')
+print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
 
 # --- Removida aqui a geração de figuras 1–3, pois são recriadas em 05_gerar_figuras_carbono.py ---
 
@@ -168,8 +168,8 @@ for name, model in models.items():
 # 8.6) Salva métricas em CSV
 df_res = pd.DataFrame(results)
 df_res.to_csv(
-    OUTPUT_PATHS.model_results_csv,
+    RESULT_PATHS.model_results_csv,
     index=False,
     encoding='utf-8-sig'
 )
-print(f"[OK] Métricas salvas em {OUTPUT_PATHS.model_results_csv}")
+print(f"[OK] Métricas salvas em {RESULT_PATHS.model_results_csv}")

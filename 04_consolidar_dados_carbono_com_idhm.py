@@ -30,8 +30,8 @@ os.makedirs('results', exist_ok=True)
 
 # Importar configurações
 from variaveis import (
-    MUNICIPIOS_ALVO, REGIAO_ESTUDO, CARBONO_CONSOLIDADO,
-    INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO
+    MUNICIPIOS_ALVO, REGIAO_ESTUDO,
+    INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO
 )
 
 def carregar_dados_idhm():
@@ -132,7 +132,7 @@ def consolidar_dados_com_idhm():
     
     # Usar dados consolidados de carbono em vez de mapbiomas
     print("Carregando dados consolidados de carbono...")
-    df_carbono = pd.read_csv(CARBONO_CONSOLIDADO)
+    df_carbono = pd.read_csv(GENERATED_PATHS.carbono_consolidado_csv)
     print(f"Dados de carbono carregados: {df_carbono.shape}")
     
     # Extrair GEE dos dados consolidados
@@ -315,7 +315,16 @@ def treinar_modelos_expandidos(df_consolidado):
                 print(importancias.head())
                 
                 # Salvar importâncias
-                importancias.to_csv(f'results/feature_importance_{nome.lower().replace(" ", "_")}_com_idhm.csv', index=False)
+                nome_arquivo = nome.lower().replace(" ", "_")
+                if nome_arquivo == "random_forest":
+                    caminho_arquivo = RESULT_PATHS.feature_importance_rf_csv
+                elif nome_arquivo == "decision_tree":
+                    caminho_arquivo = RESULT_PATHS.feature_importance_dt_csv
+                elif nome_arquivo == "xgboost":
+                    caminho_arquivo = RESULT_PATHS.feature_importance_xgb_csv
+                else:
+                    caminho_arquivo = f'results/feature_importance_{nome_arquivo}_com_idhm.csv'
+                importancias.to_csv(caminho_arquivo, index=False)
         
         except Exception as e:
             print(f"Erro ao treinar {nome}: {e}")
@@ -342,7 +351,7 @@ def main():
         df_consolidado = consolidar_dados_com_idhm()
         
         # 2. Salvar dados consolidados
-        output_path = 'data/generated/carbono_serra_penitente_com_idhm.csv'
+        output_path = RESULT_PATHS.carbono_consolidado_com_idhm_csv
         df_consolidado.to_csv(output_path, index=False)
         print(f"\nDados consolidados salvos em: {output_path}")
         
@@ -352,8 +361,8 @@ def main():
         # 4. Salvar resultados
         if resultados:
             df_resultados = pd.DataFrame(resultados)
-            df_resultados.to_csv('results/metricas_modelos_com_idhm.csv', index=False)
-            print(f"\nMétricas dos modelos salvas em: results/metricas_modelos_com_idhm.csv")
+            df_resultados.to_csv(RESULT_PATHS.metricas_modelos_com_idhm_csv, index=False)
+            print(f"\nMétricas dos modelos salvas em: {RESULT_PATHS.metricas_modelos_com_idhm_csv}")
             
             # Exibir resumo dos resultados
             print("\n" + "="*50)

@@ -21,10 +21,10 @@ import matplotlib.pyplot as plt
 import warnings
 
 from variaveis import (
-    CARBONO_CONSOLIDADO,
     INPUT_PATHS,
     FEATURE_COLS,
-    OUTPUT_PATHS,
+    GENERATED_PATHS,
+    RESULT_PATHS,
     granger_causality_matrix,
 )
 from sklearn.model_selection import TimeSeriesSplit
@@ -40,6 +40,10 @@ from xgboost import XGBRegressor
 
 # Supress warnings about missing glyphs
 warnings.filterwarnings("ignore", message="Glyph 8322")
+# Supress MLPRegressor convergence warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
+# Supress statsmodels FutureWarning about verbose parameter
+warnings.filterwarnings("ignore", message="verbose is deprecated")
 
 sns.set(style="whitegrid")
 
@@ -49,17 +53,17 @@ sns.set(style="whitegrid")
 output_dir = "results/figuras_consolidadas"
 os.makedirs(output_dir, exist_ok=True)
 
-OUTPUT_PATHS.figura01 = os.path.join(
+figura01_path = os.path.join(
     output_dir, "Figura01_Paineis_GEE_PIB.pdf")
-OUTPUT_PATHS.figura02 = os.path.join(output_dir, "Figura02_Comparacao_MSE.pdf")
-OUTPUT_PATHS.figura03 = os.path.join(output_dir, "Figura03_Importancia_RF.pdf")
-OUTPUT_PATHS.figura04 = os.path.join(
+figura02_path = os.path.join(output_dir, "Figura02_Comparacao_MSE.pdf")
+figura03_path = os.path.join(output_dir, "Figura03_Importancia_RF.pdf")
+figura04_path = os.path.join(
     output_dir, "Figura04_Matriz_Causalidade_Granger.pdf")
 
 # ---------------------------------------------------------------------------
 # 1 ▪ Carrega e prepara dados
 # ---------------------------------------------------------------------------
-df = pd.read_csv(CARBONO_CONSOLIDADO, encoding="utf-8-sig")
+df = pd.read_csv(GENERATED_PATHS.carbono_consolidado_csv, encoding="utf-8-sig")
 df = df.groupby(["municipio", "ano"], as_index=False).agg({
     "pib": "first",
     "GEE_tCO2e": "sum",
@@ -101,7 +105,7 @@ ax2.set_title("(b) PIB municipal – 2002-2021", loc="left", fontsize=9)
 fig.legend(loc="upper center", ncol=len(
     gee["municipio"].unique()), frameon=False, fontsize=7)
 plt.tight_layout(rect=[0, 0, 1, 0.93])
-fig.savefig(OUTPUT_PATHS.figura01, format="pdf", bbox_inches="tight")
+fig.savefig(figura01_path, format="pdf", bbox_inches="tight")
 plt.close()
 
 # ---------------------------------------------------------------------------
@@ -120,7 +124,7 @@ models = {
     "RandomForest": RandomForestRegressor(random_state=0),
     "KNN": KNeighborsRegressor(),
     "DecisionTree": DecisionTreeRegressor(random_state=0),
-    "MLP": MLPRegressor(max_iter=1000, random_state=0),
+    "MLP": MLPRegressor(max_iter=2000, random_state=0),
     "Lasso": Lasso(alpha=0.01, random_state=0),
     "SVR": SVR(),
     "Dummy": DummyRegressor(),
@@ -147,7 +151,7 @@ sns.barplot(data=mse_df, x="Model", y="MSE")
 plt.xticks(rotation=45, ha="right", fontsize=8)
 plt.ylabel("EQM (MSE)")
 plt.tight_layout()
-plt.savefig(OUTPUT_PATHS.figura02, format="pdf", bbox_inches="tight")
+plt.savefig(figura02_path, format="pdf", bbox_inches="tight")
 plt.close()
 
 # ---------------------------------------------------------------------------
@@ -160,7 +164,7 @@ plt.figure(figsize=(6, 4))
 sns.barplot(x=FEATURE_COLS, y=rf.feature_importances_)
 plt.ylabel("Importância relativa")
 plt.tight_layout()
-plt.savefig(OUTPUT_PATHS.figura03, format="pdf", bbox_inches="tight")
+plt.savefig(figura03_path, format="pdf", bbox_inches="tight")
 plt.close()
 
 # ---------------------------------------------------------------------------
@@ -178,7 +182,7 @@ sns.heatmap(causality_strength, annot=True, fmt=".3f",
             cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
 plt.title('Causalidade de Granger entre Variáveis\n(Linha causa Coluna)', fontsize=10)
 plt.tight_layout()
-plt.savefig(OUTPUT_PATHS.figura04, format="pdf", bbox_inches="tight")
+plt.savefig(figura04_path, format="pdf", bbox_inches="tight")
 plt.close()
 
 print("[OK] Figuras 01-04 em PDF vetorial com validacao temporal k=10 geradas com sucesso!")

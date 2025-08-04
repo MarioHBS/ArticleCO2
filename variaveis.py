@@ -19,10 +19,6 @@ MUNICIPIOS_ALVO = [
 # Região de estudo
 REGIAO_ESTUDO = "Serra do Penitente"
 
-CARBONO_CONSOLIDADO = "data/generated/carbono_serra_penitente.csv"
-# Novo dataset consolidado com IDHM
-CARBONO_CONSOLIDADO_COM_IDHM = "data/generated/carbono_serra_penitente_com_idhm.csv"
-
 # Caminhos de entrada
 INPUT_PATHS = SimpleNamespace(
     pib_2002_2009="data/raw/pib_municipios_ibge_2002_2009.xls",
@@ -39,21 +35,33 @@ INPUT_PATHS = SimpleNamespace(
 )
 
 # Caminhos de saída
-OUTPUT_PATHS = SimpleNamespace(
+GENERATED_PATHS = SimpleNamespace(
     pib_ibge_csv="data/generated/pib_municipal_serra_penitente_ibge.csv",
     mapbiomas_long_csv="data/generated/mapbiomas_cobertura_municipal_long.csv",
     alertas_csv="data/generated/alertas_serra_penitente.csv",
-    model_results_csv="results/carbon_price_model_all_results.csv",
+    uso_timeseries_csv="data/generated/uso_terra_serra_penitente_timeseries.csv",
+    carbono_consolidado_csv="data/generated/carbono_serra_penitente.csv",
+)
+RESULT_PATHS = SimpleNamespace(
+    model_results_csv="results/resultados_modelos_precificacao_carbono.csv",
     metricas_modelos_com_idhm_csv="results/metricas_modelos_com_idhm.csv",
-    feature_importance_rf_csv="results/feature_importance_random_forest_com_idhm.csv",
-    feature_importance_dt_csv="results/feature_importance_decision_tree_com_idhm.csv",
-    feature_importance_xgb_csv="results/feature_importance_xgboost_com_idhm.csv",
-    scatter_xgboost_png="results/figures/scatter_real_vs_pred_xgboost.png",
+    feature_importance_rf_csv="results/importancia_variaveis_random_forest_com_idhm.csv",
+    feature_importance_dt_csv="results/importancia_variaveis_decision_tree_com_idhm.csv",
+    feature_importance_xgb_csv="results/importancia_variaveis_xgboost_com_idhm.csv",
+    scatter_xgboost_png="results/figures/dispersao_real_vs_pred_xgboost.png",
     evolucao_pib_png="results/figures/evolucao_pib_serra_penitente.png",
     evolucao_gee_png="results/figures/evolucao_gee_serra_penitente.png",
     evolucao_desmat_png="results/figures/evolucao_desmatamento_serra_penitente.png",
     causalidade_idhm_desmat_png="results/figures/Figura06_Causalidade_IDHM_Desmatamento.png",
+    comparacao_modelos_com_sem_idhm_png="results/figures/comparacao_modelos_com_sem_idhm.png",
+    melhorias_percentuais_idhm_png="results/figures/melhorias_percentuais_idhm.png",
+    carbono_consolidado_com_idhm_csv="data/generated/carbono_serra_penitente_com_idhm.csv",
 )
+
+# Mantido para compatibilidade com documentação e notebooks
+CARBONO_CONSOLIDADO = GENERATED_PATHS.carbono_consolidado_csv
+# Novo dataset consolidado com IDHM
+CARBONO_CONSOLIDADO_COM_IDHM = RESULT_PATHS.carbono_consolidado_com_idhm_csv
 
 # Features padrão para modelagem
 FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
@@ -117,3 +125,5 @@ def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose
                     causality_matrix.loc[col_x, col_y] = 1.0  # p-valor = 1 (sem causalidade)
     
     return causality_matrix
+
+MUNICIPIOS = MUNICIPIOS_ALVO

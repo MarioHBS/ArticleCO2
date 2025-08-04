@@ -6,7 +6,7 @@ import logging
 from pathlib import Path
 
 import pandas as pd
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, MUNICIPIOS
+from variaveis import INPUT_PATHS, GENERATED_PATHS, MUNICIPIOS
 
 
 def load_pib(path: Path) -> pd.DataFrame:
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         help="Caminho do arquivo XLSX (2010–2021)"
     )
     parser.add_argument(
-        "--output", default=OUTPUT_PATHS.pib_ibge_csv,
+        "--output", default=GENERATED_PATHS.pib_ibge_csv,
         help="CSV de saída consolidado"
     )
     args = parser.parse_args()

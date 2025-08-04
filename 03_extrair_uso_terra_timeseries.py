@@ -2,9 +2,10 @@
 
 import os
 import pandas as pd
+from variaveis import INPUT_PATHS, GENERATED_PATHS
 
-RAW_EXCEL = "data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx"
-PARTIAL_OUT = "data/generated/uso_terra_serra_penitente_timeseries.csv"
+RAW_EXCEL = INPUT_PATHS.mapbiomas
+PARTIAL_OUT = GENERATED_PATHS.uso_timeseries_csv
 SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
 SERRA_CODES = [2100501, 2101400, 2112001]

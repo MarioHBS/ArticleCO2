@@ -6,7 +6,7 @@
 import os
 import pandas as pd
 
-from variaveis import INPUT_PATHS, OUTPUT_PATHS
+from variaveis import INPUT_PATHS, GENERATED_PATHS
 
 # 1) Defina o caminho do arquivo MapBiomas
 arquivo_mapb = INPUT_PATHS.mapbiomas
@@ -65,7 +65,7 @@ df_long["ano"] = df_long["ano"].astype(str)
 
 # 10) Ordena e exporta
 df_long = df_long.sort_values(["codigo_ibge", "bioma", "classe_codigo", "ano"])
-output_path = OUTPUT_PATHS.mapbiomas_long_csv
+output_path = GENERATED_PATHS.mapbiomas_long_csv
 df_long.to_csv(output_path, index=False)
 
 print(f"[OK] CSV long de cobertura MapBiomas gerado em: {output_path}")

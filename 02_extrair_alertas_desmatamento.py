@@ -7,7 +7,7 @@ import requests
 import argparse
 import pandas as pd
 
-from variaveis import OUTPUT_PATHS
+from variaveis import GENERATED_PATHS
 
 
 def get_token(base_url: str) -> str:
@@ -91,7 +91,7 @@ def main():
 
     # 2.2) Salvar CSV
     df = pd.DataFrame(alerts)
-    output_path = OUTPUT_PATHS.alertas_csv
+    output_path = GENERATED_PATHS.alertas_csv
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False, encoding="utf-8-sig")
 

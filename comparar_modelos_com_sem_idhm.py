@@ -9,6 +9,7 @@ o impacto da inclusão dos dados do IDHM na predição.
 """
 
 import pandas as pd
+from variaveis import GENERATED_PATHS, RESULT_PATHS
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -35,7 +36,7 @@ def carregar_resultados():
     
     # Tentar carregar resultados sem IDHM (modelo original)
     try:
-        df_sem_idhm = pd.read_csv('metricas_modelos_originais.csv')
+        df_sem_idhm = pd.read_csv(RESULT_PATHS.model_results_csv)
         df_sem_idhm['tipo'] = 'Sem IDHM'
     except FileNotFoundError:
         print("Arquivo de métricas originais não encontrado. Criando dados simulados...")
@@ -58,7 +59,7 @@ def carregar_resultados():
     
     # Carregar resultados com IDHM
     try:
-        df_com_idhm = pd.read_csv('results/metricas_modelos_com_idhm.csv')
+        df_com_idhm = pd.read_csv(RESULT_PATHS.metricas_modelos_com_idhm_csv)
         df_com_idhm['tipo'] = 'Com IDHM'
     except FileNotFoundError:
         print("❌ Arquivo de métricas com IDHM não encontrado!")
@@ -125,7 +126,9 @@ def gerar_visualizacoes(df_combinado, df_comparacao):
     print("Gerando visualizações...")
     
     # Criar diretório para figuras se não existir
-    Path('results/figures').mkdir(parents=True, exist_ok=True)
+    # Diretório de figuras
+    fig_dir = Path("results/figures")
+    fig_dir.mkdir(parents=True, exist_ok=True)
     
     # Configurar estilo
     plt.style.use('default')

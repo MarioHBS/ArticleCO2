@@ -13,7 +13,7 @@ import subprocess
 import sys
 import os
 import glob
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, CARBONO_CONSOLIDADO, CARBONO_CONSOLIDADO_COM_IDHM
+from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS
 
 
 def safe_print(s: str):
@@ -88,48 +88,48 @@ def main():
     
     # Etapa 1: Extrair PIB municipal
     result1 = run_script("00_extrair_pib_municipal.py", 
-                        [OUTPUT_PATHS.pib_ibge_csv])
+                        [GENERATED_PATHS.pib_ibge_csv])
     step_results.append(("Etapa 1", result1))
     if not result1:
         all_ok = False
     
     # Etapa 2: Extrair cobertura municipal
     result2 = run_script("01_extrair_cobertura_municipal.py", 
-                        [OUTPUT_PATHS.mapbiomas_long_csv])
+                        [GENERATED_PATHS.mapbiomas_long_csv])
     step_results.append(("Etapa 2", result2))
     if not result2:
         all_ok = False
     
     # Etapa 3: Extrair alertas de desmatamento
     result3 = run_script("02_extrair_alertas_desmatamento.py", 
-                        [OUTPUT_PATHS.alertas_csv])
+                        [GENERATED_PATHS.alertas_csv])
     step_results.append(("Etapa 3", result3))
     if not result3:
         all_ok = False
     
     # Etapa 4: Extrair séries temporais de uso da terra
     result4 = run_script("03_extrair_uso_terra_timeseries.py", 
-                        [INPUT_PATHS.uso_timeseries])
+                        [GENERATED_PATHS.uso_timeseries_csv])
     step_results.append(("Etapa 4", result4))
     if not result4:
         all_ok = False
     
     # Etapa 5: Consolidar dados de carbono
     result5 = run_script("04_consolidar_dados_carbono.py", 
-                        [CARBONO_CONSOLIDADO, OUTPUT_PATHS.model_results_csv])
+                        [GENERATED_PATHS.carbono_consolidado_csv, RESULT_PATHS.model_results_csv])
     step_results.append(("Etapa 5", result5))
     if not result5:
         all_ok = False
 
     # Etapa 6: Consolidar dados de carbono com IDHM
     result6 = run_script("04_consolidar_dados_carbono_com_idhm.py", 
-                        [CARBONO_CONSOLIDADO_COM_IDHM, OUTPUT_PATHS.metricas_modelos_com_idhm_csv])
+                        [RESULT_PATHS.carbono_consolidado_com_idhm_csv, RESULT_PATHS.metricas_modelos_com_idhm_csv])
     step_results.append(("Etapa 6", result6))
     if not result6:
         all_ok = False
     
     # Etapa 7: Gerar figuras de carbono
-    fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
+    fig_dir = "results/figures"
     figure_patterns = []
     
     # Figuras 01-06
@@ -152,7 +152,17 @@ def main():
     if not result6:
         all_ok = False
     
-    # Etapa 7: Gerar figuras consolidadas
+    # Etapa 7: Comparar modelos com e sem IDHM
+    result7 = run_script(
+        "comparar_modelos_com_sem_idhm.py",
+        ["results/figures/comparacao_modelos_com_sem_idhm.png",
+         "results/figures/melhorias_percentuais_idhm.png"]
+    )
+    step_results.append(("Etapa 7", result7))
+    if not result7:
+        all_ok = False
+
+    # Etapa 8: Gerar figuras consolidadas
     consolidated_patterns = [
         "results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
         "results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",

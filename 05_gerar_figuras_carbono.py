@@ -34,18 +34,18 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
+from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
 
 sns.set(style='whitegrid')
-fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
+fig_dir = os.path.dirname(RESULT_PATHS.evolucao_pib_png)
 os.makedirs(fig_dir, exist_ok=True)
 
 # contador de figuras
 fig_num = 1
 
 # 1) Carregar dados consolidados e verificar
-print("[INFO] Carregando dados consolidados de:", CARBONO_CONSOLIDADO)
-df = pd.read_csv(CARBONO_CONSOLIDADO, encoding='utf-8-sig')
+print("[INFO] Carregando dados consolidados de:", GENERATED_PATHS.carbono_consolidado_csv)
+df = pd.read_csv(GENERATED_PATHS.carbono_consolidado_csv, encoding='utf-8-sig')
 print(
     f"[INFO] DataFrame carregado: {df.shape[0]} linhas, {df.shape[1]} colunas")
 
@@ -110,7 +110,7 @@ if os.path.exists(CARBONO_CONSOLIDADO_COM_IDHM):
     caus_cols2 = idhm_cols + ['area_desmatada_ha']
     df_idhm_sorted = df_idhm_full.sort_values('ano')
     matrix2 = granger_causality_matrix(df_idhm_sorted, caus_cols2, maxlag=2, verbose=True)
-    path = OUTPUT_PATHS.causalidade_idhm_desmat_png
+    path = RESULT_PATHS.causalidade_idhm_desmat_png
     plt.figure(figsize=(8, 6))
     sns.heatmap(1 - matrix2, annot=True, fmt='.3f', cmap='Reds',
                 xticklabels=caus_cols2, yticklabels=caus_cols2,
@@ -157,7 +157,7 @@ fig_num += 1
 
 # --- Figura 04: Comparação de EQM (MSE) dos Modelos ---
 print("[INFO] Carregando métricas de modelos")
-df_res = pd.read_csv(OUTPUT_PATHS.model_results_csv)
+df_res = pd.read_csv(RESULT_PATHS.model_results_csv)
 print(f"[INFO] Métricas carregadas: {df_res.shape[0]} modelos")
 print("[INFO] Gerando Figura 04")
 path = os.path.join(fig_dir, f'Figura{fig_num:02d}_EQM_Modelos.png')
