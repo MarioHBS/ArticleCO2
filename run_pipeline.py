@@ -132,8 +132,8 @@ def main():
     fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
     figure_patterns = []
     
-    # Figuras 01-05
-    for i in range(1, 6):
+    # Figuras 01-06
+    for i in range(1, 7):
         figure_patterns.append(os.path.join(fig_dir, f"Figura{i:02d}_*.png"))
     
     # Figuras 07_1 a 07_9 (scatters)

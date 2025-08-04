@@ -34,7 +34,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, CARBONO_CONSOLIDADO, granger_causality_matrix
+from variaveis import INPUT_PATHS, OUTPUT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
 
 sns.set(style='whitegrid')
 fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
@@ -100,6 +100,30 @@ plt.tight_layout()
 plt.savefig(path)
 plt.close()
 print(f"[OK] Figura {fig_num:02d} salva em {path}")
+fig_num += 1
+
+# --- Figura 06: Causalidade IDHM × Desmatamento ---
+print("[INFO] Gerando Figura 06")
+if os.path.exists(CARBONO_CONSOLIDADO_COM_IDHM):
+    df_idhm_full = pd.read_csv(CARBONO_CONSOLIDADO_COM_IDHM, encoding='utf-8-sig')
+    idhm_cols = [c for c in df_idhm_full.columns if c.startswith('idhm_')]
+    caus_cols2 = idhm_cols + ['area_desmatada_ha']
+    df_idhm_sorted = df_idhm_full.sort_values('ano')
+    matrix2 = granger_causality_matrix(df_idhm_sorted, caus_cols2, maxlag=2, verbose=True)
+    path = OUTPUT_PATHS.causalidade_idhm_desmat_png
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(1 - matrix2, annot=True, fmt='.3f', cmap='Reds',
+                xticklabels=caus_cols2, yticklabels=caus_cols2,
+                cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=0)
+    plt.title('Figura 06. Causalidade de Granger – IDHM × Desmatamento')
+    plt.tight_layout()
+    plt.savefig(path)
+    plt.close()
+    print(f"[OK] Figura 06 salva em {path}")
+else:
+    print(f"[WARN] {CARBONO_CONSOLIDADO_COM_IDHM} não encontrado. Figura 06 não gerada.")
 fig_num += 1
 
 # --- Figura 02: Evolução das Emissões de GEE Municipais ---

@@ -52,6 +52,7 @@ OUTPUT_PATHS = SimpleNamespace(
     evolucao_pib_png="results/figures/evolucao_pib_serra_penitente.png",
     evolucao_gee_png="results/figures/evolucao_gee_serra_penitente.png",
     evolucao_desmat_png="results/figures/evolucao_desmatamento_serra_penitente.png",
+    causalidade_idhm_desmat_png="results/figures/Figura06_Causalidade_IDHM_Desmatamento.png",
 )
 
 # Features padrão para modelagem
