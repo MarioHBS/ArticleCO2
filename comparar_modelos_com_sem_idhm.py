@@ -37,6 +37,9 @@ def carregar_resultados():
     # Tentar carregar resultados sem IDHM (modelo original)
     try:
         df_sem_idhm = pd.read_csv(RESULT_PATHS.model_results_csv)
+        # Padronizar nomes das colunas
+        if 'model' in df_sem_idhm.columns:
+            df_sem_idhm = df_sem_idhm.rename(columns={'model': 'modelo', 'R2': 'r2_score', 'MSE': 'mse'})
         df_sem_idhm['tipo'] = 'Sem IDHM'
     except FileNotFoundError:
         print("Arquivo de métricas originais não encontrado. Criando dados simulados...")

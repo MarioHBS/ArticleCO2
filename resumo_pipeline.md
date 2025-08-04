@@ -265,12 +265,49 @@ Resultados de modelagem e figuras:
 
 ---
 
+## Implementações IDHM
+
+### Scripts Específicos para IDHM
+
+**04_consolidar_dados_carbono_com_idhm.py**
+- Integra dados do IDHM (Índice de Desenvolvimento Humano Municipal)
+- Processa indicadores: IDHM Geral, Renda, Educação, Longevidade
+- Gera dataset expandido: `carbono_serra_penitente_com_idhm.csv`
+- Treina modelos com variáveis socioeconômicas
+
+**comparar_modelos_com_sem_idhm.py**
+- Compara performance dos modelos com e sem IDHM
+- Gera análises estatísticas de impacto
+- Visualizações comparativas de métricas (R², MSE)
+- Relatórios de melhoria percentual
+
+**07_gerar_visualizacoes_idhm_desmatamento.py**
+- Scatter plots: IDHM vs Área Desmatada
+- Evolução temporal: IDHM e Desmatamento
+- Heatmap de correlações entre variáveis
+- Análise de causalidade de Granger
+
+### Figuras Geradas
+
+- **Figura06_Causalidade_IDHM_Desmatamento.png**: Matriz de causalidade de Granger
+- **Figura10_Correlacao_IDHM_Desmatamento.png**: Correlações por indicador IDHM
+- **Figura11_Evolucao_Temporal_IDHM_Desmatamento.png**: Evolução temporal comparativa
+- **Figura12_Heatmap_Correlacao_IDHM.png**: Matriz de correlação completa
+- **comparacao_modelos_com_sem_idhm.png**: Comparação de performance
+- **melhorias_percentuais_idhm.png**: Melhorias com inclusão do IDHM
+
+---
+
 ## Fluxo de Execução
 
 1. **Extração individual** (scripts 00-03): Processa cada fonte de dados separadamente
 2. **Consolidação** (script 04): Une todos os dados e treina modelos
-3. **Visualização** (scripts 05-06): Gera figuras em diferentes formatos
-4. **Validação** (scripts de validação): Verifica integridade do pipeline
+3. **Consolidação com IDHM** (script 04_consolidar_dados_carbono_com_idhm): Integra dados socioeconômicos
+4. **Visualização** (scripts 05-07): Gera figuras em diferentes formatos
+5. **Análise comparativa** (comparar_modelos_com_sem_idhm): Avalia impacto do IDHM
+6. **Visualizações IDHM** (script 07): Correlações IDHM vs desmatamento
+7. **Figuras consolidadas** (script 06): Gera figuras finais em PDF
+8. **Validação** (scripts de validação): Verifica integridade do pipeline
 
 ## Dependências
 

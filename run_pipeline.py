@@ -162,7 +162,18 @@ def main():
     if not result7:
         all_ok = False
 
-    # Etapa 8: Gerar figuras consolidadas
+    # Etapa 8: Gerar visualizações IDHM vs Desmatamento
+    result8 = run_script(
+        "07_gerar_visualizacoes_idhm_desmatamento.py",
+        ["results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
+         "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
+         "results/figures/Figura12_Heatmap_Correlacao_IDHM.png"]
+    )
+    step_results.append(("Etapa 8", result8))
+    if not result8:
+        all_ok = False
+
+    # Etapa 9: Gerar figuras consolidadas
     consolidated_patterns = [
         "results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
         "results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",
@@ -170,10 +181,10 @@ def main():
         "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf"
     ]
     
-    result7 = run_script("06_gerar_figuras_consolidadas.py", 
+    result9 = run_script("06_gerar_figuras_consolidadas.py", 
                         expected_outputs=consolidated_patterns)
-    step_results.append(("Etapa 7", result7))
-    if not result7:
+    step_results.append(("Etapa 9", result9))
+    if not result9:
         all_ok = False
     
     # Resultado final
