@@ -13,7 +13,7 @@ import subprocess
 import sys
 import os
 import glob
-from variaveis import INPUT_PATHS, OUTPUT_PATHS, CARBONO_CONSOLIDADO
+from variaveis import INPUT_PATHS, OUTPUT_PATHS, CARBONO_CONSOLIDADO, CARBONO_CONSOLIDADO_COM_IDHM
 
 
 def safe_print(s: str):
@@ -120,8 +120,15 @@ def main():
     step_results.append(("Etapa 5", result5))
     if not result5:
         all_ok = False
+
+    # Etapa 6: Consolidar dados de carbono com IDHM
+    result6 = run_script("04_consolidar_dados_carbono_com_idhm.py", 
+                        [CARBONO_CONSOLIDADO_COM_IDHM, OUTPUT_PATHS.metricas_modelos_com_idhm_csv])
+    step_results.append(("Etapa 6", result6))
+    if not result6:
+        all_ok = False
     
-    # Etapa 6: Gerar figuras de carbono
+    # Etapa 7: Gerar figuras de carbono
     fig_dir = os.path.dirname(OUTPUT_PATHS.evolucao_pib_png)
     figure_patterns = []
     

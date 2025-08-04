@@ -20,6 +20,8 @@ MUNICIPIOS_ALVO = [
 REGIAO_ESTUDO = "Serra do Penitente"
 
 CARBONO_CONSOLIDADO = "data/generated/carbono_serra_penitente.csv"
+# Novo dataset consolidado com IDHM
+CARBONO_CONSOLIDADO_COM_IDHM = "data/generated/carbono_serra_penitente_com_idhm.csv"
 
 # Caminhos de entrada
 INPUT_PATHS = SimpleNamespace(
