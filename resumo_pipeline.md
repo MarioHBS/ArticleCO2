@@ -296,6 +296,34 @@ Resultados de modelagem e figuras:
 - **comparacao_modelos_com_sem_idhm.png**: Comparação de performance
 - **melhorias_percentuais_idhm.png**: Melhorias com inclusão do IDHM
 
+## Análise de Políticas por Estratos de Desenvolvimento
+
+### 08_analisar_politicas_por_estratos_idhm.py
+
+**Função:** Analisa a efetividade de políticas ambientais segmentando municípios por níveis de desenvolvimento socioeconômico.
+
+**Entradas:**
+- `results/carbono_serra_penitente_com_idhm.csv`
+
+**Processamento:**
+- Segmentação de municípios por estratos de IDHM (ou PIB per capita como fallback)
+- Análise de tendências de desmatamento e emissões por estrato
+- Cálculo de intensidade de carbono (tCO2e/R$)
+- Análise comparativa entre estratos
+- Geração de recomendações específicas por nível de desenvolvimento
+
+**Saídas:**
+- `results/figures/Figura13_Analise_Estratos_Desenvolvimento.png`
+- `results/figures/Figura14_Heatmap_Metricas_Estratos.png`
+- `results/relatorio_analise_estratos_desenvolvimento.txt`
+
+**Características:**
+- Classificação automática por IDHM (Muito baixo < 0.550 < Baixo < 0.700 < Médio < 0.800 < Alto)
+- Fallback para PIB per capita quando dados IDHM não disponíveis
+- Análise de regressão linear para tendências temporais
+- Visualizações comparativas (boxplots, heatmaps)
+- Relatório detalhado com recomendações por estrato
+
 ---
 
 ## Fluxo de Execução
@@ -307,7 +335,8 @@ Resultados de modelagem e figuras:
 5. **Análise comparativa** (comparar_modelos_com_sem_idhm): Avalia impacto do IDHM
 6. **Visualizações IDHM** (script 07): Correlações IDHM vs desmatamento
 7. **Figuras consolidadas** (script 06): Gera figuras finais em PDF
-8. **Validação** (scripts de validação): Verifica integridade do pipeline
+8. **Análise de políticas** (script 08): Segmenta por estratos de desenvolvimento
+9. **Validação** (scripts de validação): Verifica integridade do pipeline
 
 ## Dependências
 

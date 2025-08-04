@@ -248,3 +248,62 @@ Todos os arquivos de resultados foram organizados na pasta `results/` para melho
 - **figuras_consolidadas/**: Figuras PDF vetoriais para publicação
 
 Esta organização facilita a localização dos resultados e mantém a estrutura do projeto mais limpa e profissional.
+
+## 8. Análise de Políticas por Estratos de Desenvolvimento
+
+### Metodologia de Segmentação
+
+A análise de efetividade de políticas ambientais foi implementada através da segmentação dos municípios por níveis de desenvolvimento socioeconômico:
+
+**Classificação por IDHM:**
+- Muito baixo desenvolvimento: IDHM < 0.550
+- Baixo desenvolvimento: 0.550 ≤ IDHM < 0.700
+- Médio desenvolvimento: 0.700 ≤ IDHM < 0.800
+- Alto desenvolvimento: IDHM ≥ 0.800
+
+**Fallback para PIB per capita:**
+Quando dados de IDHM não estão disponíveis, utiliza-se quartis de PIB per capita:
+- Baixo desenvolvimento: Q1 (25% menores valores)
+- Médio-baixo desenvolvimento: Q2 (25%-50%)
+- Médio-alto desenvolvimento: Q3 (50%-75%)
+- Alto desenvolvimento: Q4 (25% maiores valores)
+
+### Métricas de Análise
+
+**Indicadores por estrato:**
+- Desmatamento médio (ha) ± desvio padrão
+- Emissões médias (tCO2e) ± desvio padrão
+- PIB médio (R$) ± desvio padrão
+- Intensidade de carbono (tCO2e/R$)
+- Tendências temporais (regressão linear)
+
+**Análise de tendências:**
+```python
+from scipy import stats
+slope, intercept, r_value, p_value, std_err = stats.linregress(anos, valores)
+tendencia = slope  # unidade/ano
+r_squared = r_value**2
+```
+
+### Resultados Obtidos
+
+**Distribuição dos estratos (baseada em PIB per capita):**
+- Não classificado: 62 observações
+- Alto desenvolvimento: 31 observações
+- Médio-alto desenvolvimento: 29 observações
+
+**Principais achados:**
+- Municípios de alto desenvolvimento apresentam maior desmatamento absoluto (2.469 ha vs 61 ha)
+- Municípios de médio-alto desenvolvimento têm maior intensidade de carbono (8.18 vs 0.81 tCO2e/R$)
+- Ambos os estratos mostram tendência crescente de desmatamento
+
+### Saídas Geradas
+
+**Visualizações:**
+- **Figura13_Analise_Estratos_Desenvolvimento.png**: Boxplots comparativos
+- **Figura14_Heatmap_Metricas_Estratos.png**: Matriz de métricas por estrato
+
+**Relatório:**
+- **relatorio_analise_estratos_desenvolvimento.txt**: Análise detalhada com recomendações específicas por estrato
+
+Esta análise permite identificar a necessidade de políticas diferenciadas por nível de desenvolvimento, otimizando a efetividade das intervenções ambientais.

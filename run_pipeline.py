@@ -186,6 +186,17 @@ def main():
     step_results.append(("Etapa 9", result9))
     if not result9:
         all_ok = False
+
+    # Etapa 10: Analisar políticas por estratos de desenvolvimento
+    result10 = run_script(
+        "08_analisar_politicas_por_estratos_idhm.py",
+        ["results/figures/Figura13_Analise_Estratos_Desenvolvimento.png",
+         "results/figures/Figura14_Heatmap_Metricas_Estratos.png",
+         "results/relatorio_analise_estratos_desenvolvimento.txt"]
+    )
+    step_results.append(("Etapa 10", result10))
+    if not result10:
+        all_ok = False
     
     # Resultado final
     print("\n" + "=" * 60)
