@@ -65,8 +65,8 @@ def carregar_resultados():
         df_com_idhm = pd.read_csv(RESULT_PATHS.metricas_modelos_com_idhm_csv)
         df_com_idhm['tipo'] = 'Com IDHM'
     except FileNotFoundError:
-        print("❌ Arquivo de métricas com IDHM não encontrado!")
-        print("Execute primeiro o script 04_consolidar_dados_carbono_com_idhm.py")
+        print("[ERROR] Arquivo de métricas com IDHM não encontrado!")
+        print("Execute primeiro o script 05_consolidar_dados_carbono_com_idhm.py")
         return None, None
     
     return df_sem_idhm, df_com_idhm
@@ -313,10 +313,10 @@ def main():
         df_comparacao.to_csv('comparacao_modelos_idhm.csv', index=False)
         print(f"\n💾 Dados de comparação salvos em: comparacao_modelos_idhm.csv")
         
-        print("\n✅ Análise comparativa concluída com sucesso!")
+        print("\n[OK] Análise comparativa concluída com sucesso!")
         
     except Exception as e:
-        print(f"❌ Erro na execução: {e}")
+        print(f"[ERROR] Erro na execução: {e}")
         import traceback
         traceback.print_exc()
 

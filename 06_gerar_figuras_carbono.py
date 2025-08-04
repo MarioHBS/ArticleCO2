@@ -1,4 +1,4 @@
-# 05_gerar_figuras_carbono.py
+# 06_gerar_figuras_carbono.py
 """
 Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
 

@@ -88,7 +88,7 @@ df_final.to_csv(
 )
 print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
 
-# --- Removida aqui a geração de figuras 1–3, pois são recriadas em 05_gerar_figuras_carbono.py ---
+# --- Removida aqui a geração de figuras 1–3, pois são recriadas em 06_gerar_figuras_carbono.py ---
 
 # 8) Predição de preço de carbono e salvamento de métricas
 

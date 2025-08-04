@@ -171,7 +171,7 @@ def consolidar_dados_com_idhm():
         df_consolidado = df_consolidado.merge(df_idhm, on=['municipio', 'ano'], how='left')
         print(f"Dados do IDHM integrados. Shape final: {df_consolidado.shape}")
     else:
-        print("⚠️ Dados do IDHM estão vazios ou sem coluna 'municipio'. Continuando sem IDHM...")
+        print("[AVISO] Dados do IDHM estão vazios ou sem coluna 'municipio'. Continuando sem IDHM...")
         # Adicionar colunas IDHM vazias para manter compatibilidade
         for col in FEATURE_COLS_EXPANDIDO:
             if col not in df_consolidado.columns and 'idhm' in col:
@@ -370,10 +370,10 @@ def main():
             print("="*50)
             print(df_resultados.sort_values('r2_score', ascending=False))
         
-        print("\n✅ Pipeline executado com sucesso!")
+        print("\n[OK] Pipeline executado com sucesso!")
         
     except Exception as e:
-        print(f"❌ Erro na execução: {e}")
+        print(f"[ERROR] Erro na execução: {e}")
         import traceback
         traceback.print_exc()
 

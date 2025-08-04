@@ -92,12 +92,30 @@ def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose
     import numpy as np
     from statsmodels.tsa.stattools import grangercausalitytests
     
+    # Verificar quais colunas têm variação (não são constantes)
+    valid_columns = []
+    for col in columns:
+        if col in df.columns:
+            col_data = df[col].dropna()
+            if len(col_data) > 0 and col_data.nunique() > 1:  # Tem mais de um valor único
+                valid_columns.append(col)
+            elif verbose:
+                print(f"[SKIP] Coluna '{col}' tem valores constantes ou insuficientes")
+        elif verbose:
+            print(f"[SKIP] Coluna '{col}' não encontrada no DataFrame")
+    
+    if len(valid_columns) < 2:
+        if verbose:
+            print(f"[WARN] Apenas {len(valid_columns)} colunas válidas encontradas. Retornando matriz vazia.")
+        return pd.DataFrame(np.ones((len(columns), len(columns))), 
+                           columns=columns, index=columns)
+    
     # Criar matriz de p-valores
     causality_matrix = pd.DataFrame(np.ones((len(columns), len(columns))), 
                                    columns=columns, index=columns)
     
-    for col_y in columns:
-        for col_x in columns:
+    for col_y in valid_columns:
+        for col_x in valid_columns:
             if col_y != col_x:
                 try:
                     # Preparar dados (remover NaN)

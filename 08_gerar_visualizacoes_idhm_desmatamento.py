@@ -229,7 +229,7 @@ def main():
         gerar_heatmap_correlacao_idhm(df)
         
         print("\n" + "="*60)
-        print("✅ TODAS AS VISUALIZAÇÕES GERADAS COM SUCESSO!")
+        print("[OK] TODAS AS VISUALIZAÇÕES GERADAS COM SUCESSO!")
         print("="*60)
         
         print("\nFiguras geradas:")

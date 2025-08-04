@@ -122,7 +122,7 @@ def main():
         all_ok = False
 
     # Etapa 6: Consolidar dados de carbono com IDHM
-    result6 = run_script("04_consolidar_dados_carbono_com_idhm.py", 
+    result6 = run_script("05_consolidar_dados_carbono_com_idhm.py", 
                         [RESULT_PATHS.carbono_consolidado_com_idhm_csv, RESULT_PATHS.metricas_modelos_com_idhm_csv])
     step_results.append(("Etapa 6", result6))
     if not result6:
@@ -132,9 +132,14 @@ def main():
     fig_dir = "results/figures"
     figure_patterns = []
     
-    # Figuras 01-06
-    for i in range(1, 7):
-        figure_patterns.append(os.path.join(fig_dir, f"Figura{i:02d}_*.png"))
+    # Figuras específicas geradas pelo script 06_gerar_figuras_carbono.py
+    figure_patterns.extend([
+        os.path.join(fig_dir, "Figura01_Evolucao_PIB.png"),
+        os.path.join(fig_dir, "Figura03_Evolucao_GEE.png"),
+        os.path.join(fig_dir, "Figura04_Evolucao_Desmatamento.png"),
+        os.path.join(fig_dir, "Figura05_EQM_Modelos.png"),
+        os.path.join(fig_dir, "Figura06_Causalidade_Granger.png")
+    ])
     
     # Figuras 07_1 a 07_9 (scatters)
     for i in range(1, 10):
@@ -146,34 +151,34 @@ def main():
         os.path.join(fig_dir, "Figura09_Evolucao_Preco_Carbono.png")
     ])
     
-    result6 = run_script("05_gerar_figuras_carbono.py", 
+    result7 = run_script("06_gerar_figuras_carbono.py", 
                         check_patterns=figure_patterns)
-    step_results.append(("Etapa 6", result6))
-    if not result6:
-        all_ok = False
-    
-    # Etapa 7: Comparar modelos com e sem IDHM
-    result7 = run_script(
-        "comparar_modelos_com_sem_idhm.py",
-        ["results/figures/comparacao_modelos_com_sem_idhm.png",
-         "results/figures/melhorias_percentuais_idhm.png"]
-    )
     step_results.append(("Etapa 7", result7))
     if not result7:
         all_ok = False
-
-    # Etapa 8: Gerar visualizações IDHM vs Desmatamento
+    
+    # Etapa 8: Comparar modelos com e sem IDHM
     result8 = run_script(
-        "07_gerar_visualizacoes_idhm_desmatamento.py",
-        ["results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
-         "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
-         "results/figures/Figura12_Heatmap_Correlacao_IDHM.png"]
+        "comparar_modelos_com_sem_idhm.py",
+        ["results/figures/comparacao_modelos_com_sem_idhm.png",
+         "results/figures/melhorias_percentuais_idhm.png"]
     )
     step_results.append(("Etapa 8", result8))
     if not result8:
         all_ok = False
 
-    # Etapa 9: Gerar figuras consolidadas
+    # Etapa 9: Gerar visualizações IDHM vs Desmatamento
+    result9 = run_script(
+        "08_gerar_visualizacoes_idhm_desmatamento.py",
+        ["results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
+         "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
+         "results/figures/Figura12_Heatmap_Correlacao_IDHM.png"]
+    )
+    step_results.append(("Etapa 9", result9))
+    if not result9:
+        all_ok = False
+
+    # Etapa 10: Gerar figuras consolidadas
     consolidated_patterns = [
         "results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
         "results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",
@@ -181,21 +186,21 @@ def main():
         "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf"
     ]
     
-    result9 = run_script("06_gerar_figuras_consolidadas.py", 
+    result10 = run_script("07_gerar_figuras_consolidadas.py", 
                         expected_outputs=consolidated_patterns)
-    step_results.append(("Etapa 9", result9))
-    if not result9:
+    step_results.append(("Etapa 10", result10))
+    if not result10:
         all_ok = False
 
-    # Etapa 10: Analisar políticas por estratos de desenvolvimento
-    result10 = run_script(
-        "08_analisar_politicas_por_estratos_idhm.py",
+    # Etapa 11: Analisar políticas por estratos de desenvolvimento
+    result11 = run_script(
+        "09_analisar_politicas_por_estratos_idhm.py",
         ["results/figures/Figura13_Analise_Estratos_Desenvolvimento.png",
          "results/figures/Figura14_Heatmap_Metricas_Estratos.png",
          "results/relatorio_analise_estratos_desenvolvimento.txt"]
     )
-    step_results.append(("Etapa 10", result10))
-    if not result10:
+    step_results.append(("Etapa 11", result11))
+    if not result11:
         all_ok = False
     
     # Resultado final

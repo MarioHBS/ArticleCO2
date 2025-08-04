@@ -4,11 +4,11 @@ Este documento descreve detalhadamente cada script do pipeline de processamento 
 
 ## Visão Geral do Pipeline
 
-O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de validação que executam e verificam todo o processo sequencialmente.
+O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de validação que executam e verificam todo o processo sequencialmente.
 
 ## Scripts Principais
 
-### 00_extrair_pib_municipal.py
+### » 00_extrair_pib_municipal.py
 
 **Função:** Extrai e processa dados de PIB municipal do IBGE para os três municípios da Serra do Penitente.
 
@@ -19,7 +19,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 **Processamento:**
 - Carrega planilhas XLS/XLSX com detecção automática de colunas
 - Renomeia colunas dinamicamente baseado nos cabeçalhos reais
-- Filtra apenas os municípios definidos em `variaveis.MUNICIPIOS`
+- Filtra apenas os municípios alvo definidos em `variaveis.MUNICIPIOS`
 - Concatena dados de ambos os períodos (2002-2009 e 2010-2021)
 - Padroniza formato: `['codigo_ibge', 'municipio', 'ano', 'pib']`
 
@@ -28,7 +28,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 01_extrair_cobertura_municipal.py
+### » 01_extrair_cobertura_municipal.py
 
 **Função:** Extrai dados de cobertura do solo por bioma do arquivo MapBiomas e transforma de formato wide para long.
 
@@ -48,12 +48,12 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 02_extrair_alertas_desmatamento.py
+### » 02_extrair_alertas_desmatamento.py
 
 **Função:** Extrai alertas de desmatamento via API local MapBiomas para os municípios de interesse.
 
 **Entradas:**
-- API local MapBiomas (endpoints `/token` e `/alerts/all`)
+- API local MapBiomas, localizado no projeto **mapbiomas-alert-api** (endpoints `/token` e `/alerts/all`)
 - Variáveis de ambiente: `MAPBIOMAS_EMAIL` e `MAPBIOMAS_PASSWORD`
 
 **Processamento:**
@@ -68,7 +68,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 03_extrair_uso_terra_timeseries.py
+### » 03_extrair_uso_terra_timeseries.py
 
 **Função:** Processa dados de uso da terra em séries temporais, agregando por município, uso e ano.
 
@@ -88,7 +88,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 04_consolidar_dados_carbono.py
+### » 04_consolidar_dados_carbono.py
 
 **Função:** Consolida todos os dados processados, treina modelos de machine learning e gera métricas de avaliação.
 
@@ -115,7 +115,35 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 05_gerar_figuras_carbono.py
+### » 05_consolidar_dados_carbono_com_idhm.py
+
+**Função:** Consolida dados de carbono incluindo variáveis socioeconômicas do IDHM e treina modelos expandidos.
+
+**Entradas:**
+- `data/generated/pib_municipal_serra_penitente_ibge.csv`
+- `data/generated/mapbiomas_cobertura_municipal_long.csv`
+- `data/generated/alertas_serra_penitente.csv`
+- `data/raw/precos_carbono_eu_ets.xlsx`
+- `data/raw/idhm_municipios_serra_penitente.xlsx`
+
+**Processamento:**
+- Carrega e processa dados do IDHM (Índice de Desenvolvimento Humano Municipal)
+- Integra indicadores: IDHM Geral, Renda, Educação, Longevidade
+- Consolida com dados de PIB, GEE e alertas de desmatamento
+- Treina modelos de machine learning com features expandidas (7 variáveis)
+- Avalia modelos usando TimeSeriesSplit com validação cruzada
+- Calcula métricas de performance (R², MSE) e importância de features
+
+**Saídas:**
+- `data/generated/carbono_serra_penitente_com_idhm.csv` (dataset expandido)
+- `results/metricas_modelos_com_idhm.csv` (métricas dos modelos)
+- `results/feature_importance_random_forest_com_idhm.csv`
+- `results/feature_importance_decision_tree_com_idhm.csv`
+- `results/feature_importance_xgboost_com_idhm.csv`
+
+---
+
+### » 06_gerar_figuras_carbono.py
 
 **Função:** Gera todas as figuras do artigo em formato PNG com nomenclatura numerada.
 
@@ -145,7 +173,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ---
 
-### 06_gerar_figuras_consolidadas.py
+### » 07_gerar_figuras_consolidadas.py
 
 **Função:** Gera figuras finais em formato vetorial PDF para uso em LaTeX.
 
@@ -171,12 +199,12 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 
 ## Scripts de Validação
 
-### run_pipeline_validation.py
+### » run_pipeline_validation.py
 
 **Função:** Script automatizado que executa todo o pipeline sequencialmente e valida as saídas.
 
 **Processamento:**
-- Define sequência de execução dos scripts 00-05
+- Define sequência de execução dos scripts 00-09
 - Executa cada script via `subprocess`
 - Verifica existência dos arquivos de saída esperados
 - Valida figuras geradas usando padrões glob
@@ -188,7 +216,7 @@ O pipeline é composto por 7 scripts principais (00-06) mais 2 scripts de valida
 - Figuras PNG em `results/figures/`
 - Métricas de modelos em `results/`
 
-### run_pipeline_validation.ipynb
+### » run_pipeline_validation.ipynb
 
 **Função:** Versão interativa do pipeline de validação em Jupyter Notebook.
 
@@ -235,6 +263,12 @@ Arquivos finais consolidados:
   - Base para modelagem e análises
   - 136 registros (município × ano)
 
+- **carbono_serra_penitente_com_idhm.csv**
+  - Dataset expandido com variáveis socioeconômicas
+  - Colunas: `municipio`, `ano`, `pib`, `GEE_tCO2e`, `area_desmatada_ha`, `carbon_price_usd`, `IDHM`, `IDHM_Renda`, `IDHM_Educacao`, `IDHM_Longevidade`
+  - Base para análises com IDHM
+  - 136 registros (município × ano)
+
 ### results/
 Resultados de modelagem e figuras:
 
@@ -269,7 +303,7 @@ Resultados de modelagem e figuras:
 
 ### Scripts Específicos para IDHM
 
-**04_consolidar_dados_carbono_com_idhm.py**
+**05_consolidar_dados_carbono_com_idhm.py**
 - Integra dados do IDHM (Índice de Desenvolvimento Humano Municipal)
 - Processa indicadores: IDHM Geral, Renda, Educação, Longevidade
 - Gera dataset expandido: `carbono_serra_penitente_com_idhm.csv`
@@ -281,7 +315,7 @@ Resultados de modelagem e figuras:
 - Visualizações comparativas de métricas (R², MSE)
 - Relatórios de melhoria percentual
 
-**07_gerar_visualizacoes_idhm_desmatamento.py**
+**08_gerar_visualizacoes_idhm_desmatamento.py**
 - Scatter plots: IDHM vs Área Desmatada
 - Evolução temporal: IDHM e Desmatamento
 - Heatmap de correlações entre variáveis
@@ -298,12 +332,12 @@ Resultados de modelagem e figuras:
 
 ## Análise de Políticas por Estratos de Desenvolvimento
 
-### 08_analisar_politicas_por_estratos_idhm.py
+### 09_analisar_politicas_por_estratos_idhm.py
 
 **Função:** Analisa a efetividade de políticas ambientais segmentando municípios por níveis de desenvolvimento socioeconômico.
 
 **Entradas:**
-- `results/carbono_serra_penitente_com_idhm.csv`
+- `data/generated/carbono_serra_penitente_com_idhm.csv`
 
 **Processamento:**
 - Segmentação de municípios por estratos de IDHM (ou PIB per capita como fallback)
@@ -330,12 +364,12 @@ Resultados de modelagem e figuras:
 
 1. **Extração individual** (scripts 00-03): Processa cada fonte de dados separadamente
 2. **Consolidação** (script 04): Une todos os dados e treina modelos
-3. **Consolidação com IDHM** (script 04_consolidar_dados_carbono_com_idhm): Integra dados socioeconômicos
-4. **Visualização** (scripts 05-07): Gera figuras em diferentes formatos
-5. **Análise comparativa** (comparar_modelos_com_sem_idhm): Avalia impacto do IDHM
-6. **Visualizações IDHM** (script 07): Correlações IDHM vs desmatamento
-7. **Figuras consolidadas** (script 06): Gera figuras finais em PDF
-8. **Análise de políticas** (script 08): Segmenta por estratos de desenvolvimento
+3. **Consolidação com IDHM** (script 05): Integra dados socioeconômicos
+4. **Visualização** (script 06): Gera figuras em formato PNG
+5. **Figuras consolidadas** (script 07): Gera figuras finais em PDF
+6. **Visualizações IDHM** (script 08): Correlações IDHM vs desmatamento
+7. **Análise de políticas** (script 09): Segmenta por estratos de desenvolvimento
+8. **Análise comparativa** (comparar_modelos_com_sem_idhm): Avalia impacto do IDHM
 9. **Validação** (scripts de validação): Verifica integridade do pipeline
 
 ## Dependências

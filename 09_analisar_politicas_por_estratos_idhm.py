@@ -90,7 +90,7 @@ def definir_estratos_desenvolvimento(df):
         df_estratos['estrato_desenvolvimento'] = df_estratos['idhm_'].apply(classificar_estrato_idhm)
     else:
         # Criar IDHM sintético baseado em PIB e área desmatada para demonstração
-        print("⚠️ Dados de IDHM não encontrados ou zerados. Criando estratos baseados em PIB per capita...")
+        print("[AVISO] Dados de IDHM não encontrados ou zerados. Criando estratos baseados em PIB per capita...")
         
         # Calcular PIB per capita aproximado (usando população estimada)
         df_estratos['pib_per_capita'] = df_estratos['pib'] / 10000  # Estimativa simplificada
@@ -430,7 +430,7 @@ def main():
         print("- results/relatorio_analise_estratos_desenvolvimento.txt")
         
     except Exception as e:
-        print(f"\n❌ Erro durante a execução: {e}")
+        print(f"\n[ERROR] Erro durante a execução: {e}")
         import traceback
         traceback.print_exc()
         return False
