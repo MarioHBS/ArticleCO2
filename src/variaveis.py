@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from types import SimpleNamespace
+import numpy as np
+import pandas as pd
 
 
 @dataclass
@@ -143,5 +145,9 @@ def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose
                     causality_matrix.loc[col_x, col_y] = 1.0  # p-valor = 1 (sem causalidade)
     
     return causality_matrix
+
+
+# Alias para compatibilidade com código existente
+
 
 MUNICIPIOS = MUNICIPIOS_ALVO

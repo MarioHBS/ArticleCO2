@@ -25,3 +25,11 @@ easyocr==1.7.2
 # Utilities
 requests==2.32.3
 unidecode==1.4.0
+
+# Testing and Development
+pytest==8.3.4
+pytest-cov==6.0.0
+coverage==7.6.9
+
+# Logging (built-in, but documenting for clarity)
+# logging - built-in Python module

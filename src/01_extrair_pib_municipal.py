@@ -17,6 +17,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import INPUT_PATHS, GENERATED_PATHS, MUNICIPIOS
+from validacao import validate_pib_schema, check_data_integrity
 
 
 def load_pib(path: Path) -> pd.DataFrame:
@@ -24,25 +25,58 @@ def load_pib(path: Path) -> pd.DataFrame:
     Carrega planilha de PIB (XLS ou XLSX), renomeia colunas dinamicamente
     e retorna DataFrame com ['codigo_ibge','municipio','ano','pib'].
     """
-    engine = "xlrd" if path.suffix.lower() == ".xls" else "openpyxl"
-    df = pd.read_excel(path, engine=engine)
+    try:
+        if not path.exists():
+            raise FileNotFoundError(f"Arquivo não encontrado: {path}")
+        
+        logging.info(f"Carregando arquivo PIB: {path}")
+        engine = "xlrd" if path.suffix.lower() == ".xls" else "openpyxl"
+        df = pd.read_excel(path, engine=engine)
+        
+        if df.empty:
+            raise ValueError(f"Arquivo PIB está vazio: {path}")
+        
+        logging.info(f"Arquivo carregado com {len(df)} linhas e {len(df.columns)} colunas")
 
-    # Detecta colunas conforme cabeçalhos reais
-    code_col = next(
-        c for c in df.columns if "Código" in c and "Município" in c)
-    name_col = next(c for c in df.columns if "Nome" in c and "Município" in c)
-    year_col = next(c for c in df.columns if c.strip().lower() == "ano")
-    pib_col = next(c for c in df.columns if "Produto Interno Bruto" in c)
+        # Detecta colunas conforme cabeçalhos reais
+        try:
+            code_col = next(
+                c for c in df.columns if "Código" in c and "Município" in c)
+            name_col = next(c for c in df.columns if "Nome" in c and "Município" in c)
+            year_col = next(c for c in df.columns if c.strip().lower() == "ano")
+            pib_col = next(c for c in df.columns if "Produto Interno Bruto" in c)
+        except StopIteration as e:
+            logging.error(f"Colunas esperadas não encontradas no arquivo {path}")
+            logging.error(f"Colunas disponíveis: {list(df.columns)}")
+            raise ValueError(f"Schema inválido no arquivo {path}: colunas obrigatórias não encontradas") from e
 
-    df = df.rename(columns={
-        code_col:   "codigo_ibge",
-        name_col:   "municipio",
-        year_col:   "ano",
-        pib_col:    "pib"
-    })
+        df = df.rename(columns={
+            code_col:   "codigo_ibge",
+            name_col:   "municipio",
+            year_col:   "ano",
+            pib_col:    "pib"
+        })
 
-    # Garante apenas as 4 colunas necessárias
-    return df[["codigo_ibge", "municipio", "ano", "pib"]]
+        # Garante apenas as 4 colunas necessárias
+        result_df = df[["codigo_ibge", "municipio", "ano", "pib"]]
+        
+        # Validação de schema
+        try:
+            validate_pib_schema(result_df)
+            logging.info("Schema PIB validado com sucesso")
+        except ValueError as e:
+            logging.error(f"Erro de validação de schema: {str(e)}")
+            raise
+        
+        # Verificação de integridade dos dados
+        check_data_integrity(result_df, f"PIB - {path.name}")
+            
+        logging.info(f"Dados PIB processados: {len(result_df)} registros válidos")
+        return result_df
+        
+    except Exception as e:
+        logging.error(f"Erro ao carregar arquivo PIB {path}: {str(e)}")
+        raise
 
 
 def filter_municipios(df: pd.DataFrame) -> pd.DataFrame:
@@ -54,20 +88,43 @@ def filter_municipios(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main(input_old: str, input_new: str, output_csv: str):
-    logging.info(f"Iniciando extração de PIB: {input_old}, {input_new}")
-    old_df = load_pib(Path(input_old))
-    new_df = load_pib(Path(input_new))
+    try:
+        logging.info(f"Iniciando extração de PIB: {input_old}, {input_new}")
+        
+        # Carrega arquivos PIB
+        old_df = load_pib(Path(input_old))
+        new_df = load_pib(Path(input_new))
 
-    df = pd.concat([old_df, new_df], ignore_index=True)
-    df = filter_municipios(df)
-    df = df.sort_values(["codigo_ibge", "ano"])
+        # Consolida dados
+        logging.info("Consolidando dados de PIB")
+        df = pd.concat([old_df, new_df], ignore_index=True)
+        
+        # Remove duplicatas se existirem
+        initial_count = len(df)
+        df = df.drop_duplicates(subset=["codigo_ibge", "ano"], keep="last")
+        if len(df) < initial_count:
+            logging.warning(f"Removidas {initial_count - len(df)} linhas duplicadas")
+        
+        # Filtra municípios de interesse
+        df = filter_municipios(df)
+        logging.info(f"Dados filtrados para {len(df)} registros dos municípios alvo")
+        
+        if df.empty:
+            raise ValueError("Nenhum dado encontrado para os municípios especificados")
+        
+        df = df.sort_values(["codigo_ibge", "ano"])
 
-    # garante que a pasta de saída existe
-    out_dir = os.path.dirname(output_csv)
-    os.makedirs(out_dir, exist_ok=True)
+        # Garante que a pasta de saída existe
+        out_dir = os.path.dirname(output_csv)
+        os.makedirs(out_dir, exist_ok=True)
 
-    df.to_csv(output_csv, index=False, encoding="utf-8-sig")
-    logging.info(f"Arquivo PIB salvo em: {output_csv}")
+        # Salva arquivo final
+        df.to_csv(output_csv, index=False, encoding="utf-8-sig")
+        logging.info(f"Arquivo PIB salvo com sucesso: {output_csv} ({len(df)} registros)")
+        
+    except Exception as e:
+        logging.error(f"Erro durante execução do pipeline PIB: {str(e)}")
+        raise
 
 
 if __name__ == "__main__":

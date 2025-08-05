@@ -10,7 +10,7 @@ por categoria de uso da terra para análise de mudanças ao longo do tempo.
 import os
 import pandas as pd
 import sys
-import os
+import logging
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
 
@@ -28,13 +28,38 @@ def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
       - municipality → municipio
       - class     → uso
     """
-    df = pd.read_excel(fp, sheet_name=sheet_name)
-    df = df.rename(columns={
-        'geocode': 'codigo_ibge',
-        'municipality': 'municipio',
-        'class': 'uso'
-    })
-    return df
+    try:
+        if not os.path.exists(fp):
+            raise FileNotFoundError(f"Arquivo não encontrado: {fp}")
+        
+        logging.info(f"Carregando dados de cobertura de: {fp}")
+        df = pd.read_excel(fp, sheet_name=sheet_name)
+        
+        if df.empty:
+            raise ValueError(f"Arquivo está vazio: {fp}")
+        
+        logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
+        
+        df = df.rename(columns={
+            'geocode': 'codigo_ibge',
+            'municipality': 'municipio',
+            'class': 'uso'
+        })
+        
+        # Verificar colunas essenciais
+        required_cols = ['codigo_ibge', 'municipio', 'uso']
+        missing_cols = [col for col in required_cols if col not in df.columns]
+        if missing_cols:
+            logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
+        
+        return df
+        
+    except FileNotFoundError:
+        logging.error(f"Arquivo não encontrado: {fp}")
+        raise
+    except Exception as e:
+        logging.error(f"Erro ao carregar arquivo Excel: {str(e)}")
+        raise
 
 
 def transform_long(df: pd.DataFrame) -> pd.DataFrame:
@@ -82,32 +107,51 @@ def summarize_by_use_year(df: pd.DataFrame) -> pd.DataFrame:
 
 def save_partial(df: pd.DataFrame, out_fp: str):
     """Salva o CSV parcial em data/generated."""
-    os.makedirs(os.path.dirname(out_fp), exist_ok=True)
-    df.to_csv(out_fp, index=False, encoding='utf-8-sig')
-    print(f"[OK] CSV gerado em: {out_fp}")
+    try:
+        os.makedirs(os.path.dirname(out_fp), exist_ok=True)
+        df.to_csv(out_fp, index=False, encoding='utf-8-sig')
+        logging.info(f"CSV de uso da terra salvo com sucesso: {out_fp} ({len(df)} registros)")
+    except Exception as e:
+        logging.error(f"Erro ao salvar CSV: {str(e)}")
+        raise
 
 
 def main():
-    # 1) Carrega o Excel bruto
-    df_raw = load_coverage_excel(RAW_EXCEL)
+    # Configurar logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s"
+    )
+    
+    try:
+        logging.info("Iniciando extração de séries temporais de uso da terra")
+        
+        # 1) Carrega o Excel bruto
+        df_raw = load_coverage_excel(RAW_EXCEL)
 
-    # 2) Transforma em formato longo
-    df_long = transform_long(df_raw)
-    print("Amostra (longo):")
-    print(df_long.head())
+        # 2) Transforma em formato longo
+        logging.info("Transformando dados para formato longo")
+        df_long = transform_long(df_raw)
+        logging.info(f"Dados transformados: {len(df_long)} registros")
 
-    # 3) Filtra apenas Serra do Penitente
-    df_serra = filter_municipalities(df_long, SERRA_CODES)
-    print("\nAmostra pós-filtro:")
-    print(df_serra.head())
+        # 3) Filtra apenas Serra do Penitente
+        logging.info(f"Filtrando municípios da Serra do Penitente: {SERRA_CODES}")
+        df_serra = filter_municipalities(df_long, SERRA_CODES)
+        logging.info(f"Dados filtrados: {len(df_serra)} registros")
 
-    # 4) Agrega por município, uso e ano
-    df_summary = summarize_by_use_year(df_serra)
-    print("\nAmostra agregada (município × uso × ano):")
-    print(df_summary.head())
+        # 4) Agrega por município, uso e ano
+        logging.info("Agregando dados por município, uso e ano")
+        df_summary = summarize_by_use_year(df_serra)
+        logging.info(f"Dados agregados: {len(df_summary)} registros únicos")
 
-    # 5) Salva parcial
-    save_partial(df_summary, PARTIAL_OUT)
+        # 5) Salva parcial
+        save_partial(df_summary, PARTIAL_OUT)
+        
+        logging.info("Extração de séries temporais concluída com sucesso")
+        
+    except Exception as e:
+        logging.error(f"Erro durante a extração de séries temporais: {str(e)}")
+        raise
 
 
 if __name__ == "__main__":

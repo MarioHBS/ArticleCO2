@@ -9,70 +9,173 @@ a partir da planilha COVERAGE_9 do arquivo MapBiomas.
 """
 import os
 import pandas as pd
-
+import logging
 import sys
-import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
 
-# 1) Defina o caminho do arquivo MapBiomas
-arquivo_mapb = INPUT_PATHS.mapbiomas
+def load_mapbiomas_data(arquivo_path: str) -> pd.DataFrame:
+    """
+    Carrega dados de cobertura do MapBiomas.
+    """
+    try:
+        if not os.path.exists(arquivo_path):
+            raise FileNotFoundError(f"Arquivo não encontrado: {arquivo_path}")
+        
+        logging.info(f"Carregando dados MapBiomas de: {arquivo_path}")
+        df = pd.read_excel(
+            arquivo_path,
+            sheet_name="COVERAGE_9",
+            dtype={"geocode": str},
+        )
+        
+        if df.empty:
+            raise ValueError(f"Arquivo está vazio: {arquivo_path}")
+        
+        logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
+        return df
+        
+    except FileNotFoundError:
+        logging.error(f"Arquivo não encontrado: {arquivo_path}")
+        raise
+    except Exception as e:
+        logging.error(f"Erro ao carregar dados MapBiomas: {str(e)}")
+        raise
 
-# 2) Lista de códigos IBGE dos municípios de Serra do Penitente
-municipios_alvo = ["2100501", "2101400", "2112001"]
 
-# 3) Cria diretório de saída, se necessário
-os.makedirs("data/generated", exist_ok=True)
+def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Renomeia colunas para padrão do pipeline.
+    """
+    df_renamed = df.rename(columns={
+        "geocode": "codigo_ibge",
+        "municipality": "municipio",
+        "state": "uf",
+        "biome": "bioma",
+        "class": "classe_codigo",
+        "class_level_0": "classe_level_0",
+        "class_level_1": "classe_level_1",
+        "class_level_2": "classe_level_2",
+    })
+    
+    # Verificar colunas essenciais
+    required_cols = ['codigo_ibge', 'municipio', 'bioma']
+    missing_cols = [col for col in required_cols if col not in df_renamed.columns]
+    if missing_cols:
+        logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
+    
+    return df_renamed
 
-# 4) Carrega a planilha COVERAGE_9
-df_mapb = pd.read_excel(
-    arquivo_mapb,
-    sheet_name="COVERAGE_9",
-    dtype={"geocode": str},
-)
 
-# 5) Renomeia colunas para padrão do pipeline
-df_mapb = df_mapb.rename(columns={
-    "geocode": "codigo_ibge",
-    "municipality": "municipio",
-    "state":       "uf",
-    "biome":       "bioma",
-    "class":       "classe_codigo",
-    "class_level_0": "classe_level_0",
-    "class_level_1": "classe_level_1",
-    "class_level_2": "classe_level_2",
-})
+def get_year_columns(df: pd.DataFrame) -> list:
+    """
+    Identifica colunas de ano dinamicamente.
+    """
+    anos = [
+        col for col in df.columns
+        if (isinstance(col, str) and col.isdigit()) or isinstance(col, int)
+    ]
+    logging.info(f"Colunas de ano identificadas: {len(anos)} anos ({min(anos) if anos else 'N/A'}-{max(anos) if anos else 'N/A'})")
+    return anos
 
-# 6) Identifica colunas de ano dinamicamente (strings numéricas ou ints)
-anos = [
-    col for col in df_mapb.columns
-    if (isinstance(col, str) and col.isdigit()) or isinstance(col, int)
-]
+def filter_municipalities(df: pd.DataFrame, municipios_alvo: list) -> pd.DataFrame:
+    """
+    Filtra apenas municípios de interesse.
+    """
+    df_filtered = df[df["codigo_ibge"].isin(municipios_alvo)].copy()
+    logging.info(f"Dados filtrados: {len(df_filtered)} registros para {len(municipios_alvo)} municípios")
+    return df_filtered
 
-# 7) Filtra apenas municípios de interesse
-df_mapb = df_mapb[df_mapb["codigo_ibge"].isin(municipios_alvo)].copy()
 
-# 8) Converte colunas de anos para numérico
-for col in anos:
-    df_mapb[col] = pd.to_numeric(df_mapb[col], errors="coerce")
+def convert_year_columns(df: pd.DataFrame, anos: list) -> pd.DataFrame:
+    """
+    Converte colunas de ano para numérico.
+    """
+    df_converted = df.copy()
+    for col in anos:
+        df_converted[col] = pd.to_numeric(df_converted[col], errors="coerce")
+    logging.info(f"Colunas de ano convertidas para numérico: {len(anos)} colunas")
+    return df_converted
 
-# 9) Transforma para formato longo
-id_vars = ["codigo_ibge", "municipio", "uf", "bioma",
-           "classe_codigo", "classe_level_0",
-           "classe_level_1", "classe_level_2"]
-df_long = df_mapb.melt(
-    id_vars=id_vars,
-    value_vars=anos,
-    var_name="ano",
-    value_name="cobertura",
-)
 
-# Garante que 'ano' seja string
-df_long["ano"] = df_long["ano"].astype(str)
+def transform_to_long_format(df: pd.DataFrame, anos: list) -> pd.DataFrame:
+    """
+    Transforma para formato longo.
+    """
+    id_vars = ["codigo_ibge", "municipio", "uf", "bioma",
+               "classe_codigo", "classe_level_0",
+               "classe_level_1", "classe_level_2"]
+    
+    df_long = df.melt(
+        id_vars=id_vars,
+        value_vars=anos,
+        var_name="ano",
+        value_name="cobertura",
+    )
+    
+    # Converte ano para string (padrão do pipeline)
+    df_long["ano"] = df_long["ano"].astype(str)
+    
+    # Ordena dados
+    df_long = df_long.sort_values(["codigo_ibge", "bioma", "classe_codigo", "ano"])
+    
+    logging.info(f"Dados transformados para formato longo: {len(df_long)} registros")
+    return df_long
 
-# 10) Ordena e exporta
-df_long = df_long.sort_values(["codigo_ibge", "bioma", "classe_codigo", "ano"])
-output_path = GENERATED_PATHS.mapbiomas_long_csv
-df_long.to_csv(output_path, index=False)
 
-print(f"[OK] CSV long de cobertura MapBiomas gerado em: {output_path}")
+def save_data(df: pd.DataFrame, output_path: str):
+    """
+    Salva dados em CSV.
+    """
+    try:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        df.to_csv(output_path, index=False)
+        logging.info(f"CSV de cobertura MapBiomas salvo com sucesso: {output_path} ({len(df)} registros)")
+    except Exception as e:
+        logging.error(f"Erro ao salvar CSV: {str(e)}")
+        raise
+
+
+def main():
+    # Configurar logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s"
+    )
+    
+    try:
+        logging.info("Iniciando extração de dados de cobertura municipal")
+        
+        # Lista de códigos IBGE dos municípios de Serra do Penitente
+        municipios_alvo = ["2100501", "2101400", "2112001"]
+        
+        # 1) Carrega dados
+        df_mapb = load_mapbiomas_data(INPUT_PATHS.mapbiomas)
+        
+        # 2) Renomeia colunas
+        df_mapb = rename_columns(df_mapb)
+        
+        # 3) Identifica colunas de ano
+        anos = get_year_columns(df_mapb)
+        
+        # 4) Filtra municípios
+        df_mapb = filter_municipalities(df_mapb, municipios_alvo)
+        
+        # 5) Converte colunas de ano
+        df_mapb = convert_year_columns(df_mapb, anos)
+        
+        # 6) Transforma para formato longo
+        df_long = transform_to_long_format(df_mapb, anos)
+        
+        # 7) Salva dados
+        save_data(df_long, GENERATED_PATHS.mapbiomas_long_csv)
+        
+        logging.info("Extração de dados de cobertura concluída com sucesso")
+        
+    except Exception as e:
+        logging.error(f"Erro durante a extração de cobertura: {str(e)}")
+        raise
+
+
+if __name__ == "__main__":
+    main()

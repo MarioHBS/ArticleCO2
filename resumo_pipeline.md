@@ -4,7 +4,26 @@ Este documento descreve detalhadamente cada script do pipeline de processamento 
 
 ## Visão Geral do Pipeline
 
-O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de validação que executam e verificam todo o processo sequencialmente.
+O pipeline é composto por 10 scripts principais (01-10) mais scripts de validação que executam e verificam todo o processo sequencialmente.
+
+## Melhorias Implementadas
+
+### Logging e Tratamento de Exceções
+- **Logging estruturado**: Substituição de prints por logging com níveis apropriados (INFO, WARNING, ERROR)
+- **Tratamento robusto de exceções**: Captura específica de erros de arquivo, rede e validação
+- **Validação de entrada**: Verificação de existência de arquivos e integridade de dados
+- **Relatórios de integridade**: Verificação automática de valores nulos, duplicatas e tipos de dados
+
+### Testes Automatizados
+- **Testes unitários**: Cobertura de funções críticas como `parse_municipio()` e validação de schemas
+- **Validação de schemas**: Funções específicas para validar estrutura de dados PIB e carbono
+- **Testes de integridade**: Verificação de consistência e qualidade dos dados
+- **Script de execução**: `run_tests.py` para executar todos os testes automaticamente
+
+### Arquivos de Teste
+- `tests/test_funcoes_criticas.py`: Testes unitários principais
+- `run_tests.py`: Script para execução de testes
+- Funções de validação em `src/validacao.py`: `validate_pib_schema()`, `validate_carbono_schema()`, `check_data_integrity()`
 
 ## Scripts Principais
 
