@@ -10,7 +10,7 @@ results/
 /data/archive/
 /data/downloads/
 /data/generated/
-/data/partial/
 /data/SEEG-12-dados-municipais.xlsx
 
 /zdelete
+.trae/rules/project_rules.md
