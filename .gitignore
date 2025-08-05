@@ -5,6 +5,9 @@ venv/
 __pycache__/
 .ipynb_checkpoints/
 
+# Environment variables
+.env
+
 results/
 
 /data/archive/
