@@ -13,7 +13,7 @@ import subprocess
 import sys
 import os
 import glob
-from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS
+from src.variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS
 
 
 def safe_print(s: str):
@@ -87,42 +87,42 @@ def main():
     step_results = []
     
     # Etapa 1: Extrair PIB municipal
-    result1 = run_script("00_extrair_pib_municipal.py", 
+    result1 = run_script("src/01_extrair_pib_municipal.py", 
                         [GENERATED_PATHS.pib_ibge_csv])
     step_results.append(("Etapa 1", result1))
     if not result1:
         all_ok = False
     
     # Etapa 2: Extrair cobertura municipal
-    result2 = run_script("01_extrair_cobertura_municipal.py", 
+    result2 = run_script("src/02_extrair_cobertura_municipal.py", 
                         [GENERATED_PATHS.mapbiomas_long_csv])
     step_results.append(("Etapa 2", result2))
     if not result2:
         all_ok = False
     
     # Etapa 3: Extrair alertas de desmatamento
-    result3 = run_script("02_extrair_alertas_desmatamento.py", 
+    result3 = run_script("src/03_extrair_alertas_desmatamento.py", 
                         [GENERATED_PATHS.alertas_csv])
     step_results.append(("Etapa 3", result3))
     if not result3:
         all_ok = False
     
     # Etapa 4: Extrair séries temporais de uso da terra
-    result4 = run_script("03_extrair_uso_terra_timeseries.py", 
+    result4 = run_script("src/04_extrair_uso_terra_timeseries.py", 
                         [GENERATED_PATHS.uso_timeseries_csv])
     step_results.append(("Etapa 4", result4))
     if not result4:
         all_ok = False
     
     # Etapa 5: Consolidar dados de carbono
-    result5 = run_script("04_consolidar_dados_carbono.py", 
+    result5 = run_script("src/05_consolidar_dados_carbono.py", 
                         [GENERATED_PATHS.carbono_consolidado_csv, RESULT_PATHS.model_results_csv])
     step_results.append(("Etapa 5", result5))
     if not result5:
         all_ok = False
 
     # Etapa 6: Consolidar dados de carbono com IDHM
-    result6 = run_script("05_consolidar_dados_carbono_com_idhm.py", 
+    result6 = run_script("src/06_consolidar_dados_carbono_com_idhm.py", 
                         [RESULT_PATHS.carbono_consolidado_com_idhm_csv, RESULT_PATHS.metricas_modelos_com_idhm_csv])
     step_results.append(("Etapa 6", result6))
     if not result6:
@@ -132,7 +132,7 @@ def main():
     fig_dir = "results/figures"
     figure_patterns = []
     
-    # Figuras específicas geradas pelo script 06_gerar_figuras_carbono.py
+    # Figuras específicas geradas pelo script 07_gerar_figuras_carbono.py
     figure_patterns.extend([
         os.path.join(fig_dir, "Figura01_Evolucao_PIB.png"),
         os.path.join(fig_dir, "Figura03_Evolucao_GEE.png"),
@@ -151,7 +151,7 @@ def main():
         os.path.join(fig_dir, "Figura09_Evolucao_Preco_Carbono.png")
     ])
     
-    result7 = run_script("06_gerar_figuras_carbono.py", 
+    result7 = run_script("src/07_gerar_figuras_carbono.py", 
                         check_patterns=figure_patterns)
     step_results.append(("Etapa 7", result7))
     if not result7:
@@ -169,7 +169,7 @@ def main():
 
     # Etapa 9: Gerar visualizações IDHM vs Desmatamento
     result9 = run_script(
-        "08_gerar_visualizacoes_idhm_desmatamento.py",
+        "src/09_gerar_visualizacoes_idhm_desmatamento.py",
         ["results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
          "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
          "results/figures/Figura12_Heatmap_Correlacao_IDHM.png"]
@@ -186,7 +186,7 @@ def main():
         "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf"
     ]
     
-    result10 = run_script("07_gerar_figuras_consolidadas.py", 
+    result10 = run_script("src/08_gerar_figuras_consolidadas.py", 
                         expected_outputs=consolidated_patterns)
     step_results.append(("Etapa 10", result10))
     if not result10:
@@ -194,7 +194,7 @@ def main():
 
     # Etapa 11: Analisar políticas por estratos de desenvolvimento
     result11 = run_script(
-        "09_analisar_politicas_por_estratos_idhm.py",
+        "src/10_analisar_politicas_por_estratos_idhm.py",
         ["results/figures/Figura13_Analise_Estratos_Desenvolvimento.png",
          "results/figures/Figura14_Heatmap_Metricas_Estratos.png",
          "results/relatorio_analise_estratos_desenvolvimento.txt"]

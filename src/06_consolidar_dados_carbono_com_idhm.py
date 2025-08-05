@@ -7,7 +7,6 @@ para predição do preço de carbono na região da Serra do Penitente.
 Este script expande o pipeline original incluindo indicadores do IDHM
 como features adicionais para melhorar a predição do preço de carbono.
 """
-
 import os
 import pandas as pd
 import numpy as np
@@ -29,6 +28,9 @@ warnings.filterwarnings('ignore')
 os.makedirs('results', exist_ok=True)
 
 # Importar configurações
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import (
     MUNICIPIOS_ALVO, REGIAO_ESTUDO,
     INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO

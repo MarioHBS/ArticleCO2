@@ -8,7 +8,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ## Scripts Principais
 
-### » 00_extrair_pib_municipal.py
+### » src/01_extrair_pib_municipal.py
 
 **Função:** Extrai e processa dados de PIB municipal do IBGE para os três municípios da Serra do Penitente.
 
@@ -28,7 +28,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 01_extrair_cobertura_municipal.py
+### » src/02_extrair_cobertura_municipal.py
 
 **Função:** Extrai dados de cobertura do solo por bioma do arquivo MapBiomas e transforma de formato wide para long.
 
@@ -48,7 +48,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 02_extrair_alertas_desmatamento.py
+### » src/03_extrair_alertas_desmatamento.py
 
 **Função:** Extrai alertas de desmatamento via API local MapBiomas para os municípios de interesse.
 
@@ -68,7 +68,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 03_extrair_uso_terra_timeseries.py
+### » src/04_extrair_uso_terra_timeseries.py
 
 **Função:** Processa dados de uso da terra em séries temporais, agregando por município, uso e ano.
 
@@ -88,7 +88,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 04_consolidar_dados_carbono.py
+### » src/05_consolidar_dados_carbono.py
 
 **Função:** Consolida todos os dados processados, treina modelos de machine learning e gera métricas de avaliação.
 
@@ -115,7 +115,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 05_consolidar_dados_carbono_com_idhm.py
+### » src/06_consolidar_dados_carbono_com_idhm.py
 
 **Função:** Consolida dados de carbono incluindo variáveis socioeconômicas do IDHM e treina modelos expandidos.
 
@@ -143,7 +143,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 06_gerar_figuras_carbono.py
+### » src/07_gerar_figuras_carbono.py
 
 **Função:** Gera todas as figuras do artigo em formato PNG com nomenclatura numerada.
 
@@ -173,7 +173,7 @@ O pipeline é composto por 10 scripts principais (00-09) mais 2 scripts de valid
 
 ---
 
-### » 07_gerar_figuras_consolidadas.py
+### » src/08_gerar_figuras_consolidadas.py
 
 **Função:** Gera figuras finais em formato vetorial PDF para uso em LaTeX.
 
@@ -303,7 +303,7 @@ Resultados de modelagem e figuras:
 
 ### Scripts Específicos para IDHM
 
-**05_consolidar_dados_carbono_com_idhm.py**
+**src/06_consolidar_dados_carbono_com_idhm.py**
 - Integra dados do IDHM (Índice de Desenvolvimento Humano Municipal)
 - Processa indicadores: IDHM Geral, Renda, Educação, Longevidade
 - Gera dataset expandido: `carbono_serra_penitente_com_idhm.csv`
@@ -315,7 +315,7 @@ Resultados de modelagem e figuras:
 - Visualizações comparativas de métricas (R², MSE)
 - Relatórios de melhoria percentual
 
-**08_gerar_visualizacoes_idhm_desmatamento.py**
+**src/09_gerar_visualizacoes_idhm_desmatamento.py**
 - Scatter plots: IDHM vs Área Desmatada
 - Evolução temporal: IDHM e Desmatamento
 - Heatmap de correlações entre variáveis
@@ -332,7 +332,7 @@ Resultados de modelagem e figuras:
 
 ## Análise de Políticas por Estratos de Desenvolvimento
 
-### 09_analisar_politicas_por_estratos_idhm.py
+### src/10_analisar_politicas_por_estratos_idhm.py
 
 **Função:** Analisa a efetividade de políticas ambientais segmentando municípios por níveis de desenvolvimento socioeconômico.
 

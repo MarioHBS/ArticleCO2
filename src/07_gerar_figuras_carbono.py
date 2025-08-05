@@ -1,4 +1,5 @@
-# 06_gerar_figuras_carbono.py
+# src/07_gerar_figuras_carbono.py
+# -*- coding: utf-8 -*-
 """
 Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
 
@@ -34,6 +35,9 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
 
 sns.set(style='whitegrid')

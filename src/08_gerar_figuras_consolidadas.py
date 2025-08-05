@@ -1,7 +1,7 @@
+# src/08_gerar_figuras_consolidadas.py
 # -*- coding: utf-8 -*-
-# src/06_gerar_figuras_carbono.py
 """
-06_gerar_figuras_carbono.py
+src/08_gerar_figuras_consolidadas.py
 
 Gera as figuras finais em formato vetorial PDF para uso em LaTeX
 
@@ -12,7 +12,6 @@ Gera as figuras finais em formato vetorial PDF para uso em LaTeX
   Figura03 – Importância de Variáveis (Random Forest)
   Figura04 – Matriz de Causalidade de Granger
 """
-
 import os
 import numpy as np
 import pandas as pd
@@ -20,6 +19,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import warnings
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import (
     INPUT_PATHS,
     FEATURE_COLS,

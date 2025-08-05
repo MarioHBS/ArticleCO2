@@ -1,12 +1,19 @@
+# src/02_extrair_cobertura_municipal.py
 # -*- coding: utf-8 -*-
-# 01_extrair_gee_municipal_excel.py
-# Extrai estatísticas de cobertura por bioma do arquivo MapBiomas
-# Fonte: cobertura_solo_mapbiomas_municipios_brasil.xlsx (planilha COVERAGE_9)
+"""
+Script para extração de dados de cobertura do solo municipal.
 
+Este script processa dados de cobertura do solo do MapBiomas para os municípios
+da região da Serra do Penitente, extraindo estatísticas de cobertura por bioma
+a partir da planilha COVERAGE_9 do arquivo MapBiomas.
+"""
 import os
 import pandas as pd
 
-from variaveis import INPUT_PATHS, GENERATED_PATHS
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
 
 # 1) Defina o caminho do arquivo MapBiomas
 arquivo_mapb = INPUT_PATHS.mapbiomas

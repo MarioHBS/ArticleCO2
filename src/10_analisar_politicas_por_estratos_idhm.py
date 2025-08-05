@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# src/10_analisar_politicas_por_estratos_idhm.py
 # -*- coding: utf-8 -*-
 """
 Script para analisar a efetividade de políticas ambientais por estratos de desenvolvimento (IDHM).
@@ -6,7 +6,6 @@ Script para analisar a efetividade de políticas ambientais por estratos de dese
 Este script implementa o Passo 4 da análise, segmentando os municípios por níveis de IDHM
 e avaliando como diferentes políticas ambientais impactam cada estrato de desenvolvimento.
 """
-
 import os
 import pandas as pd
 import numpy as np
@@ -27,6 +26,9 @@ plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 10
 
 # Importar configurações
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import (
     MUNICIPIOS_ALVO, REGIAO_ESTUDO,
     INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS

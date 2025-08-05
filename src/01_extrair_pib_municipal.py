@@ -1,11 +1,21 @@
-# 00_extrair_pib_municipal.py
+# src/01_extrair_pib_municipal.py
 # -*- coding: utf-8 -*-
+"""
+Script para extração e processamento de dados do PIB municipal.
+
+Este script processa dados do PIB municipal do IBGE para os municípios
+da região da Serra do Penitente, consolidando informações de diferentes
+períodos (2002-2009 e 2010-2021) em um único dataset padronizado.
+"""
 import os
 import argparse
 import logging
 from pathlib import Path
 
 import pandas as pd
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import INPUT_PATHS, GENERATED_PATHS, MUNICIPIOS
 
 

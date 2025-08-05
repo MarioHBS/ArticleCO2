@@ -9,7 +9,7 @@ o impacto da inclusão dos dados do IDHM na predição.
 """
 
 import pandas as pd
-from variaveis import GENERATED_PATHS, RESULT_PATHS
+from src.variaveis import GENERATED_PATHS, RESULT_PATHS
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -66,7 +66,7 @@ def carregar_resultados():
         df_com_idhm['tipo'] = 'Com IDHM'
     except FileNotFoundError:
         print("[ERROR] Arquivo de métricas com IDHM não encontrado!")
-        print("Execute primeiro o script 05_consolidar_dados_carbono_com_idhm.py")
+        print("Execute primeiro o script src/06_consolidar_dados_carbono_com_idhm.py")
         return None, None
     
     return df_sem_idhm, df_com_idhm

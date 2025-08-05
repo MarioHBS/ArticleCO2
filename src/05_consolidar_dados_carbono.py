@@ -1,6 +1,12 @@
-# 04_consolidar_dados_carbono.py
-# Consolida dados, gera modelo de precificação e salva métricas
+# src/05_consolidar_dados_carbono.py
+# -*- coding: utf-8 -*-
+"""
+Script para consolidação de dados e modelagem de precificação de carbono.
 
+Este script consolida todos os dados extraídos (PIB, cobertura, alertas de desmatamento)
+com preços de carbono, aplica diferentes algoritmos de machine learning para
+modelagem de precificação e salva métricas de performance dos modelos.
+"""
 import os
 import ast
 
@@ -17,6 +23,9 @@ from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
 from xgboost import XGBRegressor
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS
 
 # 1) Cria diretórios de saída
@@ -88,7 +97,7 @@ df_final.to_csv(
 )
 print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
 
-# --- Removida aqui a geração de figuras 1–3, pois são recriadas em 06_gerar_figuras_carbono.py ---
+# --- Removida aqui a geração de figuras 1–3, pois são recriadas em src/07_gerar_figuras_carbono.py ---
 
 # 8) Predição de preço de carbono e salvamento de métricas
 

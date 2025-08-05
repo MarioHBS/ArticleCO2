@@ -1,12 +1,21 @@
-# 02_extrair_alertas_desmatamento.py
-# Extrai todos os alertas de desmatamento via API MapBiomas
+# src/03_extrair_alertas_desmatamento.py
+# -*- coding: utf-8 -*-
+"""
+Script para extração de alertas de desmatamento via API MapBiomas.
 
+Este script utiliza a API do MapBiomas para extrair dados de alertas de
+desmatamento nos municípios da região da Serra do Penitente, processando
+informações sobre área desmatada, datas e categorias de alertas.
+"""
 import os
 import sys
 import requests
 import argparse
 import pandas as pd
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import GENERATED_PATHS
 
 
