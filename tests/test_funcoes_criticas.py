@@ -11,7 +11,6 @@ Este módulo contém testes para:
 """
 
 import os
-import sys
 import tempfile
 import unittest
 
@@ -19,10 +18,7 @@ import numpy as np
 import pandas as pd
 
 from src.validacao import validate_carbono_schema, validate_pib_schema
-from variaveis import MUNICIPIOS_ALVO, Municipio, granger_causality_matrix
-
-# Adicionar src ao path
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+from src.variaveis import MUNICIPIOS_ALVO, Municipio, granger_causality_matrix
 
 
 class TestMunicipio(unittest.TestCase):
