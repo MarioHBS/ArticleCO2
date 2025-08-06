@@ -1,2 +1,19 @@
-/.venv/
-/results/
+.idea/
+.venv/
+venv/
+.iaenv/
+__pycache__/
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+results/
+
+/data/archive/
+/data/downloads/
+/data/generated/
+/data/SEEG-12-dados-municipais.xlsx
+
+/zdelete
+.trae/rules/project_rules.md

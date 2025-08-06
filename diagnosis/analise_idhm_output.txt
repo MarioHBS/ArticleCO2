@@ -1,0 +1,1419 @@
+=== ANÁLISE DO ARQUIVO IDHM ===
+Shape: (7, 693)
+
+Colunas disponíveis:
+ 1. Territorialidades
+ 2. Taxa de atividade - 10 anos ou mais de idade 1991
+ 3. Taxa de atividade - 10 anos ou mais de idade 2000
+ 4. Taxa de atividade - 10 anos ou mais de idade 2010
+ 5. Taxa de atividade - 10 a 14 anos de idade 1991
+ 6. Taxa de atividade - 10 a 14 anos de idade 2000
+ 7. Taxa de atividade - 10 a 14 anos de idade 2010
+ 8. Taxa de atividade - 15 a  17 anos de idade 1991
+ 9. Taxa de atividade - 15 a  17 anos de idade 2000
+10. Taxa de atividade - 15 a  17 anos de idade 2010
+11. Taxa de atividade - 18 anos ou mais de idade 1991
+12. Taxa de atividade - 18 anos ou mais de idade 2000
+13. Taxa de atividade - 18 anos ou mais de idade 2010
+14. Taxa de atividade - 18 a 24 anos de idade 1991
+15. Taxa de atividade - 18 a 24 anos de idade 2000
+16. Taxa de atividade - 18 a 24 anos de idade 2010
+17. Taxa de atividade - 25 a 29 anos de idade 1991
+18. Taxa de atividade - 25 a 29 anos de idade 2000
+19. Taxa de atividade - 25 a 29 anos de idade 2010
+20. Taxa de desocupao - 10 anos ou mais de idade 1991
+21. Taxa de desocupao - 10 anos ou mais de idade 2000
+22. Taxa de desocupao - 10 anos ou mais de idade 2010
+23. Taxa de desocupao - 10 a 14 anos de idade 1991
+24. Taxa de desocupao - 10 a 14 anos de idade 2000
+25. Taxa de desocupao - 10 a 14 anos de idade 2010
+26. Taxa de desocupao - 15 a 17 anos de idade 1991
+27. Taxa de desocupao - 15 a 17 anos de idade 2000
+28. Taxa de desocupao - 15 a 17 anos de idade 2010
+29. Taxa de desocupao - 18 anos ou mais de idade 1991
+30. Taxa de desocupao - 18 anos ou mais de idade 2000
+31. Taxa de desocupao - 18 anos ou mais de idade 2010
+32. Taxa de desocupao - 18 a 24 anos de idade 1991
+33. Taxa de desocupao - 18 a 24 anos de idade 2000
+34. Taxa de desocupao - 18 a 24 anos de idade 2010
+35. Taxa de desocupao - 25 a 29 anos de idade 1991
+36. Taxa de desocupao - 25 a 29 anos de idade 2000
+37. Taxa de desocupao - 25 a 29 anos de idade 2010
+38. % de ocupados de 18 anos ou mais de idade que so empregados com carteira 1991
+39. % de ocupados de 18 anos ou mais de idade que so empregados com carteira 2000
+40. % de ocupados de 18 anos ou mais de idade que so empregados com carteira 2010
+41. % de ocupados de 18 anos ou mais de idade que so empregados sem carteira 1991
+42. % de ocupados de 18 anos ou mais de idade que so empregados sem carteira 2000
+43. % de ocupados de 18 anos ou mais de idade que so empregados sem carteira 2010
+44. % de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 1991
+45. % de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 2000
+46. % de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 2010
+47. % de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 1991
+48. % de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 2000
+49. % de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 2010
+50. % de ocupados de 18 anos ou mais que so empregadores 1991
+51. % de ocupados de 18 anos ou mais que so empregadores 2000
+52. % de ocupados de 18 anos ou mais que so empregadores 2010
+53. Grau de formalizao dos ocupados - 18 anos ou mais 1991
+54. Grau de formalizao dos ocupados - 18 anos ou mais 2000
+55. Grau de formalizao dos ocupados - 18 anos ou mais 2010
+56. % dos ocupados com ensino fundamental completo 1991
+57. % dos ocupados com ensino fundamental completo 2000
+58. % dos ocupados com ensino fundamental completo 2010
+59. % dos ocupados com ensino mdio completo 1991
+60. % dos ocupados com ensino mdio completo 2000
+61. % dos ocupados com ensino mdio completo 2010
+62. % dos ocupados com ensino superior completo 1991
+63. % dos ocupados com ensino superior completo 2000
+64. % dos ocupados com ensino superior completo 2010
+65. % dos ocupados no setor agropecurio 1991
+66. % dos ocupados no setor agropecurio 2000
+67. % dos ocupados no setor agropecurio 2010
+68. % dos ocupados no setor extrativo mineral 1991
+69. % dos ocupados no setor extrativo mineral 2000
+70. % dos ocupados no setor extrativo mineral 2010
+71. % dos ocupados na indstria de transformao 1991
+72. % dos ocupados na indstria de transformao 2000
+73. % dos ocupados na indstria de transformao 2010
+74. % dos ocupados nos setores de servios industriais de utilidade pblica 1991
+75. % dos ocupados nos setores de servios industriais de utilidade pblica 2000
+76. % dos ocupados nos setores de servios industriais de utilidade pblica 2010
+77. % dos ocupados no setor de construo 1991
+78. % dos ocupados no setor de construo 2000
+79. % dos ocupados no setor de construo 2010
+80. % dos ocupados no setor comrcio 1991
+81. % dos ocupados no setor comrcio 2000
+82. % dos ocupados no setor comrcio 2010
+83. % dos ocupados no setor de servios 1991
+84. % dos ocupados no setor de servios 2000
+85. % dos ocupados no setor de servios 2010
+86. Rendimento mdio dos ocupados 1991
+87. Rendimento mdio dos ocupados 2000
+88. Rendimento mdio dos ocupados 2010
+89. % dos ocupados sem rendimento 1991
+90. % dos ocupados sem rendimento 2000
+91. % dos ocupados sem rendimento 2010
+92. % dos ocupados com rendimento de at 1 salrio mnimo 1991
+93. % dos ocupados com rendimento de at 1 salrio mnimo 2000
+94. % dos ocupados com rendimento de at 1 salrio mnimo 2010
+95. % dos ocupados com rendimento de at 2 salrios mnimo 1991
+96. % dos ocupados com rendimento de at 2 salrios mnimo 2000
+97. % dos ocupados com rendimento de at 2 salrios mnimo 2010
+98. % dos ocupados com rendimento de at 3 salrios mnimo 1991
+99. % dos ocupados com rendimento de at 3 salrios mnimo 2000
+100. % dos ocupados com rendimento de at 3 salrios mnimo 2010
+101. % dos ocupados com rendimento de at 5 salrios mnimo 1991
+102. % dos ocupados com rendimento de at 5 salrios mnimo 2000
+103. % dos ocupados com rendimento de at 5 salrios mnimo 2010
+104. ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 1991
+105. ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 2000
+106. ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 2010
+107. % da populao em domiclios com gua encanada 1991
+108. % da populao em domiclios com gua encanada 2000
+109. % da populao em domiclios com gua encanada 2010
+110. % da populao que vive em domiclios com banheiro e gua encanada 1991
+111. % da populao que vive em domiclios com banheiro e gua encanada 2000
+112. % da populao que vive em domiclios com banheiro e gua encanada 2010
+113. % de pessoas em domiclios urbanos com coleta de lixo 1991
+114. % de pessoas em domiclios urbanos com coleta de lixo 2000
+115. % de pessoas em domiclios urbanos com coleta de lixo 2010
+116. % de mulheres de 10 a 17 anos de idade que tiveram filhos 1991
+117. % de mulheres de 10 a 17 anos de idade que tiveram filhos 2000
+118. % de mulheres de 10 a 17 anos de idade que tiveram filhos 2010
+119. % de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 1991
+120. % de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 2000
+121. % de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 2010
+122. % de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 1991
+123. % de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 2000
+124. % de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 2010
+125. % de crianas de 0 a 5 anos de idade que no frequentam a escola 1991
+126. % de crianas de 0 a 5 anos de idade que no frequentam a escola 2000
+127. % de crianas de 0 a 5 anos de idade que no frequentam a escola 2010
+128. % de crianas de 6 a 14 anos de idade que no frequentam a escola 1991
+129. % de crianas de 6 a 14 anos de idade que no frequentam a escola 2000
+130. % de crianas de 6 a 14 anos de idade que no frequentam a escola 2010
+131. % de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 1991
+132. % de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 2000
+133. % de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 2010
+134. % de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 1991
+135. % de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 2000
+136. % de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 2010
+137. % de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 1991
+138. % de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 2000
+139. % de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 2010
+140. % de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 1991
+141. % de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 2000
+142. % de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 2010
+143. % de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 1991
+144. % de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 2000
+145. % de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 2010
+146. % de pessoas em domiclios sem energia eltrica 1991
+147. % de pessoas em domiclios sem energia eltrica 2000
+148. % de pessoas em domiclios sem energia eltrica 2010
+149. % de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 1991
+150. % de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 2000
+151. % de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 2010
+152. % de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 1991
+153. % de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 2000
+154. % de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 2010
+155. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 1991
+156. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 2000
+157. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 2010
+158. Mortalidade infantil 1991
+159. Mortalidade infantil 2000
+160. Mortalidade infantil 2010
+161. IDHM 1991
+162. IDHM 2000
+163. IDHM 2010
+164. IDHM Renda 1991
+165. IDHM Renda 2000
+166. IDHM Renda 2010
+167. IDHM Longevidade 1991
+168. IDHM Longevidade 2000
+169. IDHM Longevidade 2010
+170. IDHM Educao 1991
+171. IDHM Educao 2000
+172. IDHM Educao 2010
+173. Subndice de frequncia escolar - IDHM Educao 1991
+174. Subndice de frequncia escolar - IDHM Educao 2000
+175. Subndice de frequncia escolar - IDHM Educao 2010
+176. Subndice de escolaridade - IDHM Educao 1991
+177. Subndice de escolaridade - IDHM Educao 2000
+178. Subndice de escolaridade - IDHM Educao 2010
+179. Razo de dependncia 1991
+180. Razo de dependncia 2000
+181. Razo de dependncia 2010
+182. Taxa de envelhecimento 1991
+183. Taxa de envelhecimento 2000
+184. Taxa de envelhecimento 2010
+185. Taxa de analfabetismo - 11 a 14 anos de idade 1991
+186. Taxa de analfabetismo - 11 a 14 anos de idade 2000
+187. Taxa de analfabetismo - 11 a 14 anos de idade 2010
+188. % de 18 a 20 anos de idade com ensino mdio completo 1991
+189. % de 18 a 20 anos de idade com ensino mdio completo 2000
+190. % de 18 a 20 anos de idade com ensino mdio completo 2010
+191. Taxa de analfabetismo - 15 a 17 anos de idade 1991
+192. Taxa de analfabetismo - 15 a 17 anos de idade 2000
+193. Taxa de analfabetismo - 15 a 17 anos de idade 2010
+194. % de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 1991
+195. % de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 2000
+196. % de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 2010
+197. % de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 1991
+198. % de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 2000
+199. % de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 2010
+200. % de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 1991
+201. % de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 2000
+202. % de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 2010
+203. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 1991
+204. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 2000
+205. % de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 2010
+206. Taxa de analfabetismo - 18 a 24 anos de idade 1991
+207. Taxa de analfabetismo - 18 a 24 anos de idade 2000
+208. Taxa de analfabetismo - 18 a 24 anos de idade 2010
+209. Taxa de analfabetismo - 25 a 29 anos de idade 1991
+210. Taxa de analfabetismo - 25 a 29 anos de idade 2000
+211. Taxa de analfabetismo - 25 a 29 anos de idade 2010
+212. Taxa de analfabetismo - 25 anos ou mais de idade 1991
+213. Taxa de analfabetismo - 25 anos ou mais de idade 2000
+214. Taxa de analfabetismo - 25 anos ou mais de idade 2010
+215. Taxa de analfabetismo - 15 anos ou mais de idade 1991
+216. Taxa de analfabetismo - 15 anos ou mais de idade 2000
+217. Taxa de analfabetismo - 15 anos ou mais de idade 2010
+218. Taxa de analfabetismo - 18 anos ou mais de idade 1991
+219. Taxa de analfabetismo - 18 anos ou mais de idade 2000
+220. Taxa de analfabetismo - 18 anos ou mais de idade 2010
+221. % de 15 a 17 anos de idade com ensino fundamental completo 1991
+222. % de 15 a 17 anos de idade com ensino fundamental completo 2000
+223. % de 15 a 17 anos de idade com ensino fundamental completo 2010
+224. Produto Interno Bruto per capita 2013
+225. Produto Interno Bruto per capita 2014
+226. Produto Interno Bruto per capita 2015
+227. Produto Interno Bruto per capita 2016
+228. Participao da Agropecuria no Valor Adicionado 2013
+229. Participao da Agropecuria no Valor Adicionado 2014
+230. Participao da Agropecuria no Valor Adicionado 2015
+231. Participao da Agropecuria no Valor Adicionado 2016
+232. Rendimento mdio no setor formal 2013
+233. Rendimento mdio no setor formal 2014
+234. Rendimento mdio no setor formal 2015
+235. Rendimento mdio no setor formal 2016
+236. Rendimento mdio no setor formal 2017
+237. % de nascidos vivos com baixo peso ao nascer 2013
+238. % de nascidos vivos com baixo peso ao nascer 2014
+239. % de nascidos vivos com baixo peso ao nascer 2015
+240. % de nascidos vivos com baixo peso ao nascer 2016
+241. % de nascidos vivos com baixo peso ao nascer 2017
+242. % de internaes por doenas relacionadas ao saneamento ambiental inadequado 2013
+243. % de internaes por doenas relacionadas ao saneamento ambiental inadequado 2014
+244. % de internaes por doenas relacionadas ao saneamento ambiental inadequado 2015
+245. % de internaes por doenas relacionadas ao saneamento ambiental inadequado 2016
+246. % de internaes por doenas relacionadas ao saneamento ambiental inadequado 2017
+247. % de 18 a 24 anos de idade com ensino fundamental completo 1991
+248. % de 18 a 24 anos de idade com ensino fundamental completo 2000
+249. % de 18 a 24 anos de idade com ensino fundamental completo 2010
+250. % de meninas de 10 a 14 anos de idade que tiveram filhos 2013
+251. % de meninas de 10 a 14 anos de idade que tiveram filhos 2014
+252. % de meninas de 10 a 14 anos de idade que tiveram filhos 2015
+253. % de meninas de 10 a 14 anos de idade que tiveram filhos 2016
+254. % de meninas de 10 a 14 anos de idade que tiveram filhos 2017
+255. % de adolescentes de 15 a 17 anos de idade que tiveram filhos 2013
+256. % de adolescentes de 15 a 17 anos de idade que tiveram filhos 2014
+257. % de adolescentes de 15 a 17 anos de idade que tiveram filhos 2015
+258. % de adolescentes de 15 a 17 anos de idade que tiveram filhos 2016
+259. % de adolescentes de 15 a 17 anos de idade que tiveram filhos 2017
+260. % de analfabetos com 15 anos ou mais de idade no Cadastro nico 2014
+261. % de analfabetos com 15 anos ou mais de idade no Cadastro nico 2015
+262. % de analfabetos com 15 anos ou mais de idade no Cadastro nico 2016
+263. % de analfabetos com 15 anos ou mais de idade no Cadastro nico 2017
+264. % de extremamente pobres no Cadastro nico ps Bolsa Famlia 2014
+265. % de extremamente pobres no Cadastro nico ps Bolsa Famlia 2015
+266. % de extremamente pobres no Cadastro nico ps Bolsa Famlia 2016
+267. % de extremamente pobres no Cadastro nico ps Bolsa Famlia 2017
+268. % de pobres no Cadastro nico ps Bolsa Famlia 2014
+269. % de pobres no Cadastro nico ps Bolsa Famlia 2015
+270. % de pobres no Cadastro nico ps Bolsa Famlia 2016
+271. % de pobres no Cadastro nico ps Bolsa Famlia 2017
+272. % de 18 anos ou mais de idade com ensino fundamental completo 1991
+273. % de 18 anos ou mais de idade com ensino fundamental completo 2000
+274. % de 18 anos ou mais de idade com ensino fundamental completo 2010
+275. % de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2014
+276. % de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2015
+277. % de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2016
+278. % de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2017
+279. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2014
+280. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2015
+281. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2016
+282. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2017
+283. % de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2014
+284. % de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2015
+285. % de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2016
+286. % de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2017
+287. % de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2014
+288. % de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2015
+289. % de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2016
+290. % de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2017
+291. % de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2014
+292. % de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2015
+293. % de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2016
+294. % de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2017
+295. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2014.1
+296. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2015.1
+297. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2016.1
+298. % de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2017.1
+299. % de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2014
+300. % de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2015
+301. % de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2016
+302. % de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2017
+303. % de cobertura vegetal natural 2013
+304. % de cobertura vegetal natural 2014
+305. % de cobertura vegetal natural 2015
+306. % de cobertura vegetal natural 2016
+307. % de cobertura vegetal natural 2017
+308. Concentrao dos focos de calor 2013
+309. Concentrao dos focos de calor 2014
+310. Concentrao dos focos de calor 2015
+311. Concentrao dos focos de calor 2016
+312. Concentrao dos focos de calor 2017
+313. % de 25 anos ou mais de idade com ensino fundamental completo 1991
+314. % de 25 anos ou mais de idade com ensino fundamental completo 2000
+315. % de 25 anos ou mais de idade com ensino fundamental completo 2010
+316. % da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2013
+317. % da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2014
+318. % da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2015
+319. % da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2016
+320. % da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2017
+321. % da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2013
+322. % da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2014
+323. % da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2015
+324. % da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2016
+325. % da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2017
+326. % de esgoto tratado 2013
+327. % de esgoto tratado 2014
+328. % de esgoto tratado 2015
+329. % de esgoto tratado 2016
+330. % de esgoto tratado 2017
+331. Existncia de coleta seletiva 2013
+332. Existncia de coleta seletiva 2014
+333. Existncia de coleta seletiva 2015
+334. Existncia de coleta seletiva 2016
+335. Existncia de coleta seletiva 2017
+336. % da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2013
+337. % da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2014
+338. % da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2015
+339. % da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2016
+340. % da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2017
+341. % de 18 a 24 anos de idade com ensino mdio completo 1991
+342. % de 18 a 24 anos de idade com ensino mdio completo 2000
+343. % de 18 a 24 anos de idade com ensino mdio completo 2010
+344. Mortalidade infantil 2012
+345. Mortalidade infantil 2013
+346. Mortalidade infantil 2014
+347. Mortalidade infantil 2015
+348. Mortalidade infantil 2016
+349. Mortalidade infantil 2017
+350. Mortalidade infantil 2018
+351. Mortalidade infantil 2019
+352. Mortalidade infantil 2020
+353. Mortalidade infantil 2021
+354. Taxa de envelhecimento 2012
+355. Taxa de envelhecimento 2013
+356. Taxa de envelhecimento 2014
+357. Taxa de envelhecimento 2015
+358. Taxa de envelhecimento 2016
+359. Taxa de envelhecimento 2017
+360. Taxa de envelhecimento 2018
+361. Taxa de envelhecimento 2019
+362. Taxa de envelhecimento 2020
+363. Taxa de envelhecimento 2021
+364. Razo de dependncia 2012
+365. Razo de dependncia 2013
+366. Razo de dependncia 2014
+367. Razo de dependncia 2015
+368. Razo de dependncia 2016
+369. Razo de dependncia 2017
+370. Razo de dependncia 2018
+371. Razo de dependncia 2019
+372. Razo de dependncia 2020
+373. Razo de dependncia 2021
+374. Mdia de anos de estudo 2012
+375. Mdia de anos de estudo 2013
+376. Mdia de anos de estudo 2014
+377. Mdia de anos de estudo 2015
+378. Mdia de anos de estudo 2016
+379. Mdia de anos de estudo 2017
+380. Mdia de anos de estudo 2018
+381. Mdia de anos de estudo 2019
+382. Mdia de anos de estudo 2020
+383. Mdia de anos de estudo 2021
+384. Taxa de analfabetismo - 15 anos ou mais de idade 2012
+385. Taxa de analfabetismo - 15 anos ou mais de idade 2013
+386. Taxa de analfabetismo - 15 anos ou mais de idade 2014
+387. Taxa de analfabetismo - 15 anos ou mais de idade 2015
+388. Taxa de analfabetismo - 15 anos ou mais de idade 2016
+389. Taxa de analfabetismo - 15 anos ou mais de idade 2017
+390. Taxa de analfabetismo - 15 anos ou mais de idade 2018
+391. Taxa de analfabetismo - 15 anos ou mais de idade 2019
+392. Taxa de analfabetismo - 15 anos ou mais de idade 2020
+393. Taxa de analfabetismo - 15 anos ou mais de idade 2021
+394. Taxa de analfabetismo - 18 anos ou mais de idade 2012
+395. Taxa de analfabetismo - 18 anos ou mais de idade 2013
+396. Taxa de analfabetismo - 18 anos ou mais de idade 2014
+397. Taxa de analfabetismo - 18 anos ou mais de idade 2015
+398. Taxa de analfabetismo - 18 anos ou mais de idade 2016
+399. Taxa de analfabetismo - 18 anos ou mais de idade 2017
+400. Taxa de analfabetismo - 18 anos ou mais de idade 2018
+401. Taxa de analfabetismo - 18 anos ou mais de idade 2019
+402. Taxa de analfabetismo - 18 anos ou mais de idade 2020
+403. Taxa de analfabetismo - 18 anos ou mais de idade 2021
+404. Taxa de analfabetismo - 25 anos ou mais de idade 2012
+405. Taxa de analfabetismo - 25 anos ou mais de idade 2013
+406. Taxa de analfabetismo - 25 anos ou mais de idade 2014
+407. Taxa de analfabetismo - 25 anos ou mais de idade 2015
+408. Taxa de analfabetismo - 25 anos ou mais de idade 2016
+409. Taxa de analfabetismo - 25 anos ou mais de idade 2017
+410. Taxa de analfabetismo - 25 anos ou mais de idade 2018
+411. Taxa de analfabetismo - 25 anos ou mais de idade 2019
+412. Taxa de analfabetismo - 25 anos ou mais de idade 2020
+413. Taxa de analfabetismo - 25 anos ou mais de idade 2021
+414. % de 18 anos ou mais de idade com ensino mdio completo 1991
+415. % de 18 anos ou mais de idade com ensino mdio completo 2000
+416. % de 18 anos ou mais de idade com ensino mdio completo 2010
+417. % de 15 a 17 anos de idade com ensino fundamental completo 2012
+418. % de 15 a 17 anos de idade com ensino fundamental completo 2013
+419. % de 15 a 17 anos de idade com ensino fundamental completo 2014
+420. % de 15 a 17 anos de idade com ensino fundamental completo 2015
+421. % de 15 a 17 anos de idade com ensino fundamental completo 2016
+422. % de 15 a 17 anos de idade com ensino fundamental completo 2017
+423. % de 15 a 17 anos de idade com ensino fundamental completo 2018
+424. % de 15 a 17 anos de idade com ensino fundamental completo 2019
+425. % de 15 a 17 anos de idade com ensino fundamental completo 2020
+426. % de 15 a 17 anos de idade com ensino fundamental completo 2021
+427. % de 25 anos ou mais de idade com ensino mdio completo 1991
+428. % de 25 anos ou mais de idade com ensino mdio completo 2000
+429. % de 25 anos ou mais de idade com ensino mdio completo 2010
+430. % de 18 anos ou mais de idade com ensino fundamental completo 2012
+431. % de 18 anos ou mais de idade com ensino fundamental completo 2013
+432. % de 18 anos ou mais de idade com ensino fundamental completo 2014
+433. % de 18 anos ou mais de idade com ensino fundamental completo 2015
+434. % de 18 anos ou mais de idade com ensino fundamental completo 2016
+435. % de 18 anos ou mais de idade com ensino fundamental completo 2017
+436. % de 18 anos ou mais de idade com ensino fundamental completo 2018
+437. % de 18 anos ou mais de idade com ensino fundamental completo 2019
+438. % de 18 anos ou mais de idade com ensino fundamental completo 2020
+439. % de 18 anos ou mais de idade com ensino fundamental completo 2021
+440. % de 18 a 24 anos de idade com ensino fundamental completo 2012
+441. % de 18 a 24 anos de idade com ensino fundamental completo 2013
+442. % de 18 a 24 anos de idade com ensino fundamental completo 2014
+443. % de 18 a 24 anos de idade com ensino fundamental completo 2015
+444. % de 18 a 24 anos de idade com ensino fundamental completo 2016
+445. % de 18 a 24 anos de idade com ensino fundamental completo 2017
+446. % de 18 a 24 anos de idade com ensino fundamental completo 2018
+447. % de 18 a 24 anos de idade com ensino fundamental completo 2019
+448. % de 18 a 24 anos de idade com ensino fundamental completo 2020
+449. % de 18 a 24 anos de idade com ensino fundamental completo 2021
+450. % de 25 anos ou mais de idade com ensino fundamental completo 2012
+451. % de 25 anos ou mais de idade com ensino fundamental completo 2013
+452. % de 25 anos ou mais de idade com ensino fundamental completo 2014
+453. % de 25 anos ou mais de idade com ensino fundamental completo 2015
+454. % de 25 anos ou mais de idade com ensino fundamental completo 2016
+455. % de 25 anos ou mais de idade com ensino fundamental completo 2017
+456. % de 25 anos ou mais de idade com ensino fundamental completo 2018
+457. % de 25 anos ou mais de idade com ensino fundamental completo 2019
+458. % de 25 anos ou mais de idade com ensino fundamental completo 2020
+459. % de 25 anos ou mais de idade com ensino fundamental completo 2021
+460. % de 18 a 20 anos de idade com ensino mdio completo 2012
+461. % de 18 a 20 anos de idade com ensino mdio completo 2013
+462. % de 18 a 20 anos de idade com ensino mdio completo 2014
+463. % de 18 a 20 anos de idade com ensino mdio completo 2015
+464. % de 18 a 20 anos de idade com ensino mdio completo 2016
+465. % de 18 a 20 anos de idade com ensino mdio completo 2017
+466. % de 18 a 20 anos de idade com ensino mdio completo 2018
+467. % de 18 a 20 anos de idade com ensino mdio completo 2019
+468. % de 18 a 20 anos de idade com ensino mdio completo 2020
+469. % de 18 a 20 anos de idade com ensino mdio completo 2021
+470. % de 25 anos ou mais de idade com ensino mdio completo 2012
+471. % de 25 anos ou mais de idade com ensino mdio completo 2013
+472. % de 25 anos ou mais de idade com ensino mdio completo 2014
+473. % de 25 anos ou mais de idade com ensino mdio completo 2015
+474. % de 25 anos ou mais de idade com ensino mdio completo 2016
+475. % de 25 anos ou mais de idade com ensino mdio completo 2017
+476. % de 25 anos ou mais de idade com ensino mdio completo 2018
+477. % de 25 anos ou mais de idade com ensino mdio completo 2019
+478. % de 25 anos ou mais de idade com ensino mdio completo 2020
+479. % de 25 anos ou mais de idade com ensino mdio completo 2021
+480. % de 25 anos ou mais de idade com ensino superior completo 2012
+481. % de 25 anos ou mais de idade com ensino superior completo 2013
+482. % de 25 anos ou mais de idade com ensino superior completo 2014
+483. % de 25 anos ou mais de idade com ensino superior completo 2015
+484. % de 25 anos ou mais de idade com ensino superior completo 2016
+485. % de 25 anos ou mais de idade com ensino superior completo 2017
+486. % de 25 anos ou mais de idade com ensino superior completo 2018
+487. % de 25 anos ou mais de idade com ensino superior completo 2019
+488. % de 25 anos ou mais de idade com ensino superior completo 2020
+489. % de 25 anos ou mais de idade com ensino superior completo 2021
+490. Razo 10% mais ricos / 40% mais pobres 2012
+491. Razo 10% mais ricos / 40% mais pobres 2013
+492. Razo 10% mais ricos / 40% mais pobres 2014
+493. Razo 10% mais ricos / 40% mais pobres 2015
+494. Razo 10% mais ricos / 40% mais pobres 2016
+495. Razo 10% mais ricos / 40% mais pobres 2017
+496. Razo 10% mais ricos / 40% mais pobres 2018
+497. Razo 10% mais ricos / 40% mais pobres 2019
+498. Razo 10% mais ricos / 40% mais pobres 2020
+499. Razo 10% mais ricos / 40% mais pobres 2021
+500. Renda per capita 2012
+501. Renda per capita 2013
+502. Renda per capita 2014
+503. Renda per capita 2015
+504. Renda per capita 2016
+505. Renda per capita 2017
+506. Renda per capita 2018
+507. Renda per capita 2019
+508. Renda per capita 2020
+509. Renda per capita 2021
+510. % de 25 anos ou mais de idade com ensino superior completo 1991
+511. % de 25 anos ou mais de idade com ensino superior completo 2000
+512. % de 25 anos ou mais de idade com ensino superior completo 2010
+513. Renda per capita, exceto renda nula 2012
+514. Renda per capita, exceto renda nula 2013
+515. Renda per capita, exceto renda nula 2014
+516. Renda per capita, exceto renda nula 2015
+517. Renda per capita, exceto renda nula 2016
+518. Renda per capita, exceto renda nula 2017
+519. Renda per capita, exceto renda nula 2018
+520. Renda per capita, exceto renda nula 2019
+521. Renda per capita, exceto renda nula 2020
+522. Renda per capita, exceto renda nula 2021
+523. Expectativa de anos de estudo aos 18 anos de idade 1991
+524. Expectativa de anos de estudo aos 18 anos de idade 2000
+525. Expectativa de anos de estudo aos 18 anos de idade 2010
+526. % de pobres 2012
+527. % de pobres 2013
+528. % de pobres 2014
+529. % de pobres 2015
+530. % de pobres 2016
+531. % de pobres 2017
+532. % de pobres 2018
+533. % de pobres 2019
+534. % de pobres 2020
+535. % de pobres 2021
+536. Subndice de escolaridade - IDHM Educao 2012
+537. Subndice de escolaridade - IDHM Educao 2013
+538. Subndice de escolaridade - IDHM Educao 2014
+539. Subndice de escolaridade - IDHM Educao 2015
+540. Subndice de escolaridade - IDHM Educao 2016
+541. Subndice de escolaridade - IDHM Educao 2017
+542. Subndice de escolaridade - IDHM Educao 2018
+543. Subndice de escolaridade - IDHM Educao 2019
+544. Subndice de escolaridade - IDHM Educao 2020
+545. Subndice de escolaridade - IDHM Educao 2021
+546. Subndice de frequncia escolar - IDHM Educao 2012
+547. Subndice de frequncia escolar - IDHM Educao 2013
+548. Subndice de frequncia escolar - IDHM Educao 2014
+549. Subndice de frequncia escolar - IDHM Educao 2015
+550. Subndice de frequncia escolar - IDHM Educao 2016
+551. Subndice de frequncia escolar - IDHM Educao 2017
+552. Subndice de frequncia escolar - IDHM Educao 2018
+553. Subndice de frequncia escolar - IDHM Educao 2019
+554. Subndice de frequncia escolar - IDHM Educao 2020
+555. Subndice de frequncia escolar - IDHM Educao 2021
+556. IDHM Educao 2012
+557. IDHM Educao 2013
+558. IDHM Educao 2014
+559. IDHM Educao 2015
+560. IDHM Educao 2016
+561. IDHM Educao 2017
+562. IDHM Educao 2018
+563. IDHM Educao 2019
+564. IDHM Educao 2020
+565. IDHM Educao 2021
+566. IDHM Longevidade 2012
+567. IDHM Longevidade 2013
+568. IDHM Longevidade 2014
+569. IDHM Longevidade 2015
+570. IDHM Longevidade 2016
+571. IDHM Longevidade 2017
+572. IDHM Longevidade 2018
+573. IDHM Longevidade 2019
+574. IDHM Longevidade 2020
+575. IDHM Longevidade 2021
+576. IDHM Renda 2012
+577. IDHM Renda 2013
+578. IDHM Renda 2014
+579. IDHM Renda 2015
+580. IDHM Renda 2016
+581. IDHM Renda 2017
+582. IDHM Renda 2018
+583. IDHM Renda 2019
+584. IDHM Renda 2020
+585. IDHM Renda 2021
+586. IDHM 2012
+587. IDHM 2013
+588. IDHM 2014
+589. IDHM 2015
+590. IDHM 2016
+591. IDHM 2017
+592. IDHM 2018
+593. IDHM 2019
+594. IDHM 2020
+595. IDHM 2021
+596. IDHM Ajustado  Desigualdade 2012
+597. IDHM Ajustado  Desigualdade 2013
+598. IDHM Ajustado  Desigualdade 2014
+599. IDHM Ajustado  Desigualdade 2015
+600. IDHM Ajustado  Desigualdade 2016
+601. IDHM Ajustado  Desigualdade 2017
+602. IDHM Ajustado  Desigualdade 2018
+603. IDHM Ajustado  Desigualdade 2019
+604. IDHM Ajustado  Desigualdade 2020
+605. IDHM Ajustado  Desigualdade 2021
+606. IDHM Longevidade Ajustado  Desigualdade 2012
+607. IDHM Longevidade Ajustado  Desigualdade 2013
+608. IDHM Longevidade Ajustado  Desigualdade 2014
+609. IDHM Longevidade Ajustado  Desigualdade 2015
+610. IDHM Longevidade Ajustado  Desigualdade 2016
+611. IDHM Longevidade Ajustado  Desigualdade 2017
+612. IDHM Longevidade Ajustado  Desigualdade 2018
+613. IDHM Longevidade Ajustado  Desigualdade 2019
+614. IDHM Longevidade Ajustado  Desigualdade 2020
+615. IDHM Longevidade Ajustado  Desigualdade 2021
+616. IDHM Educao Ajustado  Desigualdade 2012
+617. IDHM Educao Ajustado  Desigualdade 2013
+618. IDHM Educao Ajustado  Desigualdade 2014
+619. IDHM Educao Ajustado  Desigualdade 2015
+620. IDHM Educao Ajustado  Desigualdade 2016
+621. IDHM Educao Ajustado  Desigualdade 2017
+622. IDHM Educao Ajustado  Desigualdade 2018
+623. IDHM Educao Ajustado  Desigualdade 2019
+624. IDHM Educao Ajustado  Desigualdade 2020
+625. IDHM Educao Ajustado  Desigualdade 2021
+626. IDHM Renda Ajustado  Desigualdade 2012
+627. IDHM Renda Ajustado  Desigualdade 2013
+628. IDHM Renda Ajustado  Desigualdade 2014
+629. IDHM Renda Ajustado  Desigualdade 2015
+630. IDHM Renda Ajustado  Desigualdade 2016
+631. IDHM Renda Ajustado  Desigualdade 2017
+632. IDHM Renda Ajustado  Desigualdade 2018
+633. IDHM Renda Ajustado  Desigualdade 2019
+634. IDHM Renda Ajustado  Desigualdade 2020
+635. IDHM Renda Ajustado  Desigualdade 2021
+636. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2012
+637. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2013
+638. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2014
+639. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2015
+640. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2016
+641. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2017
+642. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2018
+643. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2019
+644. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2020
+645. IDHM Ajustado  Desigualdade - Perda pela desigualdade 2021
+646. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2012
+647. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2013
+648. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2014
+649. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2015
+650. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2016
+651. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2017
+652. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2018
+653. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2019
+654. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2020
+655. IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2021
+656. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2012
+657. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2013
+658. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2014
+659. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2015
+660. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2016
+661. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2017
+662. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2018
+663. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2019
+664. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2020
+665. IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2021
+666. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2012
+667. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2013
+668. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2014
+669. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2015
+670. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2016
+671. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2017
+672. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2018
+673. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2019
+674. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2020
+675. IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2021
+676. Renda per capita 1991
+677. Renda per capita 2000
+678. Renda per capita 2010
+679. % de extremamente pobres 1991
+680. % de extremamente pobres 2000
+681. % de extremamente pobres 2010
+682. % de pobres 1991
+683. % de pobres 2000
+684. % de pobres 2010
+685. % de vulnerveis  pobreza 1991
+686. % de vulnerveis  pobreza 2000
+687. % de vulnerveis  pobreza 2010
+688. % de crianas com at 14 anos de idade extremamente pobres 1991
+689. % de crianas com at 14 anos de idade extremamente pobres 2000
+690. % de crianas com at 14 anos de idade extremamente pobres 2010
+691. Renda per capita dos extremamente pobres 1991
+692. Renda per capita dos extremamente pobres 2000
+693. Renda per capita dos extremamente pobres 2010
+
+Tipos de dados:
+Territorialidades: object
+Taxa de atividade - 10 anos ou mais de idade 1991: object
+Taxa de atividade - 10 anos ou mais de idade 2000: float64
+Taxa de atividade - 10 anos ou mais de idade 2010: float64
+Taxa de atividade - 10 a 14 anos de idade 1991: float64
+Taxa de atividade - 10 a 14 anos de idade 2000: float64
+Taxa de atividade - 10 a 14 anos de idade 2010: float64
+Taxa de atividade - 15 a  17 anos de idade 1991: float64
+Taxa de atividade - 15 a  17 anos de idade 2000: float64
+Taxa de atividade - 15 a  17 anos de idade 2010: float64
+Taxa de atividade - 18 anos ou mais de idade 1991: float64
+Taxa de atividade - 18 anos ou mais de idade 2000: float64
+Taxa de atividade - 18 anos ou mais de idade 2010: float64
+Taxa de atividade - 18 a 24 anos de idade 1991: float64
+Taxa de atividade - 18 a 24 anos de idade 2000: float64
+Taxa de atividade - 18 a 24 anos de idade 2010: float64
+Taxa de atividade - 25 a 29 anos de idade 1991: float64
+Taxa de atividade - 25 a 29 anos de idade 2000: float64
+Taxa de atividade - 25 a 29 anos de idade 2010: float64
+Taxa de desocupao - 10 anos ou mais de idade 1991: float64
+Taxa de desocupao - 10 anos ou mais de idade 2000: float64
+Taxa de desocupao - 10 anos ou mais de idade 2010: float64
+Taxa de desocupao - 10 a 14 anos de idade 1991: float64
+Taxa de desocupao - 10 a 14 anos de idade 2000: float64
+Taxa de desocupao - 10 a 14 anos de idade 2010: float64
+Taxa de desocupao - 15 a 17 anos de idade 1991: float64
+Taxa de desocupao - 15 a 17 anos de idade 2000: float64
+Taxa de desocupao - 15 a 17 anos de idade 2010: float64
+Taxa de desocupao - 18 anos ou mais de idade 1991: float64
+Taxa de desocupao - 18 anos ou mais de idade 2000: float64
+Taxa de desocupao - 18 anos ou mais de idade 2010: float64
+Taxa de desocupao - 18 a 24 anos de idade 1991: float64
+Taxa de desocupao - 18 a 24 anos de idade 2000: float64
+Taxa de desocupao - 18 a 24 anos de idade 2010: float64
+Taxa de desocupao - 25 a 29 anos de idade 1991: float64
+Taxa de desocupao - 25 a 29 anos de idade 2000: float64
+Taxa de desocupao - 25 a 29 anos de idade 2010: float64
+% de ocupados de 18 anos ou mais de idade que so empregados com carteira 1991: float64
+% de ocupados de 18 anos ou mais de idade que so empregados com carteira 2000: float64
+% de ocupados de 18 anos ou mais de idade que so empregados com carteira 2010: float64
+% de ocupados de 18 anos ou mais de idade que so empregados sem carteira 1991: float64
+% de ocupados de 18 anos ou mais de idade que so empregados sem carteira 2000: float64
+% de ocupados de 18 anos ou mais de idade que so empregados sem carteira 2010: float64
+% de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 1991: float64
+% de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 2000: float64
+% de ocupados de 18 anos ou mais de idade que so trabalhadores do setor pblico 2010: float64
+% de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 1991: float64
+% de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 2000: float64
+% de ocupados de 18 anos ou mais que so trabalhadores por conta prpria 2010: float64
+% de ocupados de 18 anos ou mais que so empregadores 1991: float64
+% de ocupados de 18 anos ou mais que so empregadores 2000: float64
+% de ocupados de 18 anos ou mais que so empregadores 2010: float64
+Grau de formalizao dos ocupados - 18 anos ou mais 1991: float64
+Grau de formalizao dos ocupados - 18 anos ou mais 2000: float64
+Grau de formalizao dos ocupados - 18 anos ou mais 2010: float64
+% dos ocupados com ensino fundamental completo 1991: float64
+% dos ocupados com ensino fundamental completo 2000: float64
+% dos ocupados com ensino fundamental completo 2010: float64
+% dos ocupados com ensino mdio completo 1991: float64
+% dos ocupados com ensino mdio completo 2000: float64
+% dos ocupados com ensino mdio completo 2010: float64
+% dos ocupados com ensino superior completo 1991: float64
+% dos ocupados com ensino superior completo 2000: float64
+% dos ocupados com ensino superior completo 2010: float64
+% dos ocupados no setor agropecurio 1991: float64
+% dos ocupados no setor agropecurio 2000: float64
+% dos ocupados no setor agropecurio 2010: float64
+% dos ocupados no setor extrativo mineral 1991: float64
+% dos ocupados no setor extrativo mineral 2000: float64
+% dos ocupados no setor extrativo mineral 2010: float64
+% dos ocupados na indstria de transformao 1991: float64
+% dos ocupados na indstria de transformao 2000: float64
+% dos ocupados na indstria de transformao 2010: float64
+% dos ocupados nos setores de servios industriais de utilidade pblica 1991: float64
+% dos ocupados nos setores de servios industriais de utilidade pblica 2000: float64
+% dos ocupados nos setores de servios industriais de utilidade pblica 2010: float64
+% dos ocupados no setor de construo 1991: float64
+% dos ocupados no setor de construo 2000: float64
+% dos ocupados no setor de construo 2010: float64
+% dos ocupados no setor comrcio 1991: float64
+% dos ocupados no setor comrcio 2000: float64
+% dos ocupados no setor comrcio 2010: float64
+% dos ocupados no setor de servios 1991: float64
+% dos ocupados no setor de servios 2000: float64
+% dos ocupados no setor de servios 2010: float64
+Rendimento mdio dos ocupados 1991: float64
+Rendimento mdio dos ocupados 2000: float64
+Rendimento mdio dos ocupados 2010: float64
+% dos ocupados sem rendimento 1991: float64
+% dos ocupados sem rendimento 2000: float64
+% dos ocupados sem rendimento 2010: float64
+% dos ocupados com rendimento de at 1 salrio mnimo 1991: float64
+% dos ocupados com rendimento de at 1 salrio mnimo 2000: float64
+% dos ocupados com rendimento de at 1 salrio mnimo 2010: float64
+% dos ocupados com rendimento de at 2 salrios mnimo 1991: float64
+% dos ocupados com rendimento de at 2 salrios mnimo 2000: float64
+% dos ocupados com rendimento de at 2 salrios mnimo 2010: float64
+% dos ocupados com rendimento de at 3 salrios mnimo 1991: float64
+% dos ocupados com rendimento de at 3 salrios mnimo 2000: float64
+% dos ocupados com rendimento de at 3 salrios mnimo 2010: float64
+% dos ocupados com rendimento de at 5 salrios mnimo 1991: float64
+% dos ocupados com rendimento de at 5 salrios mnimo 2000: float64
+% dos ocupados com rendimento de at 5 salrios mnimo 2010: float64
+ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 1991: float64
+ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 2000: float64
+ndice de Theil-L dos rendimentos do trabalho - 18 anos ou mais de idade 2010: float64
+% da populao em domiclios com gua encanada 1991: float64
+% da populao em domiclios com gua encanada 2000: float64
+% da populao em domiclios com gua encanada 2010: float64
+% da populao que vive em domiclios com banheiro e gua encanada 1991: float64
+% da populao que vive em domiclios com banheiro e gua encanada 2000: float64
+% da populao que vive em domiclios com banheiro e gua encanada 2010: float64
+% de pessoas em domiclios urbanos com coleta de lixo 1991: float64
+% de pessoas em domiclios urbanos com coleta de lixo 2000: float64
+% de pessoas em domiclios urbanos com coleta de lixo 2010: float64
+% de mulheres de 10 a 17 anos de idade que tiveram filhos 1991: float64
+% de mulheres de 10 a 17 anos de idade que tiveram filhos 2000: float64
+% de mulheres de 10 a 17 anos de idade que tiveram filhos 2010: float64
+% de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 1991: float64
+% de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 2000: float64
+% de mes chefes de famlia, sem fundamental completo e com pelo menos um filho menor de 15 anos de idade 2010: float64
+% de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 1991: float64
+% de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 2000: float64
+% de crianas que vivem em domiclios em que nenhum dos moradores tem o ensino fundamental completo 2010: float64
+% de crianas de 0 a 5 anos de idade que no frequentam a escola 1991: float64
+% de crianas de 0 a 5 anos de idade que no frequentam a escola 2000: float64
+% de crianas de 0 a 5 anos de idade que no frequentam a escola 2010: float64
+% de crianas de 6 a 14 anos de idade que no frequentam a escola 1991: float64
+% de crianas de 6 a 14 anos de idade que no frequentam a escola 2000: float64
+% de crianas de 6 a 14 anos de idade que no frequentam a escola 2010: float64
+% de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 1991: float64
+% de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 2000: float64
+% de pessoas em domiclios em que nenhum morador tem ensino fundamental completo 2010: float64
+% de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 1991: float64
+% de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 2000: float64
+% de 15 a 24 anos de idade que no estudam nem trabalham em domiclios vulnerveis  pobreza 2010: float64
+% de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 1991: float64
+% de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 2000: float64
+% de pessoas de 18 anos ou mais sem ensino fundamental completo e em ocupao informal 2010: float64
+% de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 1991: float64
+% de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 2000: float64
+% de pessoas em domiclios vulnerveis  pobreza e em que ningum tem ensino fundamental completo 2010: float64
+% de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 1991: float64
+% de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 2000: float64
+% de pessoas em domiclios vulnerveis  pobreza e dependentes de idosos 2010: float64
+% de pessoas em domiclios sem energia eltrica 1991: float64
+% de pessoas em domiclios sem energia eltrica 2000: float64
+% de pessoas em domiclios sem energia eltrica 2010: float64
+% de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 1991: float64
+% de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 2000: float64
+% de pessoas em domiclios com paredes que no sejam de alvenaria ou madeira aparelhada 2010: float64
+% de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 1991: float64
+% de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 2000: float64
+% de pessoas em domiclios com abastecimento de gua e esgotamento sanitrio inadequados 2010: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 1991: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 2000: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho 2010: float64
+Mortalidade infantil 1991: float64
+Mortalidade infantil 2000: float64
+Mortalidade infantil 2010: float64
+IDHM 1991: float64
+IDHM 2000: float64
+IDHM 2010: float64
+IDHM Renda 1991: float64
+IDHM Renda 2000: float64
+IDHM Renda 2010: float64
+IDHM Longevidade 1991: float64
+IDHM Longevidade 2000: float64
+IDHM Longevidade 2010: float64
+IDHM Educao 1991: float64
+IDHM Educao 2000: float64
+IDHM Educao 2010: float64
+Subndice de frequncia escolar - IDHM Educao 1991: float64
+Subndice de frequncia escolar - IDHM Educao 2000: float64
+Subndice de frequncia escolar - IDHM Educao 2010: float64
+Subndice de escolaridade - IDHM Educao 1991: float64
+Subndice de escolaridade - IDHM Educao 2000: float64
+Subndice de escolaridade - IDHM Educao 2010: float64
+Razo de dependncia 1991: float64
+Razo de dependncia 2000: float64
+Razo de dependncia 2010: float64
+Taxa de envelhecimento 1991: float64
+Taxa de envelhecimento 2000: float64
+Taxa de envelhecimento 2010: float64
+Taxa de analfabetismo - 11 a 14 anos de idade 1991: float64
+Taxa de analfabetismo - 11 a 14 anos de idade 2000: float64
+Taxa de analfabetismo - 11 a 14 anos de idade 2010: float64
+% de 18 a 20 anos de idade com ensino mdio completo 1991: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2000: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2010: float64
+Taxa de analfabetismo - 15 a 17 anos de idade 1991: float64
+Taxa de analfabetismo - 15 a 17 anos de idade 2000: float64
+Taxa de analfabetismo - 15 a 17 anos de idade 2010: float64
+% de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 1991: float64
+% de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 2000: float64
+% de 15 a 24 anos de idade que no estudam, no trabalham e so vulnerveis, na populao vulnervel dessa faixa etria 2010: float64
+% de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 1991: float64
+% de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 2000: float64
+% de mes chefes de famlia, sem ensino fundamental completo e com pelo menos um filho menor de 15 anos de idade, no total de mes chefes de famlia e com filho menor de idade 2010: float64
+% de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 1991: float64
+% de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 2000: float64
+% de pessoas vulnerveis e dependentes de idosos, no total de pessoas em domiclios vulnerveis e com idosos 2010: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 1991: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 2000: float64
+% de pessoas em domiclios vulnerveis  pobreza e que gastam mais de uma hora at o trabalho no total de pessoas ocupadas, vulnerveis e que retornam diariamente do trabalho 2010: float64
+Taxa de analfabetismo - 18 a 24 anos de idade 1991: float64
+Taxa de analfabetismo - 18 a 24 anos de idade 2000: float64
+Taxa de analfabetismo - 18 a 24 anos de idade 2010: float64
+Taxa de analfabetismo - 25 a 29 anos de idade 1991: float64
+Taxa de analfabetismo - 25 a 29 anos de idade 2000: float64
+Taxa de analfabetismo - 25 a 29 anos de idade 2010: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 1991: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2000: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2010: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 1991: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2000: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2010: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 1991: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2000: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2010: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 1991: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2000: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2010: float64
+Produto Interno Bruto per capita 2013: float64
+Produto Interno Bruto per capita 2014: float64
+Produto Interno Bruto per capita 2015: float64
+Produto Interno Bruto per capita 2016: float64
+Participao da Agropecuria no Valor Adicionado 2013: float64
+Participao da Agropecuria no Valor Adicionado 2014: float64
+Participao da Agropecuria no Valor Adicionado 2015: float64
+Participao da Agropecuria no Valor Adicionado 2016: float64
+Rendimento mdio no setor formal 2013: float64
+Rendimento mdio no setor formal 2014: float64
+Rendimento mdio no setor formal 2015: float64
+Rendimento mdio no setor formal 2016: float64
+Rendimento mdio no setor formal 2017: float64
+% de nascidos vivos com baixo peso ao nascer 2013: float64
+% de nascidos vivos com baixo peso ao nascer 2014: float64
+% de nascidos vivos com baixo peso ao nascer 2015: float64
+% de nascidos vivos com baixo peso ao nascer 2016: float64
+% de nascidos vivos com baixo peso ao nascer 2017: float64
+% de internaes por doenas relacionadas ao saneamento ambiental inadequado 2013: float64
+% de internaes por doenas relacionadas ao saneamento ambiental inadequado 2014: float64
+% de internaes por doenas relacionadas ao saneamento ambiental inadequado 2015: float64
+% de internaes por doenas relacionadas ao saneamento ambiental inadequado 2016: float64
+% de internaes por doenas relacionadas ao saneamento ambiental inadequado 2017: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 1991: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2000: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2010: float64
+% de meninas de 10 a 14 anos de idade que tiveram filhos 2013: float64
+% de meninas de 10 a 14 anos de idade que tiveram filhos 2014: float64
+% de meninas de 10 a 14 anos de idade que tiveram filhos 2015: float64
+% de meninas de 10 a 14 anos de idade que tiveram filhos 2016: float64
+% de meninas de 10 a 14 anos de idade que tiveram filhos 2017: float64
+% de adolescentes de 15 a 17 anos de idade que tiveram filhos 2013: float64
+% de adolescentes de 15 a 17 anos de idade que tiveram filhos 2014: float64
+% de adolescentes de 15 a 17 anos de idade que tiveram filhos 2015: float64
+% de adolescentes de 15 a 17 anos de idade que tiveram filhos 2016: float64
+% de adolescentes de 15 a 17 anos de idade que tiveram filhos 2017: float64
+% de analfabetos com 15 anos ou mais de idade no Cadastro nico 2014: float64
+% de analfabetos com 15 anos ou mais de idade no Cadastro nico 2015: float64
+% de analfabetos com 15 anos ou mais de idade no Cadastro nico 2016: float64
+% de analfabetos com 15 anos ou mais de idade no Cadastro nico 2017: float64
+% de extremamente pobres no Cadastro nico ps Bolsa Famlia 2014: float64
+% de extremamente pobres no Cadastro nico ps Bolsa Famlia 2015: float64
+% de extremamente pobres no Cadastro nico ps Bolsa Famlia 2016: float64
+% de extremamente pobres no Cadastro nico ps Bolsa Famlia 2017: float64
+% de pobres no Cadastro nico ps Bolsa Famlia 2014: float64
+% de pobres no Cadastro nico ps Bolsa Famlia 2015: float64
+% de pobres no Cadastro nico ps Bolsa Famlia 2016: float64
+% de pobres no Cadastro nico ps Bolsa Famlia 2017: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 1991: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2000: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2010: float64
+% de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2014: float64
+% de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2015: float64
+% de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2016: float64
+% de vulnerveis  pobreza no Cadastro nico ps Bolsa Famlia 2017: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2014: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2015: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2016: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2017: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2014: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2015: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2016: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua adequado 2017: float64
+% de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2014: float64
+% de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2015: float64
+% de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2016: float64
+% de pessoas inscritas no Cadastro nico sem esgotamento sanitrio adequado 2017: float64
+% de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2014: float64
+% de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2015: float64
+% de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2016: float64
+% de pessoas inscritas no Cadastro nico sem coleta de lixo adequada 2017: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2014.1: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2015.1: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2016.1: float64
+% de pessoas inscritas no Cadastro nico sem abastecimento de gua, esgotamento sanitrio e coleta de lixo adequados 2017.1: float64
+% de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2014: float64
+% de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2015: float64
+% de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2016: float64
+% de pessoas inscritas no Cadastro nico que recebem Bolsa Famlia 2017: float64
+% de cobertura vegetal natural 2013: float64
+% de cobertura vegetal natural 2014: float64
+% de cobertura vegetal natural 2015: float64
+% de cobertura vegetal natural 2016: float64
+% de cobertura vegetal natural 2017: float64
+Concentrao dos focos de calor 2013: float64
+Concentrao dos focos de calor 2014: float64
+Concentrao dos focos de calor 2015: float64
+Concentrao dos focos de calor 2016: float64
+Concentrao dos focos de calor 2017: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 1991: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2000: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2010: float64
+% da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2013: float64
+% da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2014: float64
+% da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2015: float64
+% da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2016: float64
+% da populao urbana residente em domiclios ligados  rede de abastecimento de gua 2017: float64
+% da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2013: float64
+% da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2014: float64
+% da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2015: float64
+% da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2016: float64
+% da populao urbana residente em domiclios ligados  rede de esgotamento sanitrio 2017: float64
+% de esgoto tratado 2013: float64
+% de esgoto tratado 2014: float64
+% de esgoto tratado 2015: float64
+% de esgoto tratado 2016: float64
+% de esgoto tratado 2017: float64
+Existncia de coleta seletiva 2013: float64
+Existncia de coleta seletiva 2014: float64
+Existncia de coleta seletiva 2015: float64
+Existncia de coleta seletiva 2016: float64
+Existncia de coleta seletiva 2017: float64
+% da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2013: float64
+% da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2014: float64
+% da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2015: float64
+% da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2016: float64
+% da populao urbana atendida por servios regulares de coleta de resduos domiciliares 2017: float64
+% de 18 a 24 anos de idade com ensino mdio completo 1991: float64
+% de 18 a 24 anos de idade com ensino mdio completo 2000: float64
+% de 18 a 24 anos de idade com ensino mdio completo 2010: float64
+Mortalidade infantil 2012: float64
+Mortalidade infantil 2013: float64
+Mortalidade infantil 2014: float64
+Mortalidade infantil 2015: float64
+Mortalidade infantil 2016: float64
+Mortalidade infantil 2017: float64
+Mortalidade infantil 2018: float64
+Mortalidade infantil 2019: float64
+Mortalidade infantil 2020: float64
+Mortalidade infantil 2021: float64
+Taxa de envelhecimento 2012: float64
+Taxa de envelhecimento 2013: float64
+Taxa de envelhecimento 2014: float64
+Taxa de envelhecimento 2015: float64
+Taxa de envelhecimento 2016: float64
+Taxa de envelhecimento 2017: float64
+Taxa de envelhecimento 2018: float64
+Taxa de envelhecimento 2019: float64
+Taxa de envelhecimento 2020: float64
+Taxa de envelhecimento 2021: float64
+Razo de dependncia 2012: float64
+Razo de dependncia 2013: float64
+Razo de dependncia 2014: float64
+Razo de dependncia 2015: float64
+Razo de dependncia 2016: float64
+Razo de dependncia 2017: float64
+Razo de dependncia 2018: float64
+Razo de dependncia 2019: float64
+Razo de dependncia 2020: float64
+Razo de dependncia 2021: float64
+Mdia de anos de estudo 2012: float64
+Mdia de anos de estudo 2013: float64
+Mdia de anos de estudo 2014: float64
+Mdia de anos de estudo 2015: float64
+Mdia de anos de estudo 2016: float64
+Mdia de anos de estudo 2017: float64
+Mdia de anos de estudo 2018: float64
+Mdia de anos de estudo 2019: float64
+Mdia de anos de estudo 2020: float64
+Mdia de anos de estudo 2021: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2012: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2013: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2014: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2015: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2016: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2017: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2018: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2019: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2020: float64
+Taxa de analfabetismo - 15 anos ou mais de idade 2021: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2012: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2013: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2014: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2015: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2016: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2017: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2018: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2019: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2020: float64
+Taxa de analfabetismo - 18 anos ou mais de idade 2021: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2012: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2013: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2014: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2015: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2016: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2017: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2018: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2019: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2020: float64
+Taxa de analfabetismo - 25 anos ou mais de idade 2021: float64
+% de 18 anos ou mais de idade com ensino mdio completo 1991: float64
+% de 18 anos ou mais de idade com ensino mdio completo 2000: float64
+% de 18 anos ou mais de idade com ensino mdio completo 2010: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2012: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2013: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2014: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2015: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2016: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2017: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2018: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2019: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2020: float64
+% de 15 a 17 anos de idade com ensino fundamental completo 2021: float64
+% de 25 anos ou mais de idade com ensino mdio completo 1991: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2000: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2010: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2012: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2013: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2014: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2015: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2016: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2017: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2018: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2019: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2020: float64
+% de 18 anos ou mais de idade com ensino fundamental completo 2021: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2012: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2013: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2014: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2015: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2016: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2017: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2018: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2019: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2020: float64
+% de 18 a 24 anos de idade com ensino fundamental completo 2021: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2012: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2013: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2014: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2015: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2016: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2017: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2018: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2019: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2020: float64
+% de 25 anos ou mais de idade com ensino fundamental completo 2021: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2012: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2013: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2014: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2015: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2016: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2017: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2018: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2019: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2020: float64
+% de 18 a 20 anos de idade com ensino mdio completo 2021: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2012: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2013: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2014: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2015: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2016: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2017: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2018: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2019: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2020: float64
+% de 25 anos ou mais de idade com ensino mdio completo 2021: float64
+% de 25 anos ou mais de idade com ensino superior completo 2012: float64
+% de 25 anos ou mais de idade com ensino superior completo 2013: float64
+% de 25 anos ou mais de idade com ensino superior completo 2014: float64
+% de 25 anos ou mais de idade com ensino superior completo 2015: float64
+% de 25 anos ou mais de idade com ensino superior completo 2016: float64
+% de 25 anos ou mais de idade com ensino superior completo 2017: float64
+% de 25 anos ou mais de idade com ensino superior completo 2018: float64
+% de 25 anos ou mais de idade com ensino superior completo 2019: float64
+% de 25 anos ou mais de idade com ensino superior completo 2020: float64
+% de 25 anos ou mais de idade com ensino superior completo 2021: float64
+Razo 10% mais ricos / 40% mais pobres 2012: float64
+Razo 10% mais ricos / 40% mais pobres 2013: float64
+Razo 10% mais ricos / 40% mais pobres 2014: float64
+Razo 10% mais ricos / 40% mais pobres 2015: float64
+Razo 10% mais ricos / 40% mais pobres 2016: float64
+Razo 10% mais ricos / 40% mais pobres 2017: float64
+Razo 10% mais ricos / 40% mais pobres 2018: float64
+Razo 10% mais ricos / 40% mais pobres 2019: float64
+Razo 10% mais ricos / 40% mais pobres 2020: float64
+Razo 10% mais ricos / 40% mais pobres 2021: float64
+Renda per capita 2012: float64
+Renda per capita 2013: float64
+Renda per capita 2014: float64
+Renda per capita 2015: float64
+Renda per capita 2016: float64
+Renda per capita 2017: float64
+Renda per capita 2018: float64
+Renda per capita 2019: float64
+Renda per capita 2020: float64
+Renda per capita 2021: float64
+% de 25 anos ou mais de idade com ensino superior completo 1991: float64
+% de 25 anos ou mais de idade com ensino superior completo 2000: float64
+% de 25 anos ou mais de idade com ensino superior completo 2010: float64
+Renda per capita, exceto renda nula 2012: float64
+Renda per capita, exceto renda nula 2013: float64
+Renda per capita, exceto renda nula 2014: float64
+Renda per capita, exceto renda nula 2015: float64
+Renda per capita, exceto renda nula 2016: float64
+Renda per capita, exceto renda nula 2017: float64
+Renda per capita, exceto renda nula 2018: float64
+Renda per capita, exceto renda nula 2019: float64
+Renda per capita, exceto renda nula 2020: float64
+Renda per capita, exceto renda nula 2021: float64
+Expectativa de anos de estudo aos 18 anos de idade 1991: float64
+Expectativa de anos de estudo aos 18 anos de idade 2000: float64
+Expectativa de anos de estudo aos 18 anos de idade 2010: float64
+% de pobres 2012: float64
+% de pobres 2013: float64
+% de pobres 2014: float64
+% de pobres 2015: float64
+% de pobres 2016: float64
+% de pobres 2017: float64
+% de pobres 2018: float64
+% de pobres 2019: float64
+% de pobres 2020: float64
+% de pobres 2021: float64
+Subndice de escolaridade - IDHM Educao 2012: float64
+Subndice de escolaridade - IDHM Educao 2013: float64
+Subndice de escolaridade - IDHM Educao 2014: float64
+Subndice de escolaridade - IDHM Educao 2015: float64
+Subndice de escolaridade - IDHM Educao 2016: float64
+Subndice de escolaridade - IDHM Educao 2017: float64
+Subndice de escolaridade - IDHM Educao 2018: float64
+Subndice de escolaridade - IDHM Educao 2019: float64
+Subndice de escolaridade - IDHM Educao 2020: float64
+Subndice de escolaridade - IDHM Educao 2021: float64
+Subndice de frequncia escolar - IDHM Educao 2012: float64
+Subndice de frequncia escolar - IDHM Educao 2013: float64
+Subndice de frequncia escolar - IDHM Educao 2014: float64
+Subndice de frequncia escolar - IDHM Educao 2015: float64
+Subndice de frequncia escolar - IDHM Educao 2016: float64
+Subndice de frequncia escolar - IDHM Educao 2017: float64
+Subndice de frequncia escolar - IDHM Educao 2018: float64
+Subndice de frequncia escolar - IDHM Educao 2019: float64
+Subndice de frequncia escolar - IDHM Educao 2020: float64
+Subndice de frequncia escolar - IDHM Educao 2021: float64
+IDHM Educao 2012: float64
+IDHM Educao 2013: float64
+IDHM Educao 2014: float64
+IDHM Educao 2015: float64
+IDHM Educao 2016: float64
+IDHM Educao 2017: float64
+IDHM Educao 2018: float64
+IDHM Educao 2019: float64
+IDHM Educao 2020: float64
+IDHM Educao 2021: float64
+IDHM Longevidade 2012: float64
+IDHM Longevidade 2013: float64
+IDHM Longevidade 2014: float64
+IDHM Longevidade 2015: float64
+IDHM Longevidade 2016: float64
+IDHM Longevidade 2017: float64
+IDHM Longevidade 2018: float64
+IDHM Longevidade 2019: float64
+IDHM Longevidade 2020: float64
+IDHM Longevidade 2021: float64
+IDHM Renda 2012: float64
+IDHM Renda 2013: float64
+IDHM Renda 2014: float64
+IDHM Renda 2015: float64
+IDHM Renda 2016: float64
+IDHM Renda 2017: float64
+IDHM Renda 2018: float64
+IDHM Renda 2019: float64
+IDHM Renda 2020: float64
+IDHM Renda 2021: float64
+IDHM 2012: float64
+IDHM 2013: float64
+IDHM 2014: float64
+IDHM 2015: float64
+IDHM 2016: float64
+IDHM 2017: float64
+IDHM 2018: float64
+IDHM 2019: float64
+IDHM 2020: float64
+IDHM 2021: float64
+IDHM Ajustado  Desigualdade 2012: float64
+IDHM Ajustado  Desigualdade 2013: float64
+IDHM Ajustado  Desigualdade 2014: float64
+IDHM Ajustado  Desigualdade 2015: float64
+IDHM Ajustado  Desigualdade 2016: float64
+IDHM Ajustado  Desigualdade 2017: float64
+IDHM Ajustado  Desigualdade 2018: float64
+IDHM Ajustado  Desigualdade 2019: float64
+IDHM Ajustado  Desigualdade 2020: float64
+IDHM Ajustado  Desigualdade 2021: float64
+IDHM Longevidade Ajustado  Desigualdade 2012: float64
+IDHM Longevidade Ajustado  Desigualdade 2013: float64
+IDHM Longevidade Ajustado  Desigualdade 2014: float64
+IDHM Longevidade Ajustado  Desigualdade 2015: float64
+IDHM Longevidade Ajustado  Desigualdade 2016: float64
+IDHM Longevidade Ajustado  Desigualdade 2017: float64
+IDHM Longevidade Ajustado  Desigualdade 2018: float64
+IDHM Longevidade Ajustado  Desigualdade 2019: float64
+IDHM Longevidade Ajustado  Desigualdade 2020: float64
+IDHM Longevidade Ajustado  Desigualdade 2021: float64
+IDHM Educao Ajustado  Desigualdade 2012: float64
+IDHM Educao Ajustado  Desigualdade 2013: float64
+IDHM Educao Ajustado  Desigualdade 2014: float64
+IDHM Educao Ajustado  Desigualdade 2015: float64
+IDHM Educao Ajustado  Desigualdade 2016: float64
+IDHM Educao Ajustado  Desigualdade 2017: float64
+IDHM Educao Ajustado  Desigualdade 2018: float64
+IDHM Educao Ajustado  Desigualdade 2019: float64
+IDHM Educao Ajustado  Desigualdade 2020: float64
+IDHM Educao Ajustado  Desigualdade 2021: float64
+IDHM Renda Ajustado  Desigualdade 2012: float64
+IDHM Renda Ajustado  Desigualdade 2013: float64
+IDHM Renda Ajustado  Desigualdade 2014: float64
+IDHM Renda Ajustado  Desigualdade 2015: float64
+IDHM Renda Ajustado  Desigualdade 2016: float64
+IDHM Renda Ajustado  Desigualdade 2017: float64
+IDHM Renda Ajustado  Desigualdade 2018: float64
+IDHM Renda Ajustado  Desigualdade 2019: float64
+IDHM Renda Ajustado  Desigualdade 2020: float64
+IDHM Renda Ajustado  Desigualdade 2021: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2012: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2013: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2014: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2015: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2016: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2017: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2018: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2019: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2020: float64
+IDHM Ajustado  Desigualdade - Perda pela desigualdade 2021: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2012: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2013: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2014: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2015: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2016: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2017: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2018: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2019: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2020: float64
+IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2021: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2012: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2013: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2014: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2015: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2016: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2017: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2018: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2019: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2020: float64
+IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2021: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2012: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2013: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2014: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2015: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2016: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2017: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2018: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2019: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2020: float64
+IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2021: float64
+Renda per capita 1991: float64
+Renda per capita 2000: float64
+Renda per capita 2010: float64
+% de extremamente pobres 1991: float64
+% de extremamente pobres 2000: float64
+% de extremamente pobres 2010: float64
+% de pobres 1991: float64
+% de pobres 2000: float64
+% de pobres 2010: float64
+% de vulnerveis  pobreza 1991: float64
+% de vulnerveis  pobreza 2000: float64
+% de vulnerveis  pobreza 2010: float64
+% de crianas com at 14 anos de idade extremamente pobres 1991: float64
+% de crianas com at 14 anos de idade extremamente pobres 2000: float64
+% de crianas com at 14 anos de idade extremamente pobres 2010: float64
+Renda per capita dos extremamente pobres 1991: float64
+Renda per capita dos extremamente pobres 2000: float64
+Renda per capita dos extremamente pobres 2010: float64
+
+Valores unicos por coluna (primeiras 10 colunas):
+Territorialidades: 7 valores unicos
+Taxa de atividade - 10 anos ou mais de idade 1991: 2 valores unicos
+Taxa de atividade - 10 anos ou mais de idade 2000: 4 valores unicos
+Taxa de atividade - 10 anos ou mais de idade 2010: 4 valores unicos
+Taxa de atividade - 10 a 14 anos de idade 1991: 1 valores unicos
+Taxa de atividade - 10 a 14 anos de idade 2000: 4 valores unicos
+Taxa de atividade - 10 a 14 anos de idade 2010: 4 valores unicos
+Taxa de atividade - 15 a  17 anos de idade 1991: 1 valores unicos
+Taxa de atividade - 15 a  17 anos de idade 2000: 4 valores unicos
+Taxa de atividade - 15 a  17 anos de idade 2010: 4 valores unicos
+
+Verificacao de municipios:
+Coluna de municipio nao identificada claramente
+Primeiras colunas: ['Territorialidades', 'Taxa de atividade - 10 anos ou mais de idade 1991', 'Taxa de atividade - 10 anos ou mais de idade 2000', 'Taxa de atividade - 10 anos ou mais de idade 2010', 'Taxa de atividade - 10 a 14 anos de idade 1991']
+
+Verificacao de anos:
+Possiveis colunas de ano: []
+
+Indicadores IDHM disponiveis:
+Colunas relacionadas ao IDHM: ['IDHM 1991', 'IDHM 2000', 'IDHM 2010', 'IDHM Renda 1991', 'IDHM Renda 2000', 'IDHM Renda 2010', 'IDHM Longevidade 1991', 'IDHM Longevidade 2000', 'IDHM Longevidade 2010', 'IDHM Educao 1991', 'IDHM Educao 2000', 'IDHM Educao 2010', 'Subndice de frequncia escolar - IDHM Educao 1991', 'Subndice de frequncia escolar - IDHM Educao 2000', 'Subndice de frequncia escolar - IDHM Educao 2010', 'Subndice de escolaridade - IDHM Educao 1991', 'Subndice de escolaridade - IDHM Educao 2000', 'Subndice de escolaridade - IDHM Educao 2010', 'Subndice de escolaridade - IDHM Educao 2012', 'Subndice de escolaridade - IDHM Educao 2013', 'Subndice de escolaridade - IDHM Educao 2014', 'Subndice de escolaridade - IDHM Educao 2015', 'Subndice de escolaridade - IDHM Educao 2016', 'Subndice de escolaridade - IDHM Educao 2017', 'Subndice de escolaridade - IDHM Educao 2018', 'Subndice de escolaridade - IDHM Educao 2019', 'Subndice de escolaridade - IDHM Educao 2020', 'Subndice de escolaridade - IDHM Educao 2021', 'Subndice de frequncia escolar - IDHM Educao 2012', 'Subndice de frequncia escolar - IDHM Educao 2013', 'Subndice de frequncia escolar - IDHM Educao 2014', 'Subndice de frequncia escolar - IDHM Educao 2015', 'Subndice de frequncia escolar - IDHM Educao 2016', 'Subndice de frequncia escolar - IDHM Educao 2017', 'Subndice de frequncia escolar - IDHM Educao 2018', 'Subndice de frequncia escolar - IDHM Educao 2019', 'Subndice de frequncia escolar - IDHM Educao 2020', 'Subndice de frequncia escolar - IDHM Educao 2021', 'IDHM Educao 2012', 'IDHM Educao 2013', 'IDHM Educao 2014', 'IDHM Educao 2015', 'IDHM Educao 2016', 'IDHM Educao 2017', 'IDHM Educao 2018', 'IDHM Educao 2019', 'IDHM Educao 2020', 'IDHM Educao 2021', 'IDHM Longevidade 2012', 'IDHM Longevidade 2013', 'IDHM Longevidade 2014', 'IDHM Longevidade 2015', 'IDHM Longevidade 2016', 'IDHM Longevidade 2017', 'IDHM Longevidade 2018', 'IDHM Longevidade 2019', 'IDHM Longevidade 2020', 'IDHM Longevidade 2021', 'IDHM Renda 2012', 'IDHM Renda 2013', 'IDHM Renda 2014', 'IDHM Renda 2015', 'IDHM Renda 2016', 'IDHM Renda 2017', 'IDHM Renda 2018', 'IDHM Renda 2019', 'IDHM Renda 2020', 'IDHM Renda 2021', 'IDHM 2012', 'IDHM 2013', 'IDHM 2014', 'IDHM 2015', 'IDHM 2016', 'IDHM 2017', 'IDHM 2018', 'IDHM 2019', 'IDHM 2020', 'IDHM 2021', 'IDHM Ajustado  Desigualdade 2012', 'IDHM Ajustado  Desigualdade 2013', 'IDHM Ajustado  Desigualdade 2014', 'IDHM Ajustado  Desigualdade 2015', 'IDHM Ajustado  Desigualdade 2016', 'IDHM Ajustado  Desigualdade 2017', 'IDHM Ajustado  Desigualdade 2018', 'IDHM Ajustado  Desigualdade 2019', 'IDHM Ajustado  Desigualdade 2020', 'IDHM Ajustado  Desigualdade 2021', 'IDHM Longevidade Ajustado  Desigualdade 2012', 'IDHM Longevidade Ajustado  Desigualdade 2013', 'IDHM Longevidade Ajustado  Desigualdade 2014', 'IDHM Longevidade Ajustado  Desigualdade 2015', 'IDHM Longevidade Ajustado  Desigualdade 2016', 'IDHM Longevidade Ajustado  Desigualdade 2017', 'IDHM Longevidade Ajustado  Desigualdade 2018', 'IDHM Longevidade Ajustado  Desigualdade 2019', 'IDHM Longevidade Ajustado  Desigualdade 2020', 'IDHM Longevidade Ajustado  Desigualdade 2021', 'IDHM Educao Ajustado  Desigualdade 2012', 'IDHM Educao Ajustado  Desigualdade 2013', 'IDHM Educao Ajustado  Desigualdade 2014', 'IDHM Educao Ajustado  Desigualdade 2015', 'IDHM Educao Ajustado  Desigualdade 2016', 'IDHM Educao Ajustado  Desigualdade 2017', 'IDHM Educao Ajustado  Desigualdade 2018', 'IDHM Educao Ajustado  Desigualdade 2019', 'IDHM Educao Ajustado  Desigualdade 2020', 'IDHM Educao Ajustado  Desigualdade 2021', 'IDHM Renda Ajustado  Desigualdade 2012', 'IDHM Renda Ajustado  Desigualdade 2013', 'IDHM Renda Ajustado  Desigualdade 2014', 'IDHM Renda Ajustado  Desigualdade 2015', 'IDHM Renda Ajustado  Desigualdade 2016', 'IDHM Renda Ajustado  Desigualdade 2017', 'IDHM Renda Ajustado  Desigualdade 2018', 'IDHM Renda Ajustado  Desigualdade 2019', 'IDHM Renda Ajustado  Desigualdade 2020', 'IDHM Renda Ajustado  Desigualdade 2021', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2012', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2013', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2014', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2015', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2016', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2017', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2018', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2019', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2020', 'IDHM Ajustado  Desigualdade - Perda pela desigualdade 2021', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2012', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2013', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2014', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2015', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2016', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2017', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2018', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2019', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2020', 'IDHM Longevidade Ajustado  Desigualdade - Perda pela desigualdade 2021', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2012', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2013', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2014', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2015', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2016', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2017', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2018', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2019', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2020', 'IDHM Educao Ajustado  Desigualdade - Perda pela desigualdade 2021', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2012', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2013', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2014', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2015', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2016', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2017', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2018', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2019', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2020', 'IDHM Renda Ajustado  Desigualdade - Perda pela desigualdade 2021']
+
+Resumo estatistico:
+Total de linhas: 7
+Total de colunas: 693
+Colunas numericas: 691

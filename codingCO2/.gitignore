@@ -1,9 +1,0 @@
-.idea/
-.iaenv/
-__pycache__/
-.ipynb_checkpoints/
-
-results/
-
-/tests/
-/zdelete
