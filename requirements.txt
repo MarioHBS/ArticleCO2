@@ -31,5 +31,9 @@ pytest==8.3.4
 pytest-cov==6.0.0
 coverage==7.6.9
 
+# Code Formatting and Linting
+black==24.10.0
+flake8==7.1.1
+
 # Logging (built-in, but documenting for clarity)
 # logging - built-in Python module
