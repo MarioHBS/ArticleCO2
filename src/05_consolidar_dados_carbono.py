@@ -1,12 +1,12 @@
 # src/05_consolidar_dados_carbono.py
 # -*- coding: utf-8 -*-
-"""
-Script para consolidação de dados e modelagem de precificação de carbono.
+"""Script para consolidação de dados e modelagem de precificação de carbono.
 
 Este script consolida todos os dados extraídos (PIB, cobertura, alertas de desmatamento)
 com preços de carbono, aplica diferentes algoritmos de machine learning para
 modelagem de precificação e salva métricas de performance dos modelos.
 """
+
 import os
 import ast
 

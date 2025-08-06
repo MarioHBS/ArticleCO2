@@ -1,7 +1,6 @@
 # src/08_gerar_figuras_consolidadas.py
 # -*- coding: utf-8 -*-
-"""
-src/08_gerar_figuras_consolidadas.py
+"""src/08_gerar_figuras_consolidadas.py
 
 Gera as figuras finais em formato vetorial PDF para uso em LaTeX
 
@@ -12,6 +11,7 @@ Gera as figuras finais em formato vetorial PDF para uso em LaTeX
   Figura03 – Importância de Variáveis (Random Forest)
   Figura04 – Matriz de Causalidade de Granger
 """
+
 import os
 import numpy as np
 import pandas as pd

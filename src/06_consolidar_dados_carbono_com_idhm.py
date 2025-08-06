@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Script para consolidar dados de PIB, GEE, alertas de desmatamento e IDHM
+"""Script para consolidar dados de PIB, GEE, alertas de desmatamento e IDHM
 para predição do preço de carbono na região da Serra do Penitente.
 
 Este script expande o pipeline original incluindo indicadores do IDHM
 como features adicionais para melhorar a predição do preço de carbono.
 """
+
 import os
 import pandas as pd
 import numpy as np

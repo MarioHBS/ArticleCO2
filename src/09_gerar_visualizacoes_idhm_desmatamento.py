@@ -1,11 +1,11 @@
 # src/09_gerar_visualizacoes_idhm_desmatamento.py
 # -*- coding: utf-8 -*-
-"""
-Script para gerar visualizações específicas correlacionando IDHM com desmatamento.
+"""Script para gerar visualizações específicas correlacionando IDHM com desmatamento.
 
 Este script cria gráficos que mostram a relação direta entre indicadores
 socioeconômicos (IDHM) e área desmatada nos municípios da Serra do Penitente.
 """
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns

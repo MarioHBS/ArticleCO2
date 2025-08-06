@@ -1,7 +1,6 @@
 # src/07_gerar_figuras_carbono.py
 # -*- coding: utf-8 -*-
-"""
-Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
+"""Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
 
 Figura01_Evolucao_PIB.png
     - Evolução do PIB Municipal (antes em etapa 04)
@@ -21,6 +20,7 @@ Figura08_Importancia_Variaveis.png
 Figura09_Evolucao_Preco_Carbono.png
     - Evolução temporal do preço do carbono (EU ETS) (antes em etapa 08)
 """
+
 import os
 import pandas as pd
 import seaborn as sns

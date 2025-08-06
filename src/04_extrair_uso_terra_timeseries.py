@@ -1,12 +1,12 @@
 # src/04_extrair_uso_terra_timeseries.py
 # -*- coding: utf-8 -*-
-"""
-Script para extração de séries temporais de uso da terra.
+"""Script para extração de séries temporais de uso da terra.
 
 Este script processa dados históricos de uso e cobertura da terra do MapBiomas
 para os municípios da Serra do Penitente, gerando séries temporais detalhadas
 por categoria de uso da terra para análise de mudanças ao longo do tempo.
 """
+
 import os
 import pandas as pd
 import sys
