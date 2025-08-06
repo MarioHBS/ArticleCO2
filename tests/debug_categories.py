@@ -1,21 +1,35 @@
-# debug_categories.py
-import os, json
+# tests/debug_categories.py
+# -*- coding: utf-8 -*-
+"""
+Script de teste para análise das categorias da API MapBiomas.
+
+Este módulo contém testes para:
+- Exploração das categorias disponíveis na API
+- Verificação da estrutura de dados retornada
+- Depuração de problemas de conectividade
+"""
+
+import os
+
 from map_biomas_api import MapBiomasAlertApi
 
-token = MapBiomasAlertApi.token({
-    "email": os.getenv("MAPBIOMAS_EMAIL"),
-    "password": os.getenv("MAPBIOMAS_PASSWORD")
-})
+token = MapBiomasAlertApi.token(
+    {"email": os.getenv("MAPBIOMAS_EMAIL"), "password": os.getenv("MAPBIOMAS_PASSWORD")}
+)
 
 # 1) pega todas as opções
-opts = MapBiomasAlertApi.query(token, """
+opts = MapBiomasAlertApi.query(
+    token,
+    """
   query {
     territoryOptions {
       categoryName
       territories { code name }
     }
   }
-""", {})["data"]["territoryOptions"]
+""",
+    {},
+)["data"]["territoryOptions"]
 
 # 2) imprime categoria + qtd. de territórios
 for opt in opts:

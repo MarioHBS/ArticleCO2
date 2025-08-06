@@ -7,12 +7,16 @@ da região da Serra do Penitente, extraindo estatísticas de cobertura por bioma
 a partir da planilha COVERAGE_9 do arquivo MapBiomas.
 """
 
-import os
-import pandas as pd
 import logging
+import os
 import sys
+
+import pandas as pd
+
+from variaveis import GENERATED_PATHS, INPUT_PATHS
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
+
 
 def load_mapbiomas_data(arquivo_path: str) -> pd.DataFrame:
     """
@@ -75,15 +79,20 @@ def get_year_columns(df: pd.DataFrame) -> list:
         col for col in df.columns
         if (isinstance(col, str) and col.isdigit()) or isinstance(col, int)
     ]
-    logging.info(f"Colunas de ano identificadas: {len(anos)} anos ({min(anos) if anos else 'N/A'}-{max(anos) if anos else 'N/A'})")
+    min_year = 'N/A' if not anos else min(anos)
+    max_year = 'N/A' if not anos else max(anos)
+    logging.info(f"Colunas de ano identificadas: {len(anos)} anos ({min_year}-{max_year})")
     return anos
+
 
 def filter_municipalities(df: pd.DataFrame, municipios_alvo: list) -> pd.DataFrame:
     """
     Filtra apenas municípios de interesse.
     """
     df_filtered = df[df["codigo_ibge"].isin(municipios_alvo)].copy()
-    logging.info(f"Dados filtrados: {len(df_filtered)} registros para {len(municipios_alvo)} municípios")
+    logging.info(
+        f"Dados filtrados: {len(df_filtered)} registros para {len(municipios_alvo)} municípios"
+    )
     return df_filtered
 
 
@@ -102,9 +111,11 @@ def transform_to_long_format(df: pd.DataFrame, anos: list) -> pd.DataFrame:
     """
     Transforma para formato longo.
     """
-    id_vars = ["codigo_ibge", "municipio", "uf", "bioma",
-               "classe_codigo", "classe_level_0",
-               "classe_level_1", "classe_level_2"]
+    id_vars = [
+        "codigo_ibge", "municipio", "uf", "bioma",
+        "classe_codigo", "classe_level_0",
+        "classe_level_1", "classe_level_2"
+    ]
 
     df_long = df.melt(
         id_vars=id_vars,
@@ -130,7 +141,10 @@ def save_data(df: pd.DataFrame, output_path: str):
     try:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         df.to_csv(output_path, index=False)
-        logging.info(f"CSV de cobertura MapBiomas salvo com sucesso: {output_path} ({len(df)} registros)")
+        logging.info(
+            f"CSV de cobertura MapBiomas salvo: {output_path} "
+            f"({len(df)} registros)"
+        )
     except Exception as e:
         logging.error(f"Erro ao salvar CSV: {str(e)}")
         raise

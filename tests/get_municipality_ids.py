@@ -1,16 +1,25 @@
-# get_municipality_ids.py
+# tests/get_municipality_ids.py
+# -*- coding: utf-8 -*-
+"""
+Script de teste para obtenção de IDs de municípios da API MapBiomas.
 
-import os
+Este módulo contém testes para:
+- Busca de IDs de municípios na API
+- Validação de correspondência de nomes
+- Depuração de problemas de identificação
+"""
+
 import json
-from unidecode import unidecode
+import os
+
 from map_biomas_api import MapBiomasAlertApi
+from unidecode import unidecode
+
 
 def get_token():
-    creds = {
-        "email":    os.getenv("MAPBIOMAS_EMAIL"),
-        "password": os.getenv("MAPBIOMAS_PASSWORD")
-    }
+    creds = {"email": os.getenv("MAPBIOMAS_EMAIL"), "password": os.getenv("MAPBIOMAS_PASSWORD")}
     return MapBiomasAlertApi.token(creds)
+
 
 def fetch_territory_options(token):
     q = """
@@ -26,26 +35,26 @@ def fetch_territory_options(token):
     """
     return MapBiomasAlertApi.query(token, q, {})["data"]["territoryOptions"]
 
+
 def normalize(s: str) -> str:
     """Remove acentos e coloca em caixa alta."""
     return unidecode(s).strip().upper()
 
+
 def extract_target_ids(options, targets):
     # 1) Filtra pela categoria "Município", normalizada
-    munis_opts = [
-        opt for opt in options
-        if normalize(opt["categoryName"]) == "MUNICIPIO"
-    ]
+    munis_opts = [opt for opt in options if normalize(opt["categoryName"]) == "MUNICIPIO"]
     # 2) Achata todas as listas de TerritoryOption
     all_munis = [t for opt in munis_opts for t in opt["territories"]]
     # 3) Mapeia NOME_NORMALIZADO → code
-    mapping = { normalize(t["name"]): t["code"] for t in all_munis }
+    mapping = {normalize(t["name"]): t["code"] for t in all_munis}
     # 4) Para cada alvo, tenta correspondência exata na versão normalizada
     result = {}
     for tgt in targets:
         key = normalize(tgt)
         result[tgt] = mapping.get(key)
     return result
+
 
 if __name__ == "__main__":
     # 1) Autentica

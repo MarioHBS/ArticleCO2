@@ -1,4 +1,13 @@
-# introspect_alert_types.py
+# tests/introspect_alert_types.py
+# -*- coding: utf-8 -*-
+"""
+Script de teste para introspecção dos tipos de alertas da API MapBiomas.
+
+Este módulo contém testes para:
+- Introspecção GraphQL dos tipos de dados
+- Análise da estrutura da API
+- Depuração de schemas de dados
+"""
 
 import json
 import os
@@ -6,10 +15,7 @@ import os
 from map_biomas_api import MapBiomasAlertApi
 
 # 1) Autenticação
-credentials = {
-    "email":    os.getenv("MAPBIOMAS_EMAIL"),
-    "password": os.getenv("MAPBIOMAS_PASSWORD")
-}
+credentials = {"email": os.getenv("MAPBIOMAS_EMAIL"), "password": os.getenv("MAPBIOMAS_PASSWORD")}
 token = MapBiomasAlertApi.token(credentials)
 
 # 2) Introspecção profunda de AlertDataCollection, AlertData e CollectionMetadata

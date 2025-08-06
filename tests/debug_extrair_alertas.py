@@ -1,21 +1,26 @@
-# debug_extrair_alertas.py
+# tests/debug_extrair_alertas.py
+# -*- coding: utf-8 -*-
+"""
+Script de teste para extração de alertas de desmatamento.
 
-from map_biomas_api import MapBiomasAlertApi
+Este módulo contém testes para:
+- Extração de alertas via API MapBiomas
+- Validação de dados retornados
+- Depuração de problemas na extração
+"""
+
 import pandas as pd
-import json, sys
+from map_biomas_api import MapBiomasAlertApi
 
 # 1) Autenticação
-credentials = {
-    "email":    "marioh90@gmail.com",
-    "password": "xZyn$3*6Hh"
-}
+credentials = {"email": "marioh90@gmail.com", "password": "xZyn$3*6Hh"}
 token = MapBiomasAlertApi.token(credentials)
 
 # 2) Parâmetros
 startDate = "2019-01-01"
-endDate   = "2025-04-30"
-limit     = 1000
-page      = 1
+endDate = "2025-04-30"
+limit = 1000
+page = 1
 target_cities = {"BALSAS", "TASSO FRAGOSO", "ALTO PARNAIBA"}
 
 all_alerts = []
@@ -25,9 +30,9 @@ query = MapBiomasAlertApi.PUBLISHED_ALERTS_QUERY
 while True:
     variables = {
         "startDate": startDate,
-        "endDate":   endDate,
-        "page":      page,
-        "limit":     limit,
+        "endDate": endDate,
+        "page": page,
+        "limit": limit,
     }
     resp = MapBiomasAlertApi.query(token, query, variables)
 
@@ -81,14 +86,17 @@ elif "cities" in df.columns:
 elif "city" in df.columns:
     filter_col = "city"
 else:
-    raise RuntimeError("Não encontrei coluna de cidade; colunas disponíves: " +
-                       ", ".join(df.columns))
+    raise RuntimeError(
+        "Não encontrei coluna de cidade; colunas disponíves: " + ", ".join(df.columns)
+    )
+
 
 # Função de filtragem (se for lista ou string)
 def city_in_target(val):
     if isinstance(val, list):
         return any(c.strip().upper() in target_cities for c in val)
     return str(val).strip().upper() in target_cities
+
 
 mask = df[filter_col].apply(city_in_target)
 df_serra = df.loc[mask].reset_index(drop=True)

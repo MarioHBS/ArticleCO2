@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 from types import SimpleNamespace
-import numpy as np
-import pandas as pd
 
 
 @dataclass
@@ -14,8 +12,8 @@ class Municipio:
 # Lista de municípios alvo
 MUNICIPIOS_ALVO = [
     Municipio(2100501, "Alto Parnaíba", "MA"),
-    Municipio(2101400, "Balsas",        "MA"),
-    Municipio(2112001, "Tasso Fragoso",  "MA"),
+    Municipio(2101400, "Balsas", "MA"),
+    Municipio(2112001, "Tasso Fragoso", "MA"),
 ]
 
 # Região de estudo
@@ -62,15 +60,16 @@ RESULT_PATHS = SimpleNamespace(
     carbon_price_model_all_results_csv="results/carbon_price_model_all_results.csv",
     metricas_modelos_com_idhm_csv="results/metricas_modelos_com_idhm.csv",
     comparacao_modelos_idhm_csv="results/comparacao_modelos_idhm.csv",
-
     # Importância de features
     feature_importance_rf_csv="results/importancia_variaveis_random_forest_com_idhm.csv",
     feature_importance_dt_csv="results/importancia_variaveis_decision_tree_com_idhm.csv",
     feature_importance_xgb_csv="results/importancia_variaveis_xgboost_com_idhm.csv",
-
     # Relatórios
     relatorio_impacto_idhm_txt="results/relatorio_impacto_idhm.txt",
-    relatorio_analise_estratos_desenvolvimento_txt="results/relatorio_analise_estratos_desenvolvimento.txt",
+    relatorio_analise_estratos_desenvolvimento_txt=(
+        "results/relatorio_analise_estratos_desenvolvimento.txt"
+    ),
+    analise_idhm_output_txt="results/analise_idhm_output.txt",
 )
 
 # Caminhos de figuras
@@ -81,32 +80,39 @@ FIGURE_PATHS = SimpleNamespace(
     figura04_evolucao_desmatamento_png="results/figures/Figura04_Evolucao_Desmatamento.png",
     figura05_eqm_modelos_png="results/figures/Figura05_EQM_Modelos.png",
     figura06_causalidade_granger_png="results/figures/Figura06_Causalidade_Granger.png",
-    figura06_causalidade_idhm_desmat_png="results/figures/Figura06_Causalidade_IDHM_Desmatamento.png",
-    figura10_correlacao_idhm_desmatamento_png="results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
-    figura11_evolucao_temporal_idhm_desmatamento_png="results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
-    figura12_heatmap_correlacao_idhm_png="results/figures/Figura12_Heatmap_Correlacao_IDHM.png",
-    figura13_analise_estratos_desenvolvimento_png="results/figures/Figura13_Analise_Estratos_Desenvolvimento.png",
-    figura14_heatmap_metricas_estratos_png="results/figures/Figura14_Heatmap_Metricas_Estratos.png",
-
+    figura06_causalidade_idhm_desmat_png=(
+        "results/figures/Figura06_Causalidade_IDHM_Desmatamento.png"
+    ),
+    figura10_correlacao_idhm_desmatamento_png=(
+        "results/figures/Figura10_Correlacao_IDHM_Desmatamento.png"
+    ),
+    figura11_evolucao_temporal_idhm_desmatamento_png=(
+        "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png"
+    ),
+    figura12_heatmap_correlacao_idhm_png=("results/figures/Figura12_Heatmap_Correlacao_IDHM.png"),
+    figura13_analise_estratos_desenvolvimento_png=(
+        "results/figures/Figura13_Analise_Estratos_Desenvolvimento.png"
+    ),
+    figura14_heatmap_metricas_estratos_png=(
+        "results/figures/Figura14_Heatmap_Metricas_Estratos.png"
+    ),
     # Figuras de dispersão (scatter plots)
     scatter_xgboost_png="results/figures/dispersao_real_vs_pred_xgboost.png",
     scatter_r2_vs_mse_comparacao_png="results/figures/scatter_r2_vs_mse_comparacao.png",
-
     # Figuras de evolução temporal
     evolucao_pib_png="results/figures/evolucao_pib_serra_penitente.png",
     evolucao_gee_png="results/figures/evolucao_gee_serra_penitente.png",
     evolucao_desmat_png="results/figures/evolucao_desmatamento_serra_penitente.png",
-
     # Figuras de comparação de modelos
     comparacao_modelos_com_sem_idhm_png="results/figures/comparacao_modelos_com_sem_idhm.png",
     melhorias_percentuais_idhm_png="results/figures/melhorias_percentuais_idhm.png",
-
     # Figuras consolidadas em PDF
     figura01_paineis_gee_pib_pdf="results/figures/Figura01_Paineis_GEE_PIB.pdf",
     figura02_comparacao_mse_pdf="results/figures/Figura02_Comparacao_MSE.pdf",
     figura03_importancia_rf_pdf="results/figures/Figura03_Importancia_RF.pdf",
-    figura04_matriz_causalidade_granger_pdf="results/figures/Figura04_Matriz_Causalidade_Granger.pdf",
-
+    figura04_matriz_causalidade_granger_pdf=(
+        "results/figures/Figura04_Matriz_Causalidade_Granger.pdf"
+    ),
     # Figuras de importância de variáveis
     figura08_importancia_variaveis_png="results/figures/Figura08_Importancia_Variaveis.png",
     figura09_evolucao_preco_carbono_png="results/figures/Figura09_Evolucao_Preco_Carbono.png",
@@ -118,16 +124,21 @@ CARBONO_CONSOLIDADO_COM_IDHM = GENERATED_PATHS.carbono_consolidado_com_idhm_csv
 MUNICIPIOS = MUNICIPIOS_ALVO
 
 # Features padrão para modelagem
-FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
+FEATURE_COLS = ["pib", "GEE_tCO2e", "area_desmatada_ha"]
 
 # Features expandidas incluindo IDHM
 FEATURE_COLS_EXPANDIDO = [
-    'pib', 'GEE_tCO2e', 'area_desmatada_ha',
-    'idhm_', 'idhm_renda', 'idhm_educação', 'idhm_longevidade'
+    "pib",
+    "GEE_tCO2e",
+    "area_desmatada_ha",
+    "idhm_",
+    "idhm_renda",
+    "idhm_educação",
+    "idhm_longevidade",
 ]
 
 
-def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose=False):
+def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose=False):
     """
     Calcula matriz de causalidade de Granger entre variáveis.
 
@@ -160,13 +171,16 @@ def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose
 
     if len(valid_columns) < 2:
         if verbose:
-            print(f"[WARN] Apenas {len(valid_columns)} colunas válidas encontradas. Retornando matriz vazia.")
-        return pd.DataFrame(np.ones((len(columns), len(columns))),
-                           columns=columns, index=columns)
+            print(
+                f"[WARN] Apenas {len(valid_columns)} colunas válidas encontradas. "
+                "Retornando matriz vazia."
+            )
+        return pd.DataFrame(np.ones((len(columns), len(columns))), columns=columns, index=columns)
 
     # Criar matriz de p-valores
-    causality_matrix = pd.DataFrame(np.ones((len(columns), len(columns))),
-                                   columns=columns, index=columns)
+    causality_matrix = pd.DataFrame(
+        np.ones((len(columns), len(columns))), columns=columns, index=columns
+    )
 
     for col_y in valid_columns:
         for col_x in valid_columns:
@@ -180,7 +194,7 @@ def granger_causality_matrix(df, columns, maxlag=4, test='ssr_chi2test', verbose
                         result = grangercausalitytests(data, maxlag=maxlag, verbose=False)
 
                         # Extrair menor p-valor entre os lags testados
-                        p_values = [result[lag+1][0][test][1] for lag in range(maxlag)]
+                        p_values = [result[lag + 1][0][test][1] for lag in range(maxlag)]
                         min_p_value = min(p_values)
 
                         causality_matrix.loc[col_x, col_y] = min_p_value

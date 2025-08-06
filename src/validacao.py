@@ -12,10 +12,11 @@ Funções principais:
 - check_data_integrity(): Verificação de integridade básica dos dados
 """
 
-import pandas as pd
-import numpy as np
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
+
+import numpy as np
+import pandas as pd
 
 
 def validate_pib_schema(df: pd.DataFrame) -> bool:
@@ -205,8 +206,10 @@ def check_data_integrity(df: pd.DataFrame, name: str = "DataFrame") -> Dict[str,
     return report
 
 
-def validate_year_range(df: pd.DataFrame, year_col: str = 'ano',
-                       min_year: int = 2000, max_year: int = 2030) -> bool:
+def validate_year_range(
+    df: pd.DataFrame, year_col: str = 'ano',
+        min_year: int = 2000,
+        max_year: int = 2030) -> bool:
     """
     Valida se os anos estão dentro de um intervalo válido.
 
@@ -229,8 +232,10 @@ def validate_year_range(df: pd.DataFrame, year_col: str = 'ano',
 
     if len(invalid_years) > 0:
         unique_invalid = invalid_years[year_col].unique()
-        raise ValueError(f"Anos inválidos encontrados: {unique_invalid}. "
-                        f"Esperado entre {min_year} e {max_year}")
+        raise ValueError(
+            f"Anos inválidos encontrados: {unique_invalid}. "
+            f"Esperado entre {min_year} e {max_year}"
+        )
 
     return True
 

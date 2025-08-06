@@ -7,18 +7,18 @@ desmatamento nos municípios da região da Serra do Penitente, processando
 informações sobre área desmatada, datas e categorias de alertas.
 """
 
-import os
-import sys
-import requests
 import argparse
 import logging
-import pandas as pd
-from requests.exceptions import RequestException, Timeout, ConnectionError
-
-import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import sys
+
+import pandas as pd
+import requests
+from requests.exceptions import ConnectionError, RequestException, Timeout
+
 from variaveis import GENERATED_PATHS
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 def get_token(base_url: str) -> str:
@@ -26,26 +26,28 @@ def get_token(base_url: str) -> str:
     try:
         email = os.getenv("MAPBIOMAS_EMAIL")
         pwd = os.getenv("MAPBIOMAS_PASSWORD")
-        
+
         if not email or not pwd:
-            raise ValueError("Credenciais não configuradas: defina MAPBIOMAS_EMAIL e MAPBIOMAS_PASSWORD")
-        
+            raise ValueError(
+                "Credenciais não configuradas: defina MAPBIOMAS_EMAIL e MAPBIOMAS_PASSWORD"
+            )
+
         logging.info(f"Autenticando na API: {base_url}")
-        
+
         resp = requests.post(
             f"{base_url}/token",
             json={"email": email, "password": pwd},
             timeout=30
         )
         resp.raise_for_status()
-        
+
         token_data = resp.json()
         if "token" not in token_data:
             raise ValueError("Resposta da API não contém token válido")
-            
+
         logging.info("Autenticação realizada com sucesso")
         return token_data["token"]
-        
+
     except Timeout:
         logging.error(f"Timeout ao conectar com a API: {base_url}")
         raise
@@ -69,14 +71,14 @@ def fetch_all_alerts(base_url: str,
     try:
         logging.info(f"Buscando alertas para período {start_date} a {end_date}")
         logging.info(f"Territórios: {territory_ids}")
-        
+
         headers = {"Authorization": f"Bearer {token}"}
         params = {
             "startDate":     start_date,
             "endDate":       end_date,
             "territoryIds":  ",".join(str(i) for i in territory_ids)
         }
-        
+
         resp = requests.get(
             f"{base_url}/alerts/all",
             headers=headers,
@@ -84,17 +86,17 @@ def fetch_all_alerts(base_url: str,
             timeout=300
         )
         resp.raise_for_status()
-        
+
         data = resp.json()
         alerts = data.get("collection", [])
-        
+
         logging.info(f"Recebidos {len(alerts)} alertas da API")
-        
+
         if not alerts:
             logging.warning("Nenhum alerta encontrado para os parâmetros especificados")
-        
+
         return alerts
-        
+
     except Timeout:
         logging.error("Timeout ao buscar alertas da API")
         raise
@@ -137,13 +139,13 @@ def main():
         help="URL base do servidor API. Padrão: %(default)s"
     )
     args = parser.parse_args()
-    
+
     # Configurar logging
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s"
     )
-    
+
     try:
         territory_ids = [int(x) for x in args.territories.split(",")]
         logging.info(f"Iniciando extração de alertas para territórios: {territory_ids}")
@@ -168,7 +170,7 @@ def main():
         df.to_csv(output_path, index=False, encoding="utf-8-sig")
 
         logging.info(f"Alertas salvos com sucesso em: {output_path} ({len(df)} registros)")
-        
+
     except ValueError as e:
         logging.error(f"Erro de validação: {str(e)}")
         sys.exit(1)

@@ -7,12 +7,15 @@ para os municípios da Serra do Penitente, gerando séries temporais detalhadas
 por categoria de uso da terra para análise de mudanças ao longo do tempo.
 """
 
-import os
-import pandas as pd
-import sys
 import logging
+import os
+import sys
+
+import pandas as pd
+
+from variaveis import GENERATED_PATHS, INPUT_PATHS
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
 
 RAW_EXCEL = INPUT_PATHS.mapbiomas
 PARTIAL_OUT = GENERATED_PATHS.uso_timeseries_csv
@@ -20,40 +23,41 @@ SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
 SERRA_CODES = [2100501, 2101400, 2112001]
 
+
 def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
     """
     Carrega o Excel MapBiomas de cobertura multianual.
     Renomeia colunas para padronizar:
-      - geocode   → codigo_ibge
-      - municipality → municipio
-      - class     → uso
+        - geocode   → codigo_ibge
+        - municipality → municipio
+        - class     → uso
     """
     try:
         if not os.path.exists(fp):
             raise FileNotFoundError(f"Arquivo não encontrado: {fp}")
-        
+
         logging.info(f"Carregando dados de cobertura de: {fp}")
         df = pd.read_excel(fp, sheet_name=sheet_name)
-        
+
         if df.empty:
             raise ValueError(f"Arquivo está vazio: {fp}")
-        
+
         logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
-        
+
         df = df.rename(columns={
             'geocode': 'codigo_ibge',
             'municipality': 'municipio',
             'class': 'uso'
         })
-        
+
         # Verificar colunas essenciais
         required_cols = ['codigo_ibge', 'municipio', 'uso']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
             logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
-        
+
         return df
-        
+
     except FileNotFoundError:
         logging.error(f"Arquivo não encontrado: {fp}")
         raise
@@ -122,10 +126,10 @@ def main():
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s"
     )
-    
+
     try:
         logging.info("Iniciando extração de séries temporais de uso da terra")
-        
+
         # 1) Carrega o Excel bruto
         df_raw = load_coverage_excel(RAW_EXCEL)
 
@@ -146,9 +150,9 @@ def main():
 
         # 5) Salva parcial
         save_partial(df_summary, PARTIAL_OUT)
-        
+
         logging.info("Extração de séries temporais concluída com sucesso")
-        
+
     except Exception as e:
         logging.error(f"Erro durante a extração de séries temporais: {str(e)}")
         raise

@@ -11,10 +11,12 @@ Figura03_Evolucao_Desmatamento.png
 Figura04_EQM_Modelos.png
     - Barplot de EQM (MSE) comparando os 9 modelos treinados (antes em etapa 08)
 Figura05_Correlacoes.png
-    - Heatmap de causalidade de Granger entre PIB, GEE, desmatamento e preço de carbono (antes em etapa 08)
+    - Heatmap de causalidade de Granger entre PIB, GEE, desmatamento e preco
+    de carbono (antes em etapa 08)
 Figura07_x.png  (x = 1..9)
-    - Scatters Real vs Previsto para cada modelo: 1=LinearRegression, 2=RandomForest, 3=KNN, 4=DecisionTree,
-      5=MLP, 6=Lasso, 7=SVR, 8=Dummy, 9=XGBoost (antes em etapa 07)
+    - Scatters Real vs Previsto para cada modelo: 1=LinearRegression, 2=RandomForest,
+    3=KNN, 4=DecisionTree,
+    5=MLP, 6=Lasso, 7=SVR, 8=Dummy, 9=XGBoost (antes em etapa 07)
 Figura08_Importancia_Variaveis.png
     - Importância relativa das variáveis (Random Forest) (antes em etapa 08)
 Figura09_Evolucao_Preco_Carbono.png
@@ -22,23 +24,32 @@ Figura09_Evolucao_Preco_Carbono.png
 """
 
 import os
+import sys
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression, Lasso
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Lasso, LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
-import sys
-import os
+
+from variaveis import (
+    CARBONO_CONSOLIDADO_COM_IDHM,
+    FEATURE_COLS,
+    GENERATED_PATHS,
+    INPUT_PATHS,
+    RESULT_PATHS,
+    granger_causality_matrix,
+)
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
 
 sns.set(style='whitegrid')
 fig_dir = os.path.dirname(RESULT_PATHS.evolucao_pib_png)

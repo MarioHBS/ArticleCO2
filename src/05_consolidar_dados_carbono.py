@@ -7,26 +7,26 @@ com preços de carbono, aplica diferentes algoritmos de machine learning para
 modelagem de precificação e salva métricas de performance dos modelos.
 """
 
-import os
 import ast
+import os
+import sys
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import r2_score, mean_squared_error
-from sklearn.linear_model import LinearRegression, Lasso
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.svm import SVR
 from sklearn.dummy import DummyRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Lasso, LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
-import sys
-import os
+from variaveis import FEATURE_COLS, GENERATED_PATHS, INPUT_PATHS, RESULT_PATHS
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS
 
 # 1) Cria diretórios de saída
 os.makedirs("results/figures", exist_ok=True)
@@ -96,8 +96,6 @@ df_final.to_csv(
     encoding='utf-8-sig'
 )
 print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
-
-# --- Removida aqui a geração de figuras 1–3, pois são recriadas em src/07_gerar_figuras_carbono.py ---
 
 # 8) Predição de preço de carbono e salvamento de métricas
 

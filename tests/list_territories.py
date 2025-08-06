@@ -1,17 +1,28 @@
-#!/usr/bin/env python3
-import os, sys, requests
+# tests/list_territories.py
+# -*- coding: utf-8 -*-
+"""
+Script de teste para listagem de territórios da API MapBiomas.
+
+Este módulo contém testes para:
+- Listagem de territórios disponíveis
+- Validação de conectividade com API local
+- Depuração de problemas de autenticação
+"""
+
+import sys
+
+import requests
 
 BASE = "http://localhost:8000"
 
 
 def generate_token():
-    email = "marioh90@gmail.com" # os.getenv("MAPBIOMIAS_EMAIL")
-    pwd = "xZyn$3*6Hh" #os.getenv("MAPBIOMIAS_PASSWORD")
+    email = "marioh90@gmail.com"  # os.getenv("MAPBIOMIAS_EMAIL")
+    pwd = "xZyn$3*6Hh"  # os.getenv("MAPBIOMIAS_PASSWORD")
     if not email or not pwd:
         print("Defina MAPBIOMIAS_EMAIL e MAPBIOMIAS_PASSWORD", file=sys.stderr)
         sys.exit(1)
-    r = requests.post(f"{BASE}/token",
-                      json={"email": email, "password": pwd})
+    r = requests.post(f"{BASE}/token", json={"email": email, "password": pwd})
     r.raise_for_status()
     return r.json()["token"]
 
