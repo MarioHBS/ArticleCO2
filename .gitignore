@@ -8,12 +8,7 @@ __pycache__/
 # Environment variables
 .env
 
-results/
-
-/data/archive/
-/data/downloads/
-/data/generated/
-/data/SEEG-12-dados-municipais.xlsx
+/results/
 
 /zdelete
 .trae/rules/project_rules.md
