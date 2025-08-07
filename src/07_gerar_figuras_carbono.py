@@ -1,11 +1,6 @@
 # src/07_gerar_figuras_carbono.py
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 """Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
-=======
-"""
-Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 Figura01_Evolucao_PIB.png
     - Evolução do PIB Municipal (antes em etapa 04)
@@ -16,12 +11,8 @@ Figura03_Evolucao_Desmatamento.png
 Figura04_EQM_Modelos.png
     - Barplot de EQM (MSE) comparando os 9 modelos treinados (antes em etapa 08)
 Figura05_Correlacoes.png
-<<<<<<< HEAD
     - Heatmap de causalidade de Granger entre PIB, GEE, desmatamento e preco
     de carbono (antes em etapa 08)
-=======
-    - Heatmap de causalidade de Granger entre PIB, GEE, desmatamento e preço de carbono (antes em etapa 08)
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 Figura07_x.png  (x = 1..9)
     - Scatters Real vs Previsto para cada modelo: 1=LinearRegression, 2=RandomForest,
     3=KNN, 4=DecisionTree,
@@ -49,7 +40,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
-<<<<<<< HEAD
 
 from variaveis import (
     CARBONO_CONSOLIDADO_COM_IDHM,
@@ -65,15 +55,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 sns.set(style='whitegrid')
 fig_dir = os.path.dirname(FIGURE_PATHS.evolucao_pib_png)
-=======
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS, FEATURE_COLS_EXPANDIDO, CARBONO_CONSOLIDADO_COM_IDHM, granger_causality_matrix
-
-sns.set(style='whitegrid')
-fig_dir = os.path.dirname(RESULT_PATHS.evolucao_pib_png)
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 os.makedirs(fig_dir, exist_ok=True)
 
 # contador de figuras
@@ -153,11 +134,7 @@ if os.path.exists(CARBONO_CONSOLIDADO_COM_IDHM):
     caus_cols2 = idhm_cols + ['area_desmatada_ha']
     df_idhm_sorted = df_idhm_full.sort_values('ano')
     matrix2 = granger_causality_matrix(df_idhm_sorted, caus_cols2, maxlag=2, verbose=True)
-<<<<<<< HEAD
     path = FIGURE_PATHS.figura06_causalidade_idhm_desmat_png
-=======
-    path = RESULT_PATHS.causalidade_idhm_desmat_png
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     plt.figure(figsize=(8, 6))
     sns.heatmap(1 - matrix2, annot=True, fmt='.3f', cmap='Reds',
                 xticklabels=caus_cols2, yticklabels=caus_cols2,
@@ -306,7 +283,6 @@ print("[INFO] Gerando Figura 09")
 path_png = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.png')
 path_pdf = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.pdf')
 
-<<<<<<< HEAD
 plt.figure(figsize=(8, 5))
 sns.lineplot(data=price_df, x='ano', y='carbon_price_usd', marker='o', linewidth=2, markersize=8)
 plt.xlabel('Ano', fontsize=12)
@@ -338,7 +314,4 @@ plt.savefig(path_pdf, format='pdf', bbox_inches='tight')
 print(f"[OK] Figura09 PDF salva em {path_pdf}")
 
 plt.close()
-
-=======
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 print('[OK] Todas as figuras numeradas geradas com sucesso!')

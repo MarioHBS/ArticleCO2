@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# run_pipeline_validation.py
 # -*- coding: utf-8 -*-
 """
 Pipeline de Processamento de Dados de Carbono
@@ -9,20 +9,12 @@ de processamento de dados e geração de resultados.
 Baseado em: run_pipeline_validation.ipynb
 """
 
-<<<<<<< HEAD
 import glob
 import os
 import subprocess
 import sys
 
 from src.variaveis import FIGURE_PATHS, GENERATED_PATHS, RESULT_PATHS, SCRIPTS
-=======
-import subprocess
-import sys
-import os
-import glob
-from src.variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 
 def safe_print(s: str):
@@ -30,12 +22,7 @@ def safe_print(s: str):
     try:
         print(s)
     except UnicodeEncodeError:
-<<<<<<< HEAD
         clean = s.encode(sys.stdout.encoding, errors="replace").decode(sys.stdout.encoding)
-=======
-        clean = s.encode(sys.stdout.encoding, errors='replace').decode(
-            sys.stdout.encoding)
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
         print(clean)
 
 
@@ -56,46 +43,26 @@ def check_files(files):
 def run_script(script_name, expected_outputs=None, check_patterns=None):
     """Executa um script e verifica suas saídas."""
     print(f"\n=== Executando {script_name} ===")
-<<<<<<< HEAD
 
     result = subprocess.run([sys.executable, script_name], capture_output=True, text=True)
 
     if result.stdout:
         safe_print(result.stdout)
 
-=======
-    
-    result = subprocess.run([sys.executable, script_name], 
-                          capture_output=True, text=True)
-    
-    if result.stdout:
-        safe_print(result.stdout)
-    
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     if result.returncode != 0:
         safe_print(f"[ERROR] {script_name} falhou (código de saída {result.returncode})")
         if result.stderr:
             safe_print(f"Erro: {result.stderr}")
         return False
-<<<<<<< HEAD
 
     print(f"[OK] {script_name} executado com sucesso (código de saída {result.returncode})")
 
-=======
-    
-    print(f"[OK] {script_name} executado com sucesso (código de saída {result.returncode})")
-    
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     # Verificar arquivos de saída
     if expected_outputs:
         print(f"Verificando saídas para {script_name}:")
         if not check_files(expected_outputs):
             return False
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     # Verificar padrões de arquivos (para figuras)
     if check_patterns:
         print(f"Verificando padrões de arquivos para {script_name}:")
@@ -106,21 +73,14 @@ def run_script(script_name, expected_outputs=None, check_patterns=None):
             else:
                 print(f"[MISSING] Padrão {pattern}")
                 return False
-<<<<<<< HEAD
 
     return True
 
-=======
-    
-    return True
-
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 def main():
     """Função principal do pipeline."""
     print("Iniciando Pipeline de Processamento de Dados de Carbono")
     print("=" * 60)
-<<<<<<< HEAD
 
     all_ok = True
     step_results = []
@@ -154,49 +114,11 @@ def main():
         SCRIPTS.consolidar_dados_carbono,
         [GENERATED_PATHS.carbono_consolidado_csv, RESULT_PATHS.model_results_csv],
     )
-=======
-    
-    all_ok = True
-    step_results = []
-    
-    # Etapa 1: Extrair PIB municipal
-    result1 = run_script("src/01_extrair_pib_municipal.py", 
-                        [GENERATED_PATHS.pib_ibge_csv])
-    step_results.append(("Etapa 1", result1))
-    if not result1:
-        all_ok = False
-    
-    # Etapa 2: Extrair cobertura municipal
-    result2 = run_script("src/02_extrair_cobertura_municipal.py", 
-                        [GENERATED_PATHS.mapbiomas_long_csv])
-    step_results.append(("Etapa 2", result2))
-    if not result2:
-        all_ok = False
-    
-    # Etapa 3: Extrair alertas de desmatamento
-    result3 = run_script("src/03_extrair_alertas_desmatamento.py", 
-                        [GENERATED_PATHS.alertas_csv])
-    step_results.append(("Etapa 3", result3))
-    if not result3:
-        all_ok = False
-    
-    # Etapa 4: Extrair séries temporais de uso da terra
-    result4 = run_script("src/04_extrair_uso_terra_timeseries.py", 
-                        [GENERATED_PATHS.uso_timeseries_csv])
-    step_results.append(("Etapa 4", result4))
-    if not result4:
-        all_ok = False
-    
-    # Etapa 5: Consolidar dados de carbono
-    result5 = run_script("src/05_consolidar_dados_carbono.py", 
-                        [GENERATED_PATHS.carbono_consolidado_csv, RESULT_PATHS.model_results_csv])
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     step_results.append(("Etapa 5", result5))
     if not result5:
         all_ok = False
 
     # Etapa 6: Consolidar dados de carbono com IDHM
-<<<<<<< HEAD
     result6 = run_script(
         SCRIPTS.consolidar_dados_carbono_com_idhm,
         [
@@ -247,48 +169,6 @@ def main():
             FIGURE_PATHS.comparacao_modelos_com_sem_idhm_png,
             FIGURE_PATHS.melhorias_percentuais_idhm_png,
         ],
-=======
-    result6 = run_script("src/06_consolidar_dados_carbono_com_idhm.py", 
-                        [RESULT_PATHS.carbono_consolidado_com_idhm_csv, RESULT_PATHS.metricas_modelos_com_idhm_csv])
-    step_results.append(("Etapa 6", result6))
-    if not result6:
-        all_ok = False
-    
-    # Etapa 7: Gerar figuras de carbono
-    fig_dir = "results/figures"
-    figure_patterns = []
-    
-    # Figuras específicas geradas pelo script 07_gerar_figuras_carbono.py
-    figure_patterns.extend([
-        os.path.join(fig_dir, "Figura01_Evolucao_PIB.png"),
-        os.path.join(fig_dir, "Figura03_Evolucao_GEE.png"),
-        os.path.join(fig_dir, "Figura04_Evolucao_Desmatamento.png"),
-        os.path.join(fig_dir, "Figura05_EQM_Modelos.png"),
-        os.path.join(fig_dir, "Figura06_Causalidade_Granger.png")
-    ])
-    
-    # Figuras 07_1 a 07_9 (scatters)
-    for i in range(1, 10):
-        figure_patterns.append(os.path.join(fig_dir, f"Figura07_{i}_*.png"))
-    
-    # Figuras específicas
-    figure_patterns.extend([
-        os.path.join(fig_dir, "Figura08_Importancia_Variaveis.png"),
-        os.path.join(fig_dir, "Figura09_Evolucao_Preco_Carbono.png")
-    ])
-    
-    result7 = run_script("src/07_gerar_figuras_carbono.py", 
-                        check_patterns=figure_patterns)
-    step_results.append(("Etapa 7", result7))
-    if not result7:
-        all_ok = False
-    
-    # Etapa 8: Comparar modelos com e sem IDHM
-    result8 = run_script(
-        "comparar_modelos_com_sem_idhm.py",
-        ["results/figures/comparacao_modelos_com_sem_idhm.png",
-         "results/figures/melhorias_percentuais_idhm.png"]
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     )
     step_results.append(("Etapa 8", result8))
     if not result8:
@@ -296,19 +176,12 @@ def main():
 
     # Etapa 9: Gerar visualizações IDHM vs Desmatamento
     result9 = run_script(
-<<<<<<< HEAD
         SCRIPTS.gerar_visualizacoes_idhm_desmatamento,
         [
             FIGURE_PATHS.figura10_correlacao_idhm_desmatamento_png,
             FIGURE_PATHS.figura11_evolucao_temporal_idhm_desmatamento_png,
             FIGURE_PATHS.figura12_heatmap_correlacao_idhm_png,
         ],
-=======
-        "src/09_gerar_visualizacoes_idhm_desmatamento.py",
-        ["results/figures/Figura10_Correlacao_IDHM_Desmatamento.png",
-         "results/figures/Figura11_Evolucao_Temporal_IDHM_Desmatamento.png",
-         "results/figures/Figura12_Heatmap_Correlacao_IDHM.png"]
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     )
     step_results.append(("Etapa 9", result9))
     if not result9:
@@ -316,7 +189,6 @@ def main():
 
     # Etapa 10: Gerar figuras consolidadas
     consolidated_patterns = [
-<<<<<<< HEAD
         FIGURE_PATHS.figura01_paineis_gee_pib_pdf,
         FIGURE_PATHS.figura02_comparacao_mse_pdf,
         FIGURE_PATHS.figura03_importancia_rf_pdf,
@@ -326,55 +198,30 @@ def main():
     result10 = run_script(
         SCRIPTS.gerar_figuras_consolidadas, expected_outputs=consolidated_patterns
     )
-=======
-        "results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
-        "results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",
-        "results/figuras_consolidadas/Figura03_Importancia_RF.pdf",
-        "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf"
-    ]
-    
-    result10 = run_script("src/08_gerar_figuras_consolidadas.py", 
-                        expected_outputs=consolidated_patterns)
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     step_results.append(("Etapa 10", result10))
     if not result10:
         all_ok = False
 
     # Etapa 11: Analisar políticas por estratos de desenvolvimento
     result11 = run_script(
-<<<<<<< HEAD
         SCRIPTS.analisar_politicas_por_estratos_idhm,
         [
             FIGURE_PATHS.figura13_analise_estratos_desenvolvimento_png,
             FIGURE_PATHS.figura14_heatmap_metricas_estratos_png,
             "results/relatorio_analise_estratos_desenvolvimento.txt",
         ],
-=======
-        "src/10_analisar_politicas_por_estratos_idhm.py",
-        ["results/figures/Figura13_Analise_Estratos_Desenvolvimento.png",
-         "results/figures/Figura14_Heatmap_Metricas_Estratos.png",
-         "results/relatorio_analise_estratos_desenvolvimento.txt"]
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     )
     step_results.append(("Etapa 11", result11))
     if not result11:
         all_ok = False
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     # Resultado final
     print("\n" + "=" * 60)
     print("RESUMO DO PIPELINE:")
     for step_name, step_ok in step_results:
         status = "[OK]" if step_ok else "[FALHOU]"
         print(f"  {step_name}: {status}")
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     print("\n" + "=" * 60)
     if all_ok:
         print("[OK] PIPELINE EXECUTADO COM SUCESSO!")
@@ -388,8 +235,4 @@ def main():
 
 if __name__ == "__main__":
     exit_code = main()
-<<<<<<< HEAD
     sys.exit(exit_code)
-=======
-    sys.exit(exit_code)
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b

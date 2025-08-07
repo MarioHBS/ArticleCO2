@@ -1,6 +1,5 @@
 # src/05_consolidar_dados_carbono.py
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 """Script para consolidação de dados e modelagem de precificação de carbono.
 
 Este script consolida todos os dados extraídos (PIB, cobertura, alertas de desmatamento)
@@ -8,16 +7,6 @@ com preços de carbono, aplica diferentes algoritmos de machine learning para
 modelagem de precificação e salva métricas de performance dos modelos.
 """
 
-=======
-"""
-Script para consolidação de dados e modelagem de precificação de carbono.
-
-Este script consolida todos os dados extraídos (PIB, cobertura, alertas de desmatamento)
-com preços de carbono, aplica diferentes algoritmos de machine learning para
-modelagem de precificação e salva métricas de performance dos modelos.
-"""
-import os
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 import ast
 import os
 import sys
@@ -35,16 +24,9 @@ from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
-<<<<<<< HEAD
 from variaveis import FEATURE_COLS, GENERATED_PATHS, INPUT_PATHS, RESULT_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-=======
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import INPUT_PATHS, GENERATED_PATHS, RESULT_PATHS, FEATURE_COLS
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 # 1) Cria diretórios de saída
 os.makedirs("results/figures", exist_ok=True)
@@ -113,11 +95,6 @@ df_final.to_csv(
     encoding='utf-8-sig'
 )
 print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
-<<<<<<< HEAD
-=======
-
-# --- Removida aqui a geração de figuras 1–3, pois são recriadas em src/07_gerar_figuras_carbono.py ---
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 # 8) Predição de preço de carbono e salvamento de métricas
 
@@ -134,8 +111,9 @@ year_cols = [c for c in price_raw.columns if isinstance(c, int)]
 
 df_price = (
     price_raw
-    .melt(id_vars=[instrument_col], value_vars=year_cols,
-          var_name='ano', value_name='carbon_price_usd')
+    .melt(
+        id_vars=[instrument_col], value_vars=year_cols,
+        var_name='ano', value_name='carbon_price_usd')
     .query(f"`{instrument_col}` == 'EU ETS'")
 )
 df_price['ano'] = df_price['ano'].astype(int)

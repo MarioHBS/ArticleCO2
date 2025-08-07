@@ -178,11 +178,7 @@ O pipeline é composto por 10 scripts principais (01-10) mais scripts de valida�
 - Gera heatmap de causalidade de Granger entre variáveis
 - Produz scatters de valores reais vs. previstos para cada modelo
 - Cria gráfico de importância das variáveis (Random Forest)
-<<<<<<< HEAD
 - Gera evolução temporal do preço do carbono (sem outlier de 2018)
-=======
-- Gera evolução temporal do preço do carbono
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 **Saídas (results/figures/):**
 - `Figura01_Evolucao_PIB.png`
@@ -192,12 +188,8 @@ O pipeline é composto por 10 scripts principais (01-10) mais scripts de valida�
 - `Figura05_Causalidade_Granger.png`
 - `Figura07_1_LinearRegression.png` até `Figura07_9_XGBoost.png`
 - `Figura08_Importancia_Variaveis.png`
-<<<<<<< HEAD
 - `Figura09_Evolucao_Preco_Carbono.png` (alta resolução)
 - `Figura09_Evolucao_Preco_Carbono.pdf` (vetorial)
-=======
-- `Figura09_Evolucao_Preco_Carbono.png`
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 ---
 
@@ -407,8 +399,4 @@ Resultados de modelagem e figuras:
 - **Configuração:** Variáveis de ambiente para autenticação
 - **Bibliotecas:** pandas, scikit-learn, matplotlib, seaborn, xgboost
 
-<<<<<<< HEAD
 Este pipeline garante reprodutibilidade, rastreabilidade e validação automática de todo o processo de análise de dados de carbono para a região da Serra do Penitente.
-=======
-Este pipeline garante reprodutibilidade, rastreabilidade e validação automática de todo o processo de análise de dados de carbono para a região da Serra do Penitente.
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b

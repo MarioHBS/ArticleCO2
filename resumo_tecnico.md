@@ -84,11 +84,7 @@ for name, model in models.items():
 
         model.fit(X_train_s, y_train)
         preds = model.predict(X_test_s)
-<<<<<<< HEAD
-
-=======
         
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
         mse_scores.append(mean_squared_error(y_test, preds))
 
     results.append({
@@ -115,11 +111,7 @@ for name, model in models.items():
 | **Figura 05** | `sns.heatmap` da causalidade de Granger entre variáveis. | Resultados, § D |
 | **Figura 07** | Scatters de valores reais vs. previstos para cada modelo. | Resultados |
 | **Figura 08** | `sns.barplot` da importância das variáveis (Random Forest). | Resultados, § C |
-<<<<<<< HEAD
 | **Figura 09** | `sns.lineplot` da evolução do preço do carbono (EU-ETS) sem outlier de 2018. Gerada em PNG e PDF. | Resultados |
-=======
-| **Figura 09** | `sns.lineplot` da evolução do preço do carbono (EU-ETS). | Resultados |
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 ## 5. Cálculo do potencial econômico (opcional)
 
@@ -218,11 +210,7 @@ A matriz gerada no estudo foi salva como um gráfico vetorial em PDF para inclus
 ```python
 causality_strength = 1 - causality_matrix
 plt.figure(figsize=(6.5, 6))
-<<<<<<< HEAD
 sns.heatmap(causality_strength, annot=True, fmt=".3f", cmap="Reds",
-=======
-sns.heatmap(causality_strength, annot=True, fmt=".3f", cmap="Reds", 
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
             linewidths=0.5, square=True,
             cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
 plt.title('Causalidade de Granger entre Variáveis\n(Linha causa Coluna)')
@@ -252,11 +240,7 @@ Todos os arquivos de resultados foram organizados na pasta `results/` para melho
 
 ### Importância de features:
 - **feature_importance_random_forest_com_idhm.csv**: Ranking de importância das variáveis no Random Forest
-<<<<<<< HEAD
 - **feature_importance_decision_tree_com_idhm.csv**: Ranking de importância das variáveis no Decision Tree
-=======
-- **feature_importance_decision_tree_com_idhm.csv**: Ranking de importância das variáveis no Decision Tree  
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 - **feature_importance_xgboost_com_idhm.csv**: Ranking de importância das variáveis no XGBoost
 
 ### Figuras:

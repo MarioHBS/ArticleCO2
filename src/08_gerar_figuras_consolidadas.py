@@ -1,29 +1,14 @@
 # src/08_gerar_figuras_consolidadas.py
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 """src/08_gerar_figuras_consolidadas.py
 
 Gera as figuras finais em formato vetorial PDF para uso em LaTeX
-
     Figura01 – Painéis sincronizados:
                 (a) Emissões de GEE 1985-2023
                 (b) PIB municipal 2002-2021
     Figura02 – Comparação de MSE entre Modelos (TimeSeriesSplit k=10)
     Figura03 – Importância de Variáveis (Random Forest)
     Figura04 – Matriz de Causalidade de Granger
-=======
-"""
-src/08_gerar_figuras_consolidadas.py
-
-Gera as figuras finais em formato vetorial PDF para uso em LaTeX
-
-  Figura01 – Painéis sincronizados:
-              (a) Emissões de GEE 1985-2023
-              (b) PIB municipal 2002-2021
-  Figura02 – Comparação de MSE entre Modelos (TimeSeriesSplit k=10)
-  Figura03 – Importância de Variáveis (Random Forest)
-  Figura04 – Matriz de Causalidade de Granger
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 """
 import os
 import sys
@@ -33,30 +18,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-<<<<<<< HEAD
-=======
-import matplotlib.pyplot as plt
-import warnings
-
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import (
-    INPUT_PATHS,
-    FEATURE_COLS,
-    GENERATED_PATHS,
-    RESULT_PATHS,
-    granger_causality_matrix,
-)
-from sklearn.model_selection import TimeSeriesSplit
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression, Lasso
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.svm import SVR
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Lasso, LinearRegression
@@ -70,6 +31,7 @@ from xgboost import XGBRegressor
 
 from variaveis import FEATURE_COLS, GENERATED_PATHS, INPUT_PATHS, granger_causality_matrix
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Supress warnings about missing glyphs

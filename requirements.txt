@@ -31,14 +31,9 @@ pytest==8.3.4
 pytest-cov==6.0.0
 coverage==7.6.9
 
-<<<<<<< HEAD
 # Code Formatting and Linting
 black==24.10.0
 flake8==7.1.1
 
 # Logging (built-in, but documenting for clarity)
 # logging - built-in Python module
-=======
-# Logging (built-in, but documenting for clarity)
-# logging - built-in Python module
->>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
