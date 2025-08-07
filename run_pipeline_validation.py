@@ -9,11 +9,12 @@ de processamento de dados e geração de resultados.
 Baseado em: run_pipeline_validation.ipynb
 """
 
+import glob
+import os
 import subprocess
 import sys
-import os
-import glob
-from src.variaveis import GENERATED_PATHS, RESULT_PATHS, SCRIPTS, FIGURE_PATHS
+
+from src.variaveis import FIGURE_PATHS, GENERATED_PATHS, RESULT_PATHS, SCRIPTS
 
 
 def safe_print(s: str):

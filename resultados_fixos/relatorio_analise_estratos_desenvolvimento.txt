@@ -1,0 +1,55 @@
+RELATORIO DE ANALISE DE POLITICAS POR ESTRATOS DE DESENVOLVIMENTO
+================================================================================
+
+Data da analise: 2025-08-07 11:52:26
+Numero de estratos analisados: 2
+
+ESTRATO: MEDIO-ALTO DESENVOLVIMENTO
+--------------------------------------------------
+Numero de observacoes: 29
+Desmatamento medio: 61.15 +/- 329.33 ha
+Emissoes medias: 886638.70 +/- 334099.30 tCO2e
+PIB medio: R$ 217,118.87 +/- 137,407.92
+Intensidade de carbono: 8.177833 +/- 9.618991 tCO2e/R$
+Tendencia de desmatamento: 23.21 ha/ano (R2 = 0.136)
+Tendencia de emissoes: 15846.61 tCO2e/ano (R2 = 0.061)
+
+ESTRATO: ALTO DESENVOLVIMENTO
+--------------------------------------------------
+Numero de observacoes: 31
+Desmatamento medio: 2461.58 +/- 6026.71 ha
+Emissoes medias: 1018155.08 +/- 410713.16 tCO2e
+PIB medio: R$ 1,801,537.59 +/- 1,368,471.35
+Intensidade de carbono: 0.812617 +/- 0.577871 tCO2e/R$
+Tendencia de desmatamento: 553.92 ha/ano (R2 = 0.248)
+Tendencia de emissoes: -24587.48 tCO2e/ano (R2 = 0.105)
+
+ANALISE COMPARATIVA ENTRE ESTRATOS
+==================================================
+Ranking de desmatamento (maior para menor):
+1. Alto desenvolvimento: 2461.58 ha
+2. Medio-alto desenvolvimento: 61.15 ha
+
+Ranking de intensidade de carbono (maior para menor):
+1. Medio-alto desenvolvimento: 8.177833 tCO2e/R$
+2. Alto desenvolvimento: 0.812617 tCO2e/R$
+
+RECOMENDACOES DE POLITICAS POR ESTRATO
+==================================================
+
+MEDIO-ALTO DESENVOLVIMENTO:
+- Manter politicas de conservacao atuais
+- Foco em sustentabilidade e desenvolvimento verde
+- ATENCAO: Tendencia crescente de desmatamento
+- Revisar efetividade das politicas atuais
+- Promover eficiencia energetica e tecnologias limpas
+- Incentivar diversificacao economica sustentavel
+
+ALTO DESENVOLVIMENTO:
+- Prioridade ALTA para politicas de controle do desmatamento
+- Implementar monitoramento intensivo e fiscalizacao rigorosa
+- Programas de incentivos para conservacao
+- ATENCAO: Tendencia crescente de desmatamento
+- Revisar efetividade das politicas atuais
+- Promover eficiencia energetica e tecnologias limpas
+- Incentivar diversificacao economica sustentavel

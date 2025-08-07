@@ -178,7 +178,7 @@ O pipeline é composto por 10 scripts principais (01-10) mais scripts de valida�
 - Gera heatmap de causalidade de Granger entre variáveis
 - Produz scatters de valores reais vs. previstos para cada modelo
 - Cria gráfico de importância das variáveis (Random Forest)
-- Gera evolução temporal do preço do carbono
+- Gera evolução temporal do preço do carbono (sem outlier de 2018)
 
 **Saídas (results/figures/):**
 - `Figura01_Evolucao_PIB.png`
@@ -188,7 +188,8 @@ O pipeline é composto por 10 scripts principais (01-10) mais scripts de valida�
 - `Figura05_Causalidade_Granger.png`
 - `Figura07_1_LinearRegression.png` até `Figura07_9_XGBoost.png`
 - `Figura08_Importancia_Variaveis.png`
-- `Figura09_Evolucao_Preco_Carbono.png`
+- `Figura09_Evolucao_Preco_Carbono.png` (alta resolução)
+- `Figura09_Evolucao_Preco_Carbono.pdf` (vetorial)
 
 ---
 

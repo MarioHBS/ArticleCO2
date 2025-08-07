@@ -31,12 +31,7 @@ from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
-from variaveis import (
-    FEATURE_COLS,
-    GENERATED_PATHS,
-    INPUT_PATHS,
-    granger_causality_matrix,
-)
+from variaveis import FEATURE_COLS, GENERATED_PATHS, INPUT_PATHS, granger_causality_matrix
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

@@ -1,0 +1,115 @@
+RELATÓRIO ACADÊMICO: ANÁLISE DOS PREÇOS DE CARBONO EU ETS
+======================================================================
+Data de geração: 07/08/2025 13:12
+Versão: 2.0 (Atualizada com série corrigida)
+
+1. RESUMO EXECUTIVO
+--------------------
+Este relatório apresenta uma análise detalhada dos preços de carbono
+do sistema EU ETS (European Union Emissions Trading System) no período
+de 2019-2024 (série corrigida), com foco na aplicação em estudos de
+valoração ambiental na região da Serra do Penitente.
+
+A Figura 09 do estudo foi atualizada para excluir o outlier de 2018
+e apresenta agora a evolução temporal corrigida dos preços de carbono
+em formatos PNG (alta resolução) e PDF (vetorial).
+
+2. DADOS BRUTOS COMPLETOS
+------------------------------
+Valores exatos por ano (incluindo outliers):
+
+  2018: $14,193.86 USD/tCO₂e
+  2019: $21.81 USD/tCO₂e
+  2020: $16.95 USD/tCO₂e
+  2021: $42.38 USD/tCO₂e
+  2022: $78.29 USD/tCO₂e
+  2023: $88.55 USD/tCO₂e
+  2024: $57.03 USD/tCO₂e
+
+3. ANÁLISE DE QUALIDADE DOS DADOS
+-----------------------------------
+OUTLIERS IDENTIFICADOS:
+  2018: $14,193.86 USD/tCO₂e (possível erro de dados)
+
+NOTA METODOLÓGICA: O valor de 2018 apresenta magnitude
+inconsistente com a série histórica e será tratado como outlier
+nas análises estatísticas principais.
+
+4. SÉRIE TEMPORAL CORRIGIDA (SEM OUTLIERS)
+---------------------------------------------
+Dados utilizados para análise estatística principal:
+
+  2019: $21.81 USD/tCO₂e
+  2020: $16.95 USD/tCO₂e
+  2021: $42.38 USD/tCO₂e
+  2022: $78.29 USD/tCO₂e
+  2023: $88.55 USD/tCO₂e
+  2024: $57.03 USD/tCO₂e
+
+5. ESTATÍSTICAS DESCRITIVAS (SÉRIE CORRIGIDA)
+--------------------------------------------------
+Período de análise: 2019-2024
+Número de observações: 6
+Preço médio: $50.84 USD/tCO₂e
+Mediana: $49.70 USD/tCO₂e
+Desvio padrão: $29.25 USD/tCO₂e
+Coeficiente de variação: 57.5%
+Valor mínimo: $16.95 USD/tCO₂e (2020)
+Valor máximo: $88.55 USD/tCO₂e (2023)
+
+6. ANÁLISE DE TENDÊNCIAS E VOLATILIDADE
+----------------------------------------
+Variações ano a ano (série corrigida):
+
+  2019 → 2020: $-4.86 USD (-22.3%)
+  2020 → 2021: +$25.43 USD (+150.0%)
+  2021 → 2022: +$35.91 USD (+84.7%)
+  2022 → 2023: +$10.26 USD (+13.1%)
+  2023 → 2024: $-31.52 USD (-35.6%)
+
+Taxa de crescimento anual composta: 21.2%
+Crescimento total no período: 161.5%
+
+7. IMPLICAÇÕES PARA PESQUISA ACADÊMICA
+----------------------------------------
+7.1 CONTEXTO METODOLÓGICO:
+• O EU ETS é o maior mercado de carbono do mundo (estabelecido em 2005)
+• Serve como benchmark internacional para precificação de carbono
+• Reflete políticas climáticas, condições econômicas e ajustes regulatórios
+
+7.2 APLICAÇÃO NO ESTUDO DA SERRA DO PENITENTE:
+• Utilizado como variável target nos modelos de machine learning
+• Permite predição de valores de carbono baseados em indicadores locais
+• Fundamenta análises de causalidade com PIB, GEE e desmatamento
+
+7.3 LIMITAÇÕES METODOLÓGICAS:
+• Série temporal limitada (6 anos de dados válidos após correção)
+• Alta volatilidade característica dos mercados de carbono
+• Outlier de 2018 removido para garantir consistência estatística
+• Dados representam apenas o mercado europeu (EU ETS)
+
+8. RECOMENDAÇÕES PARA CITAÇÃO ACADÊMICA
+---------------------------------------------
+Para uso em publicações científicas, recomenda-se:
+
+• Citar a fonte: European Union Emissions Trading System (EU ETS)
+• Mencionar explicitamente a exclusão do outlier de 2018
+• Especificar o período de análise: 2019-2024 (série corrigida)
+• Reconhecer limitações temporais na discussão dos resultados
+• Destacar a volatilidade como característica intrínseca do mercado
+• Referenciar a Figura 09 como representação visual da série corrigida
+
+9. DADOS PARA TABELAS E GRÁFICOS
+-----------------------------------
+Formato para inclusão em manuscritos:
+
+Ano	Preço (USD/tCO₂e)
+2019	21.81
+2020	16.95
+2021	42.38
+2022	78.29
+2023	88.55
+2024	57.03
+
+======================================================================
+Fim do Relatório

@@ -1,0 +1,55 @@
+RELATÓRIO COMPLETO: PREÇOS DE CARBONO EU ETS
+============================================================
+Data de atualização: 07/08/2025 13:12
+Versão: 2.0 (Série corrigida - outlier de 2018 removido)
+
+NOTA IMPORTANTE: Este relatório foi atualizado para refletir
+a correção aplicada na Figura 09, que agora exclui o valor
+anômalo de 2018 ($14,193.86 USD/tCO₂e) identificado como outlier.
+
+VALORES EXATOS POR ANO (SÉRIE CORRIGIDA):
+------------------------------
+2019: $21.81 USD/tCO₂e
+2020: $16.95 USD/tCO₂e
+2021: $42.38 USD/tCO₂e
+2022: $78.29 USD/tCO₂e
+2023: $88.55 USD/tCO₂e
+2024: $57.03 USD/tCO₂e
+
+OUTLIER REMOVIDO:
+------------------------------
+2018: $14,193.86 USD/tCO₂e (valor anômalo excluído da análise)
+
+ESTATÍSTICAS DESCRITIVAS (SÉRIE CORRIGIDA):
+------------------------------
+Período: 2019 - 2024
+Total de anos: 6
+Preço médio: $50.84 USD/tCO₂e
+Preço mínimo: $16.95 USD/tCO₂e (2020)
+Preço máximo: $88.55 USD/tCO₂e (2023)
+Desvio padrão: $29.25 USD/tCO₂e
+Mediana: $49.70 USD/tCO₂e
+Coeficiente de variação: 57.5%
+Taxa de crescimento anual composta: 21.2%
+Crescimento total no período: 161.5%
+
+VARIAÇÕES ANO A ANO (SÉRIE CORRIGIDA):
+------------------------------
+2019 → 2020: $-4.86 USD (-22.3%)
+2020 → 2021: +$25.43 USD (+150.0%)
+2021 → 2022: +$35.91 USD (+84.7%)
+2022 → 2023: +$10.26 USD (+13.1%)
+2023 → 2024: $-31.52 USD (-35.6%)
+
+IMPACTO DA CORREÇÃO:
+------------------------------
+• Remoção do outlier de 2018 resultou em série mais consistente
+• Redução significativa do desvio padrão (de $5,345.63 para $29.25)
+• Preço médio mais representativo ($50.84 vs. $2,071.27)
+• Figura 09 atualizada com visualização corrigida em PNG e PDF
+
+USO RECOMENDADO:
+------------------------------
+• Utilizar série corrigida (2019-2024) para análises estatísticas
+• Mencionar explicitamente a remoção do outlier de 2018
+• Referenciar Figura 09 como representação visual dos dados

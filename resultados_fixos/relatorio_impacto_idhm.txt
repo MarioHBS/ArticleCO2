@@ -1,0 +1,83 @@
+RELATÓRIO DE IMPACTO DO IDHM NA PREDIÇÃO DE PREÇO DE CARBONO
+============================================================
+
+Número de modelos analisados: 9
+Modelos que melhoraram R²: 5/9
+Modelos que melhoraram MSE: 2/9
+Melhoria média R²: -0.2427
+Redução média MSE: -13286092.3996
+
+DETALHES POR MODELO:
+----------------------------------------
+
+Linear Regression:
+  R² sem IDHM: 0.0491
+  R² com IDHM: 0.0815
+  Melhoria R²: +0.0324 (+66.09%)
+  MSE sem IDHM: 23314526.3788
+  MSE com IDHM: 29495060.2066
+  Redução MSE: -6180533.8277 (-26.51%)
+
+Random Forest:
+  R² sem IDHM: 0.9432
+  R² com IDHM: 0.9643
+  Melhoria R²: +0.0211 (+2.24%)
+  MSE sem IDHM: 1391588.3016
+  MSE com IDHM: 1144951.1426
+  Redução MSE: +246637.1590 (+17.72%)
+
+KNN:
+  R² sem IDHM: -0.2129
+  R² com IDHM: -1.0781
+  Melhoria R²: -0.8652 (-406.39%)
+  MSE sem IDHM: 29737406.6426
+  MSE com IDHM: 66732876.8538
+  Redução MSE: -36995470.2112 (-124.41%)
+
+Decision Tree:
+  R² sem IDHM: 1.0000
+  R² com IDHM: 1.0000
+  Melhoria R²: +0.0000 (+0.00%)
+  MSE sem IDHM: 403.6561
+  MSE com IDHM: 143.5087
+  Redução MSE: +260.1474 (+64.45%)
+
+MLP Regressor:
+  R² sem IDHM: -0.1328
+  R² com IDHM: -0.2137
+  Melhoria R²: -0.0808 (-60.86%)
+  MSE sem IDHM: 27774518.2922
+  MSE com IDHM: 38974003.6970
+  Redução MSE: -11199485.4047 (-40.32%)
+
+Lasso:
+  R² sem IDHM: 0.0491
+  R² com IDHM: 0.0815
+  Melhoria R²: +0.0324 (+66.09%)
+  MSE sem IDHM: 23314532.5672
+  MSE com IDHM: 29495173.9599
+  Redução MSE: -6180641.3926 (-26.51%)
+
+SVR:
+  R² sem IDHM: -0.1647
+  R² com IDHM: -0.2429
+  Melhoria R²: -0.0782 (-47.47%)
+  MSE sem IDHM: 28556125.0213
+  MSE com IDHM: 39912845.5315
+  Redução MSE: -11356720.5101 (-39.77%)
+
+Dummy:
+  R² sem IDHM: -0.0379
+  R² com IDHM: -0.0334
+  Melhoria R²: +0.0045 (+11.76%)
+  MSE sem IDHM: 25445686.6857
+  MSE com IDHM: 33184856.3513
+  Redução MSE: -7739169.6656 (-30.41%)
+
+XGBoost:
+  R² sem IDHM: 1.0000
+  R² com IDHM: -0.2509
+  Melhoria R²: -1.2509 (-125.09%)
+  MSE sem IDHM: 460.7269
+  MSE com IDHM: 40170168.6172
+  Redução MSE: -40169707.8904 (-8718768.38%)

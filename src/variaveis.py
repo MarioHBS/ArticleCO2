@@ -154,8 +154,8 @@ def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose
         DataFrame com matriz de p-valores da causalidade de Granger
         (linha causa coluna)
     """
-    import pandas as pd
     import numpy as np
+    import pandas as pd
     from statsmodels.tsa.stattools import grangercausalitytests
 
     # Verificar quais colunas têm variação (não são constantes)
