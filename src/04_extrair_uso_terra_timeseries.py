@@ -1,11 +1,17 @@
 # src/04_extrair_uso_terra_timeseries.py
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 """Script para extração de séries temporais de uso da terra.
+=======
+"""
+Script para extração de séries temporais de uso da terra.
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 Este script processa dados históricos de uso e cobertura da terra do MapBiomas
 para os municípios da Serra do Penitente, gerando séries temporais detalhadas
 por categoria de uso da terra para análise de mudanças ao longo do tempo.
 """
+<<<<<<< HEAD
 
 import logging
 import os
@@ -16,6 +22,14 @@ import pandas as pd
 from variaveis import GENERATED_PATHS, INPUT_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+=======
+import os
+import pandas as pd
+import sys
+import logging
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from variaveis import MUNICIPIOS_ALVO, INPUT_PATHS, GENERATED_PATHS
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 
 RAW_EXCEL = INPUT_PATHS.mapbiomas
 PARTIAL_OUT = GENERATED_PATHS.uso_timeseries_csv
@@ -23,18 +37,28 @@ SHEET_NAME = "COVERAGE_9"
 # Alto Parnaíba, Balsas, Tasso Fragoso
 SERRA_CODES = [2100501, 2101400, 2112001]
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
 def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
     """
     Carrega o Excel MapBiomas de cobertura multianual.
     Renomeia colunas para padronizar:
+<<<<<<< HEAD
         - geocode   → codigo_ibge
         - municipality → municipio
         - class     → uso
+=======
+      - geocode   → codigo_ibge
+      - municipality → municipio
+      - class     → uso
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     """
     try:
         if not os.path.exists(fp):
             raise FileNotFoundError(f"Arquivo não encontrado: {fp}")
+<<<<<<< HEAD
 
         logging.info(f"Carregando dados de cobertura de: {fp}")
         df = pd.read_excel(fp, sheet_name=sheet_name)
@@ -44,20 +68,41 @@ def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
 
         logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
 
+=======
+        
+        logging.info(f"Carregando dados de cobertura de: {fp}")
+        df = pd.read_excel(fp, sheet_name=sheet_name)
+        
+        if df.empty:
+            raise ValueError(f"Arquivo está vazio: {fp}")
+        
+        logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
+        
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
         df = df.rename(columns={
             'geocode': 'codigo_ibge',
             'municipality': 'municipio',
             'class': 'uso'
         })
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
         # Verificar colunas essenciais
         required_cols = ['codigo_ibge', 'municipio', 'uso']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
             logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
+<<<<<<< HEAD
 
         return df
 
+=======
+        
+        return df
+        
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     except FileNotFoundError:
         logging.error(f"Arquivo não encontrado: {fp}")
         raise
@@ -126,10 +171,17 @@ def main():
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s"
     )
+<<<<<<< HEAD
 
     try:
         logging.info("Iniciando extração de séries temporais de uso da terra")
 
+=======
+    
+    try:
+        logging.info("Iniciando extração de séries temporais de uso da terra")
+        
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
         # 1) Carrega o Excel bruto
         df_raw = load_coverage_excel(RAW_EXCEL)
 
@@ -150,9 +202,15 @@ def main():
 
         # 5) Salva parcial
         save_partial(df_summary, PARTIAL_OUT)
+<<<<<<< HEAD
 
         logging.info("Extração de séries temporais concluída com sucesso")
 
+=======
+        
+        logging.info("Extração de séries temporais concluída com sucesso")
+        
+>>>>>>> beb1535e6636cbb46b2a9dc8a71465b20f493e7b
     except Exception as e:
         logging.error(f"Erro durante a extração de séries temporais: {str(e)}")
         raise
