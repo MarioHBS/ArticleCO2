@@ -188,10 +188,10 @@ def main():
 
     # Etapa 10: Gerar figuras consolidadas
     consolidated_patterns = [
-        "results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
-        "results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",
-        "results/figuras_consolidadas/Figura03_Importancia_RF.pdf",
-        "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf",
+        FIGURE_PATHS.figura01_paineis_gee_pib_pdf,
+        FIGURE_PATHS.figura02_comparacao_mse_pdf,
+        FIGURE_PATHS.figura03_importancia_rf_pdf,
+        FIGURE_PATHS.figura04_matriz_causalidade_granger_pdf,
     ]
 
     result10 = run_script(

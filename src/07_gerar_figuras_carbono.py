@@ -19,8 +19,9 @@ Figura07_x.png  (x = 1..9)
     5=MLP, 6=Lasso, 7=SVR, 8=Dummy, 9=XGBoost (antes em etapa 07)
 Figura08_Importancia_Variaveis.png
     - Importância relativa das variáveis (Random Forest) (antes em etapa 08)
-Figura09_Evolucao_Preco_Carbono.png
-    - Evolução temporal do preço do carbono (EU ETS) (antes em etapa 08)
+Figura09_Evolucao_Preco_Carbono.png/.pdf
+    - Evolução temporal do preço do carbono (EU ETS) sem outlier de 2018
+    - Gerada em PNG (alta resolução) e PDF (vetorial) (antes em etapa 08)
 """
 
 import os
@@ -87,7 +88,14 @@ price_df['ano'] = price_df['ano'].astype(int)
 price_df['carbon_price_usd'] = pd.to_numeric(
     price_df['carbon_price_usd'], errors='coerce')
 price_df = price_df[['ano', 'carbon_price_usd']].dropna().drop_duplicates()
-print(f"[INFO] Preços filtrados EU ETS: {price_df.shape[0]} anos")
+
+# Filtrar outlier de 2018 (valor anômalo identificado)
+price_df_original = price_df.copy()
+price_df = price_df[price_df['ano'] != 2018]
+print(f"[INFO] Preços filtrados EU ETS (sem outlier 2018): {price_df.shape[0]} anos")
+if len(price_df_original) > len(price_df):
+    outlier_2018 = price_df_original[price_df_original['ano'] == 2018]['carbon_price_usd'].iloc[0]
+    print(f"[INFO] Outlier removido - 2018: ${outlier_2018:,.2f} USD/tCO₂e")
 
 # 3) Mesclar preços
 df = df.merge(price_df, on='ano', how='left')
@@ -270,17 +278,41 @@ plt.savefig(path)
 plt.close()
 print(f"[OK] Figura08 salva em {path}")
 
-# --- Figura 09: Evolução temporal do preço de carbono ---
+# --- Figura 09: Evolução temporal do preço de carbono (sem outlier) ---
 print("[INFO] Gerando Figura 09")
-path = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.png')
+path_png = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.png')
+path_pdf = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.pdf')
+
 plt.figure(figsize=(8, 5))
-sns.lineplot(data=price_df, x='ano', y='carbon_price_usd', marker='o')
-plt.xlabel('Ano')
-plt.ylabel('Preço do Carbono (USD)')
-plt.title('Figura 09. Evolução Temporal do Preço de Carbono – EU ETS')
+sns.lineplot(data=price_df, x='ano', y='carbon_price_usd', marker='o', linewidth=2, markersize=8)
+plt.xlabel('Ano', fontsize=12)
+plt.ylabel('Preço do Carbono (USD/tCO₂e)', fontsize=12)
+plt.title(
+    'Figura 09. Evolução Temporal do Preço de Carbono – EU ETS\n'
+    '(Série corrigida sem outlier de 2018)',
+    fontsize=14, pad=20)
+plt.grid(True, alpha=0.3)
+plt.xticks(fontsize=11)
+plt.yticks(fontsize=11)
+
+# Adicionar valores nos pontos
+for _, row in price_df.iterrows():
+    plt.annotate(
+        f'${row["carbon_price_usd"]:.1f}',
+        xy=(row['ano'], row['carbon_price_usd']),
+        xytext=(0, 10), textcoords='offset points',
+        ha='center', va='bottom', fontsize=9)
+
 plt.tight_layout()
-plt.savefig(path)
+
+# Salvar em PNG
+plt.savefig(path_png, dpi=300, bbox_inches='tight')
+print(f"[OK] Figura09 PNG salva em {path_png}")
+
+# Salvar em PDF (vetorial)
+plt.savefig(path_pdf, format='pdf', bbox_inches='tight')
+print(f"[OK] Figura09 PDF salva em {path_pdf}")
+
 plt.close()
-print(f"[OK] Figura09 salva em {path}")
 
 print('[OK] Todas as figuras numeradas geradas com sucesso!')

@@ -107,15 +107,16 @@ FIGURE_PATHS = SimpleNamespace(
     comparacao_modelos_com_sem_idhm_png="results/figures/comparacao_modelos_com_sem_idhm.png",
     melhorias_percentuais_idhm_png="results/figures/melhorias_percentuais_idhm.png",
     # Figuras consolidadas em PDF
-    figura01_paineis_gee_pib_pdf="results/figures/Figura01_Paineis_GEE_PIB.pdf",
-    figura02_comparacao_mse_pdf="results/figures/Figura02_Comparacao_MSE.pdf",
-    figura03_importancia_rf_pdf="results/figures/Figura03_Importancia_RF.pdf",
+    figura01_paineis_gee_pib_pdf="results/figuras_consolidadas/Figura01_Paineis_GEE_PIB.pdf",
+    figura02_comparacao_mse_pdf="results/figuras_consolidadas/Figura02_Comparacao_MSE.pdf",
+    figura03_importancia_rf_pdf="results/figuras_consolidadas/Figura03_Importancia_RF.pdf",
     figura04_matriz_causalidade_granger_pdf=(
-        "results/figures/Figura04_Matriz_Causalidade_Granger.pdf"
+        "results/figuras_consolidadas/Figura04_Matriz_Causalidade_Granger.pdf"
     ),
     # Figuras de importância de variáveis
     figura08_importancia_variaveis_png="results/figures/Figura08_Importancia_Variaveis.png",
     figura09_evolucao_preco_carbono_png="results/figures/Figura09_Evolucao_Preco_Carbono.png",
+    figura09_evolucao_preco_carbono_pdf="results/figures/Figura09_Evolucao_Preco_Carbono.pdf",
 )
 
 # Aliases para compatibilidade com código existente

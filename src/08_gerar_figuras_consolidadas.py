@@ -52,7 +52,7 @@ sns.set(style="whitegrid")
 # ---------------------------------------------------------------------------
 # 0 ▪ Pastas e saídas em PDF
 # ---------------------------------------------------------------------------
-output_dir = "results/figures"
+output_dir = "results/figuras_consolidadas"
 os.makedirs(output_dir, exist_ok=True)
 
 figura01_path = os.path.join(
