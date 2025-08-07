@@ -247,19 +247,19 @@ def gerar_relatorio_estatistico(df_comparacao):
         df_comparacao (pd.DataFrame): Dados de comparação
     """
     print("\n" + "="*60)
-    print("RELATÓRIO ESTATÍSTICO - IMPACTO DO IDHM")
+    print("RELATORIO ESTATISTICO - IMPACTO DO IDHM")
     print("="*60)
 
     # Estatísticas gerais
-    print("\n📊 ESTATÍSTICAS GERAIS:")
-    print(f"Número de modelos analisados: {len(df_comparacao)}")
+    print("\n[INFO] ESTATISTICAS GERAIS:")
+    print(f"Numero de modelos analisados: {len(df_comparacao)}")
 
     # Melhorias no R²
     melhorias_r2 = df_comparacao['melhoria_r2']
     modelos_melhoraram_r2 = (melhorias_r2 > 0).sum()
     melhoria_media_r2 = melhorias_r2.mean()
 
-    print("\n🎯 R² SCORE:")
+    print("\n[INFO] R2 SCORE:")
     total_models = len(df_comparacao)
     improvement_pct = modelos_melhoraram_r2/total_models*100
     print(
@@ -267,7 +267,7 @@ def gerar_relatorio_estatistico(df_comparacao):
         f"({improvement_pct:.1f}%)"
     )
     print(
-        f"Melhoria média: {melhoria_media_r2:.4f} "
+        f"Melhoria media: {melhoria_media_r2:.4f} "
         f"({melhoria_media_r2*100:.2f} pontos percentuais)"
     )
     modelo_melhor = df_comparacao.loc[melhorias_r2.idxmax(), 'modelo']
@@ -280,34 +280,34 @@ def gerar_relatorio_estatistico(df_comparacao):
     modelos_melhoraram_mse = (melhorias_mse > 0).sum()
     melhoria_media_mse = melhorias_mse.mean()
 
-    print("\n📉 MSE:")
+    print("\n[INFO] MSE:")
     total_models = len(df_comparacao)
     improvement_pct = modelos_melhoraram_mse/total_models*100
     print(
         f"Modelos que melhoraram: {modelos_melhoraram_mse}/{total_models} "
         f"({improvement_pct:.1f}%)"
     )
-    print(f"Redução média: {melhoria_media_mse:.4f}")
+    print(f"Reducao media: {melhoria_media_mse:.4f}")
     modelo_maior_reducao = df_comparacao.loc[melhorias_mse.idxmax(), 'modelo']
-    print(f"Maior redução: {melhorias_mse.max():.4f} ({modelo_maior_reducao})")
+    print(f"Maior reducao: {melhorias_mse.max():.4f} ({modelo_maior_reducao})")
     modelo_menor_reducao = df_comparacao.loc[melhorias_mse.idxmin(), 'modelo']
-    print(f"Menor redução: {melhorias_mse.min():.4f} ({modelo_menor_reducao})")
+    print(f"Menor reducao: {melhorias_mse.min():.4f} ({modelo_menor_reducao})")
 
     # Top 3 modelos que mais melhoraram
-    print("\n🏆 TOP 3 MODELOS COM MAIOR MELHORIA (R²):")
+    print("\n[INFO] TOP 3 MODELOS COM MAIOR MELHORIA (R2):")
     top_r2 = df_comparacao.nlargest(3, 'melhoria_r2_pct')
     for i, (_, row) in enumerate(top_r2.iterrows(), 1):
         print(
             f"{i}. {row['modelo']}: +{row['melhoria_r2_pct']:.2f}% "
-            f"(R² {row['r2_sem_idhm']:.3f} → {row['r2_com_idhm']:.3f})"
+            f"(R2 {row['r2_sem_idhm']:.3f} -> {row['r2_com_idhm']:.3f})"
         )
 
-    print("\n🏆 TOP 3 MODELOS COM MAIOR REDUÇÃO MSE:")
+    print("\n[INFO] TOP 3 MODELOS COM MAIOR REDUCAO MSE:")
     top_mse = df_comparacao.nlargest(3, 'melhoria_mse_pct')
     for i, (_, row) in enumerate(top_mse.iterrows(), 1):
         print(
             f"{i}. {row['modelo']}: -{row['melhoria_mse_pct']:.2f}% "
-            f"(MSE {row['mse_sem_idhm']:.3f} → {row['mse_com_idhm']:.3f})"
+            f"(MSE {row['mse_sem_idhm']:.3f} -> {row['mse_com_idhm']:.3f})"
         )
 
     # Salvar relatório
@@ -335,7 +335,7 @@ def gerar_relatorio_estatistico(df_comparacao):
                 f"({row['melhoria_mse_pct']:+.2f}%)\n"
             )
 
-    print(f"\n💾 Relatório detalhado salvo em: {RESULT_PATHS.relatorio_impacto_idhm_txt}")
+    print(f"\n[OK] Relatório detalhado salvo em: {RESULT_PATHS.relatorio_impacto_idhm_txt}")
 
 
 def main():
@@ -343,7 +343,7 @@ def main():
     Função principal do script.
     """
     print("=" * 60)
-    print("COMPARAÇÃO DE MODELOS: COM vs SEM IDHM")
+    print("COMPARACAO DE MODELOS: COM vs SEM IDHM")
     print("=" * 60)
 
     try:
@@ -364,7 +364,7 @@ def main():
 
         # 5. Salvar dados de comparação
         df_comparacao.to_csv(RESULT_PATHS.comparacao_modelos_idhm_csv, index=False)
-        print(f"\n💾 Dados de comparação salvos em: {RESULT_PATHS.comparacao_modelos_idhm_csv}")
+        print(f"\n[OK] Dados de comparação salvos em: {RESULT_PATHS.comparacao_modelos_idhm_csv}")
 
         print("\n[OK] Análise comparativa concluída com sucesso!")
 

@@ -1,9 +1,9 @@
 # src/10_analisar_politicas_por_estratos_idhm.py
 # -*- coding: utf-8 -*-
-"""Script para analisar a efetividade de políticas ambientais por estratos de desenvolvimento.
+"""Script para analisar a efetividade de politicas ambientais por estratos de desenvolvimento.
 
-Este script implementa o Passo 4 da análise, segmentando os municípios por níveis de IDHM
-e avaliando como diferentes políticas ambientais impactam cada estrato de desenvolvimento.
+Este script implementa o Passo 4 da analise, segmentando os municipios por niveis de IDHM
+e avaliando como diferentes politicas ambientais impactam cada estrato de desenvolvimento.
 """
 
 import os
@@ -20,12 +20,13 @@ from sklearn.metrics import r2_score
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from variaveis import (  # noqa: E402
     FIGURE_PATHS,
+    GENERATED_PATHS,
     RESULT_PATHS,
 )
 
 warnings.filterwarnings("ignore")
 
-# Configuração de estilo
+# Configuracao de estilo
 plt.style.use("seaborn-v0_8")
 sns.set_palette("husl")
 plt.rcParams["figure.figsize"] = (12, 8)
@@ -42,11 +43,11 @@ def carregar_dados_consolidados():
     print("Carregando dados consolidados com IDHM...")
 
     try:
-        df = pd.read_csv(RESULT_PATHS.carbono_consolidado_com_idhm_csv)
+        df = pd.read_csv(GENERATED_PATHS.carbono_consolidado_com_idhm_csv)
         print(f"Dados carregados: {df.shape}")
-        print(f"Colunas disponíveis: {df.columns.tolist()}")
+        print(f"Colunas disponiveis: {df.columns.tolist()}")
 
-        # Verificar se há dados de IDHM válidos
+        # Verificar se ha dados de IDHM validos
         colunas_idhm = [col for col in df.columns if "idhm" in col.lower()]
         print(f"Colunas IDHM encontradas: {colunas_idhm}")
 
@@ -68,22 +69,22 @@ def definir_estratos_desenvolvimento(df):
     """
     print("Definindo estratos de desenvolvimento...")
 
-    # Criar uma cópia do dataframe
+    # Criar uma copia do dataframe
     df_estratos = df.copy()
 
-    # Verificar se há dados de IDHM válidos
+    # Verificar se ha dados de IDHM validos
     if "idhm_" in df.columns and df["idhm_"].sum() > 0:
-        print("Usando dados de IDHM para classificação...")
+        print("Usando dados de IDHM para classificacao...")
 
         def classificar_estrato_idhm(idhm):
             if pd.isna(idhm) or idhm == 0:
-                return "Não classificado"
+                return "Nao classificado"
             elif idhm < 0.550:
                 return "Muito baixo desenvolvimento"
             elif idhm < 0.700:
                 return "Baixo desenvolvimento"
             elif idhm < 0.800:
-                return "Médio desenvolvimento"
+                return "Medio desenvolvimento"
             else:
                 return "Alto desenvolvimento"
 
@@ -91,13 +92,13 @@ def definir_estratos_desenvolvimento(df):
             classificar_estrato_idhm
         )
     else:
-        # Criar IDHM sintético baseado em PIB e área desmatada para demonstração
+        # Criar IDHM sintetico baseado em PIB e area desmatada para demonstracao
         print(
-            "[AVISO] Dados de IDHM não encontrados ou zerados. "
+            "[AVISO] Dados de IDHM nao encontrados ou zerados. "
             "Criando estratos baseados em PIB per capita..."
         )
 
-        # Calcular PIB per capita aproximado (usando população estimada)
+        # Calcular PIB per capita aproximado (usando populacao estimada)
         df_estratos["pib_per_capita"] = df_estratos["pib"] / 10000  # Estimativa simplificada
 
         # Definir estratos baseados em quartis de PIB per capita
@@ -105,13 +106,13 @@ def definir_estratos_desenvolvimento(df):
 
         def classificar_estrato_pib(pib_pc):
             if pd.isna(pib_pc) or pib_pc == 0:
-                return "Não classificado"
+                return "Nao classificado"
             elif pib_pc <= quartis[0.25]:
                 return "Baixo desenvolvimento"
             elif pib_pc <= quartis[0.5]:
-                return "Médio-baixo desenvolvimento"
+                return "Medio-baixo desenvolvimento"
             elif pib_pc <= quartis[0.75]:
-                return "Médio-alto desenvolvimento"
+                return "Medio-alto desenvolvimento"
             else:
                 return "Alto desenvolvimento"
 
@@ -119,8 +120,8 @@ def definir_estratos_desenvolvimento(df):
             classificar_estrato_pib
         )
 
-    # Estatísticas dos estratos
-    print("\nDistribuição dos estratos de desenvolvimento:")
+    # Estatisticas dos estratos
+    print("\nDistribuicao dos estratos de desenvolvimento:")
     print(df_estratos["estrato_desenvolvimento"].value_counts())
 
     return df_estratos
@@ -128,41 +129,41 @@ def definir_estratos_desenvolvimento(df):
 
 def analisar_efetividade_por_estrato(df_estratos):
     """
-    Analisa a efetividade de políticas ambientais por estrato de desenvolvimento.
+    Analisa a efetividade de politicas ambientais por estrato de desenvolvimento.
 
     Args:
         df_estratos (pd.DataFrame): Dataset com estratos definidos
 
     Returns:
-        dict: Resultados da análise por estrato
+        dict: Resultados da analise por estrato
     """
-    print("Analisando efetividade de políticas por estrato...")
+    print("Analisando efetividade de politicas por estrato...")
 
     resultados = {}
 
-    # Filtrar dados válidos
+    # Filtrar dados validos
     df_valido = df_estratos[
-        (df_estratos["estrato_desenvolvimento"] != "Não classificado")
+        (df_estratos["estrato_desenvolvimento"] != "Nao classificado")
         & (df_estratos["area_desmatada_ha"].notna())
         & (df_estratos["GEE_tCO2e"].notna())
         & (df_estratos["pib"].notna())
     ].copy()
 
-    print(f"Dados válidos para análise: {len(df_valido)} registros")
+    print(f"Dados validos para analise: {len(df_valido)} registros")
 
-    # Análise por estrato
+    # Analise por estrato
     for estrato in df_valido["estrato_desenvolvimento"].unique():
-        if estrato == "Não classificado":
+        if estrato == "Nao classificado":
             continue
 
         df_estrato = df_valido[df_valido["estrato_desenvolvimento"] == estrato]
 
-        if len(df_estrato) < 5:  # Mínimo de observações
+        if len(df_estrato) < 5:  # Minimo de observacoes
             continue
 
-        print(f"\nAnalisando estrato: {estrato} ({len(df_estrato)} observações)")
+        print(f"\nAnalisando estrato: {estrato} ({len(df_estrato)} observacoes)")
 
-        # Métricas ambientais
+        # Metricas ambientais
         metricas = {
             "n_observacoes": len(df_estrato),
             "desmatamento_medio": df_estrato["area_desmatada_ha"].mean(),
@@ -173,24 +174,24 @@ def analisar_efetividade_por_estrato(df_estratos):
             "pib_std": df_estrato["pib"].std(),
         }
 
-        # Análise de tendências temporais
+        # Analise de tendencias temporais
         if len(df_estrato["ano"].unique()) > 3:
-            # Regressão linear para tendência de desmatamento
+            # Regressao linear para tendencia de desmatamento
             X = df_estrato["ano"].values.reshape(-1, 1)
             y_desmat = df_estrato["area_desmatada_ha"].values
             y_emissoes = df_estrato["GEE_tCO2e"].values
 
-            # Tendência de desmatamento
+            # Tendencia de desmatamento
             reg_desmat = LinearRegression().fit(X, y_desmat)
             metricas["tendencia_desmatamento"] = reg_desmat.coef_[0]
             metricas["r2_desmatamento"] = r2_score(y_desmat, reg_desmat.predict(X))
 
-            # Tendência de emissões
+            # Tendencia de emissoes
             reg_emissoes = LinearRegression().fit(X, y_emissoes)
             metricas["tendencia_emissoes"] = reg_emissoes.coef_[0]
             metricas["r2_emissoes"] = r2_score(y_emissoes, reg_emissoes.predict(X))
 
-        # Eficiência ambiental (emissões por unidade de PIB)
+        # Eficiencia ambiental (emissoes por unidade de PIB)
         df_estrato_pib = df_estrato[df_estrato["pib"] > 0]
         if len(df_estrato_pib) > 0:
             metricas["intensidade_carbono"] = (
@@ -207,20 +208,20 @@ def analisar_efetividade_por_estrato(df_estratos):
 
 def gerar_visualizacoes_estratos(df_estratos, resultados):
     """
-    Gera visualizações da análise por estratos.
+    Gera visualizacoes da analise por estratos.
 
     Args:
         df_estratos (pd.DataFrame): Dataset com estratos
-        resultados (dict): Resultados da análise
+        resultados (dict): Resultados da analise
     """
-    print("Gerando visualizações da análise por estratos...")
+    print("Gerando visualizacoes da analise por estratos...")
 
-    # Criar diretório de resultados
+    # Criar diretorio de resultados
     os.makedirs("results/figures", exist_ok=True)
 
-    # Filtrar dados válidos
+    # Filtrar dados validos
     df_plot = df_estratos[
-        (df_estratos["estrato_desenvolvimento"] != "Não classificado")
+        (df_estratos["estrato_desenvolvimento"] != "Nao classificado")
         & (df_estratos["area_desmatada_ha"].notna())
         & (df_estratos["GEE_tCO2e"].notna())
     ].copy()
@@ -230,29 +231,29 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
 
     plt.subplot(2, 2, 1)
     sns.boxplot(data=df_plot, x="estrato_desenvolvimento", y="area_desmatada_ha")
-    plt.title("Distribuição do Desmatamento por Estrato de Desenvolvimento")
+    plt.title("Distribuicao do Desmatamento por Estrato de Desenvolvimento")
     plt.xlabel("Estrato de Desenvolvimento")
-    plt.ylabel("Área Desmatada (ha)")
+    plt.ylabel("Area Desmatada (ha)")
     plt.xticks(rotation=45)
 
-    # 2. Boxplot de emissões por estrato
+    # 2. Boxplot de emissoes por estrato
     plt.subplot(2, 2, 2)
     sns.boxplot(data=df_plot, x="estrato_desenvolvimento", y="GEE_tCO2e")
-    plt.title("Distribuição das Emissões de GEE por Estrato")
+    plt.title("Distribuicao das Emissoes de GEE por Estrato")
     plt.xlabel("Estrato de Desenvolvimento")
-    plt.ylabel("Emissões GEE (tCO2e)")
+    plt.ylabel("Emissoes GEE (tCO2e)")
     plt.xticks(rotation=45)
 
-    # 3. Evolução temporal por estrato
+    # 3. Evolucao temporal por estrato
     plt.subplot(2, 2, 3)
     for estrato in df_plot["estrato_desenvolvimento"].unique():
         df_estrato = df_plot[df_plot["estrato_desenvolvimento"] == estrato]
         evolucao = df_estrato.groupby("ano")["area_desmatada_ha"].mean()
         plt.plot(evolucao.index, evolucao.values, marker="o", label=estrato, linewidth=2)
 
-    plt.title("Evolução Temporal do Desmatamento por Estrato")
+    plt.title("Evolucao Temporal do Desmatamento por Estrato")
     plt.xlabel("Ano")
-    plt.ylabel("Desmatamento Médio (ha)")
+    plt.ylabel("Desmatamento Medio (ha)")
     plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
     plt.grid(True, alpha=0.3)
 
@@ -273,7 +274,7 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
     )
     plt.close()
 
-    # 5. Heatmap de métricas por estrato
+    # 5. Heatmap de metricas por estrato
     plt.figure(figsize=(12, 8))
 
     # Preparar dados para heatmap
@@ -281,7 +282,7 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
     estratos_ordem = []
 
     for estrato, metricas in resultados.items():
-        if estrato != "Não classificado":
+        if estrato != "Nao classificado":
             estratos_ordem.append(estrato)
             metricas_heatmap.append(
                 [
@@ -298,15 +299,15 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
             metricas_heatmap,
             index=estratos_ordem,
             columns=[
-                "Desmatamento\nMédio (ha)",
-                "Emissões\nMédias (tCO2e)",
+                "Desmatamento\nMedio (ha)",
+                "Emissoes\nMedias (tCO2e)",
                 "Intensidade\nCarbono",
-                "Tendência\nDesmatamento",
-                "Tendência\nEmissões",
+                "Tendencia\nDesmatamento",
+                "Tendencia\nEmissoes",
             ],
         )
 
-        # Normalizar dados para melhor visualização
+        # Normalizar dados para melhor visualizacao
         df_heatmap_norm = df_heatmap.div(df_heatmap.abs().max(), axis=1)
 
         sns.heatmap(
@@ -317,9 +318,9 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
             fmt=".2f",
             cbar_kws={"label": "Valores Normalizados"},
         )
-        plt.title("Índice de Causalidade: Métricas Ambientais por Estrato de Desenvolvimento")
+        plt.title("Indice de Causalidade: Metricas Ambientais por Estrato de Desenvolvimento")
         plt.ylabel("Estrato de Desenvolvimento")
-        plt.xlabel("Métricas Ambientais")
+        plt.xlabel("Metricas Ambientais")
 
         plt.tight_layout()
         plt.savefig(
@@ -330,59 +331,59 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
 
 def gerar_relatorio_estratos(resultados):
     """
-    Gera relatório detalhado da análise por estratos.
+    Gera relatorio detalhado da analise por estratos.
 
     Args:
-        resultados (dict): Resultados da análise
+        resultados (dict): Resultados da analise
     """
-    print("Gerando relatório da análise por estratos...")
+    print("Gerando relatorio da analise por estratos...")
 
     relatorio = []
-    relatorio.append("RELATÓRIO DE ANÁLISE DE POLÍTICAS POR ESTRATOS DE DESENVOLVIMENTO")
+    relatorio.append("RELATORIO DE ANALISE DE POLITICAS POR ESTRATOS DE DESENVOLVIMENTO")
     relatorio.append("=" * 80)
     relatorio.append("")
-    relatorio.append(f"Data da análise: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    relatorio.append(f"Número de estratos analisados: {len(resultados)}")
+    relatorio.append(f"Data da analise: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    relatorio.append(f"Numero de estratos analisados: {len(resultados)}")
     relatorio.append("")
 
-    # Análise por estrato
+    # Analise por estrato
     for estrato, metricas in resultados.items():
         relatorio.append(f"ESTRATO: {estrato.upper()}")
         relatorio.append("-" * 50)
-        relatorio.append(f"Número de observações: {metricas.get('n_observacoes', 'N/A')}")
+        relatorio.append(f"Numero de observacoes: {metricas.get('n_observacoes', 'N/A')}")
         relatorio.append(
-            f"Desmatamento médio: {metricas.get('desmatamento_medio', 0):.2f} ± "
+            f"Desmatamento medio: {metricas.get('desmatamento_medio', 0):.2f} +/- "
             f"{metricas.get('desmatamento_std', 0):.2f} ha"
         )
         relatorio.append(
-            f"Emissões médias: {metricas.get('emissoes_medias', 0):.2f} ± "
+            f"Emissoes medias: {metricas.get('emissoes_medias', 0):.2f} +/- "
             f"{metricas.get('emissoes_std', 0):.2f} tCO2e"
         )
         relatorio.append(
-            f"PIB médio: R$ {metricas.get('pib_medio', 0):,.2f} ± "
+            f"PIB medio: R$ {metricas.get('pib_medio', 0):,.2f} +/- "
             f"{metricas.get('pib_std', 0):,.2f}"
         )
 
         if "intensidade_carbono" in metricas:
             relatorio.append(
-                f"Intensidade de carbono: {metricas['intensidade_carbono']:.6f} ± "
+                f"Intensidade de carbono: {metricas['intensidade_carbono']:.6f} +/- "
                 f"{metricas.get('intensidade_carbono_std', 0):.6f} tCO2e/R$"
             )
 
         if "tendencia_desmatamento" in metricas:
             relatorio.append(
-                f"Tendência de desmatamento: {metricas['tendencia_desmatamento']:.2f} ha/ano "
-                f"(R² = {metricas.get('r2_desmatamento', 0):.3f})"
+                f"Tendencia de desmatamento: {metricas['tendencia_desmatamento']:.2f} ha/ano "
+                f"(R2 = {metricas.get('r2_desmatamento', 0):.3f})"
             )
             relatorio.append(
-                f"Tendência de emissões: {metricas['tendencia_emissoes']:.2f} tCO2e/ano "
-                f"(R² = {metricas.get('r2_emissoes', 0):.3f})"
+                f"Tendencia de emissoes: {metricas['tendencia_emissoes']:.2f} tCO2e/ano "
+                f"(R2 = {metricas.get('r2_emissoes', 0):.3f})"
             )
 
         relatorio.append("")
 
-    # Análise comparativa
-    relatorio.append("ANÁLISE COMPARATIVA ENTRE ESTRATOS")
+    # Analise comparativa
+    relatorio.append("ANALISE COMPARATIVA ENTRE ESTRATOS")
     relatorio.append("=" * 50)
 
     # Ranking por desmatamento
@@ -410,8 +411,8 @@ def gerar_relatorio_estratos(resultados):
             relatorio.append(f"{i}. {estrato}: {valor:.6f} tCO2e/R$")
         relatorio.append("")
 
-    # Recomendações de políticas
-    relatorio.append("RECOMENDAÇÕES DE POLÍTICAS POR ESTRATO")
+    # Recomendacoes de politicas
+    relatorio.append("RECOMENDACOES DE POLITICAS POR ESTRATO")
     relatorio.append("=" * 50)
 
     for estrato, metricas in resultados.items():
@@ -422,39 +423,39 @@ def gerar_relatorio_estratos(resultados):
         intensidade = metricas.get("intensidade_carbono", 0)
 
         if desmat_medio > 1000:  # Alto desmatamento
-            relatorio.append("- Prioridade ALTA para políticas de controle do desmatamento")
-            relatorio.append("- Implementar monitoramento intensivo e fiscalização rigorosa")
-            relatorio.append("- Programas de incentivos para conservação")
+            relatorio.append("- Prioridade ALTA para politicas de controle do desmatamento")
+            relatorio.append("- Implementar monitoramento intensivo e fiscalizacao rigorosa")
+            relatorio.append("- Programas de incentivos para conservacao")
         elif desmat_medio > 100:
-            relatorio.append("- Prioridade MÉDIA para políticas preventivas")
+            relatorio.append("- Prioridade MEDIA para politicas preventivas")
             relatorio.append("- Fortalecer capacidades locais de monitoramento")
         else:
-            relatorio.append("- Manter políticas de conservação atuais")
+            relatorio.append("- Manter politicas de conservacao atuais")
             relatorio.append("- Foco em sustentabilidade e desenvolvimento verde")
 
         if tendencia_desmat > 0:
-            relatorio.append("- ATENÇÃO: Tendência crescente de desmatamento")
-            relatorio.append("- Revisar efetividade das políticas atuais")
+            relatorio.append("- ATENCAO: Tendencia crescente de desmatamento")
+            relatorio.append("- Revisar efetividade das politicas atuais")
 
         if intensidade > 0.001:  # Alta intensidade de carbono
-            relatorio.append("- Promover eficiência energética e tecnologias limpas")
-            relatorio.append("- Incentivar diversificação econômica sustentável")
+            relatorio.append("- Promover eficiencia energetica e tecnologias limpas")
+            relatorio.append("- Incentivar diversificacao economica sustentavel")
 
-    # Salvar relatório
+    # Salvar relatorio
     with open(
         RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt, "w", encoding="utf-8"
     ) as f:
         f.write("\n".join(relatorio))
 
-    print(f"Relatório salvo em: {RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt}")
+    print(f"Relatorio salvo em: {RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt}")
 
 
 def main():
     """
-    Função principal do script.
+    Funcao principal do script.
     """
     print("=" * 80)
-    print("ANÁLISE DE EFETIVIDADE DE POLÍTICAS POR ESTRATOS DE DESENVOLVIMENTO")
+    print("ANALISE DE EFETIVIDADE DE POLITICAS POR ESTRATOS DE DESENVOLVIMENTO")
     print("=" * 80)
 
     try:
@@ -467,14 +468,14 @@ def main():
         # 3. Analisar efetividade por estrato
         resultados = analisar_efetividade_por_estrato(df_estratos)
 
-        # 4. Gerar visualizações
+        # 4. Gerar visualizacoes
         gerar_visualizacoes_estratos(df_estratos, resultados)
 
-        # 5. Gerar relatório
+        # 5. Gerar relatorio
         gerar_relatorio_estratos(resultados)
 
         print("\n" + "=" * 80)
-        print("ANÁLISE CONCLUÍDA COM SUCESSO!")
+        print("ANALISE CONCLUIDA COM SUCESSO!")
         print("=" * 80)
         print("\nArquivos gerados:")
         print(f"- {FIGURE_PATHS.figura13_analise_estratos_desenvolvimento_png}")
@@ -482,7 +483,7 @@ def main():
         print(f"- {RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt}")
 
     except Exception as e:
-        print(f"\n[ERROR] Erro durante a execução: {e}")
+        print(f"\n[ERROR] Erro durante a execucao: {e}")
         import traceback
 
         traceback.print_exc()

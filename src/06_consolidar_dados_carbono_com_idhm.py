@@ -132,12 +132,12 @@ def consolidar_dados_com_idhm():
     # 1. Carregar dados existentes (PIB, GEE, alertas)
     print("Carregando dados de PIB...")
     try:
-        df_pib = pd.read_csv(INPUT_PATHS.pib, encoding='utf-8', sep=',')
+        df_pib = pd.read_csv(GENERATED_PATHS.pib_ibge_csv, encoding='utf-8', sep=',')
         print(f"PIB carregado: {df_pib.shape}")
     except Exception as e:
         print(f"Erro ao carregar PIB com utf-8: {e}")
         try:
-            df_pib = pd.read_csv(INPUT_PATHS.pib, encoding='latin-1', sep=',')
+            df_pib = pd.read_csv(GENERATED_PATHS.pib_ibge_csv, encoding='latin-1', sep=',')
             print(f"PIB carregado com latin-1: {df_pib.shape}")
         except Exception as e2:
             print(f"Erro ao carregar PIB com latin-1: {e2}")
@@ -224,7 +224,7 @@ def treinar_modelos_expandidos(df_consolidado):
     # Carregar preços de carbono
     print("[INFO] Carregando preços de carbono...")
     price_raw = pd.read_excel(
-        INPUT_PATHS.carbon_prices_raw,
+        INPUT_PATHS.precos_carbono,
         sheet_name=0,
         header=1,
         engine='openpyxl'
@@ -375,7 +375,7 @@ def main():
         df_consolidado = consolidar_dados_com_idhm()
 
         # 2. Salvar dados consolidados
-        output_path = RESULT_PATHS.carbono_consolidado_com_idhm_csv
+        output_path = GENERATED_PATHS.carbono_consolidado_com_idhm_csv
         df_consolidado.to_csv(output_path, index=False)
         print(f"\nDados consolidados salvos em: {output_path}")
 

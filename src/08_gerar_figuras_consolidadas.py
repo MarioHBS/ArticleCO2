@@ -52,7 +52,7 @@ sns.set(style="whitegrid")
 # ---------------------------------------------------------------------------
 # 0 ▪ Pastas e saídas em PDF
 # ---------------------------------------------------------------------------
-output_dir = "results/figuras_consolidadas"
+output_dir = "results/figures"
 os.makedirs(output_dir, exist_ok=True)
 
 figura01_path = os.path.join(
@@ -73,7 +73,7 @@ df = df.groupby(["municipio", "ano"], as_index=False).agg({
 })
 
 price = (
-    pd.read_excel(INPUT_PATHS.carbon_prices_raw,
+    pd.read_excel(INPUT_PATHS.precos_carbono,
                   sheet_name=0, header=1, engine="openpyxl")
     .melt(id_vars=["Instrument name"], var_name="ano", value_name="carbon_price_usd")
     .query("`Instrument name` == 'EU ETS'")
@@ -90,7 +90,7 @@ df = df.merge(price, on="ano", how="left")
 gee = df.groupby(["ano", "municipio"])["GEE_tCO2e"].sum().reset_index()
 pib = df.groupby(["ano", "municipio"])["pib"].sum().reset_index()
 
-fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(7.0, 6.5), dpi=300)
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(12.0, 8.0), dpi=300)
 for mun, g in gee.groupby("municipio"):
     ax1.plot(g["ano"], g["GEE_tCO2e"], label=mun, linewidth=1)
 ax1.axvspan(2002, 2021, color="grey", alpha=0.15)
@@ -105,7 +105,7 @@ ax2.set_xlabel("Ano")
 ax2.set_title("(b) PIB municipal – 2002-2021", loc="left", fontsize=9)
 
 fig.legend(loc="upper center", ncol=len(
-    gee["municipio"].unique()), frameon=False, fontsize=7)
+    gee["municipio"].unique()), frameon=False, fontsize=10)
 plt.tight_layout(rect=[0, 0, 1, 0.93])
 fig.savefig(figura01_path, format="pdf", bbox_inches="tight")
 plt.close()

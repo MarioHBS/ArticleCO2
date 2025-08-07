@@ -43,6 +43,7 @@ from xgboost import XGBRegressor
 from variaveis import (
     CARBONO_CONSOLIDADO_COM_IDHM,
     FEATURE_COLS,
+    FIGURE_PATHS,
     GENERATED_PATHS,
     INPUT_PATHS,
     RESULT_PATHS,
@@ -52,7 +53,7 @@ from variaveis import (
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 sns.set(style='whitegrid')
-fig_dir = os.path.dirname(RESULT_PATHS.evolucao_pib_png)
+fig_dir = os.path.dirname(FIGURE_PATHS.evolucao_pib_png)
 os.makedirs(fig_dir, exist_ok=True)
 
 # contador de figuras
@@ -66,9 +67,9 @@ print(
 
 # 2) Ler e mesclar preços de carbono (EU ETS)
 print("[INFO] Carregando série de preços de carbono de:",
-      INPUT_PATHS.carbon_prices_raw)
+      INPUT_PATHS.precos_carbono)
 price_raw = pd.read_excel(
-    INPUT_PATHS.carbon_prices_raw,
+    INPUT_PATHS.precos_carbono,
     sheet_name=0,
     header=1
 )
@@ -125,7 +126,7 @@ if os.path.exists(CARBONO_CONSOLIDADO_COM_IDHM):
     caus_cols2 = idhm_cols + ['area_desmatada_ha']
     df_idhm_sorted = df_idhm_full.sort_values('ano')
     matrix2 = granger_causality_matrix(df_idhm_sorted, caus_cols2, maxlag=2, verbose=True)
-    path = RESULT_PATHS.causalidade_idhm_desmat_png
+    path = FIGURE_PATHS.figura06_causalidade_idhm_desmat_png
     plt.figure(figsize=(8, 6))
     sns.heatmap(1 - matrix2, annot=True, fmt='.3f', cmap='Reds',
                 xticklabels=caus_cols2, yticklabels=caus_cols2,

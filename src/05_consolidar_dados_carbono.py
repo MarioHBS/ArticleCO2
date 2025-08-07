@@ -33,9 +33,9 @@ os.makedirs("results/figures", exist_ok=True)
 os.makedirs("data/generated", exist_ok=True)
 
 # 2) Carrega datasets pré-processados
-df_pib = pd.read_csv(INPUT_PATHS.pib_municipal,       encoding='utf-8-sig')
-df_gee = pd.read_csv(INPUT_PATHS.cobertura_municipal, encoding='utf-8-sig')
-df_alertas = pd.read_csv(INPUT_PATHS.alertas,             encoding='utf-8-sig')
+df_pib = pd.read_csv(GENERATED_PATHS.pib_ibge_csv,       encoding='utf-8-sig')
+df_gee = pd.read_csv(GENERATED_PATHS.mapbiomas_long_csv, encoding='utf-8-sig')
+df_alertas = pd.read_csv(GENERATED_PATHS.alertas_csv,             encoding='utf-8-sig')
 
 # 3) Extrai 'municipio' de crossedCitiesList e o 'ano'
 
@@ -88,8 +88,7 @@ df_final = pd.merge(df_final,    df_desmat,     on=[
                     'municipio', 'ano'], how='outer')
 
 # 7) Seleciona colunas e exporta CSV consolidado
-df_final = df_final[['municipio', 'ano',
-                     'pib', 'GEE_tCO2e', 'area_desmatada_ha']]
+df_final = df_final[['municipio', 'ano', 'pib', 'GEE_tCO2e', 'area_desmatada_ha']]
 df_final.to_csv(
     GENERATED_PATHS.carbono_consolidado_csv,
     index=False,
@@ -101,7 +100,7 @@ print(f'[OK] Dataset final gerado: {GENERATED_PATHS.carbono_consolidado_csv}')
 
 # 8.1) Carrega preços de carbono (EU ETS)
 price_raw = pd.read_excel(
-    INPUT_PATHS.carbon_prices_raw,
+    INPUT_PATHS.precos_carbono,
     sheet_name=0,
     header=1,
     engine='openpyxl'
