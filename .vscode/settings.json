@@ -7,9 +7,8 @@
         }
     },
     "editor.formatOnSave": true,
-    "python.formatting.provider": "black",
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "python.linting.flake8.enabled": true,
     "python.defaultInterpreterPath": "python",
     "editor.rulers": [
         100
