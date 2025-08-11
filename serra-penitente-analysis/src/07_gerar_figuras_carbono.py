@@ -95,7 +95,7 @@ price_df = price_df[price_df['ano'] != 2018]
 print(f"[INFO] Preços filtrados EU ETS (sem outlier 2018): {price_df.shape[0]} anos")
 if len(price_df_original) > len(price_df):
     outlier_2018 = price_df_original[price_df_original['ano'] == 2018]['carbon_price_usd'].iloc[0]
-    print(f"[INFO] Outlier removido - 2018: ${outlier_2018:,.2f} USD/tCO₂e")
+    print(f"[INFO] Outlier removido - 2018: ${outlier_2018:,.2f} USD/tCO2e")
 
 # 3) Mesclar preços
 df = df.merge(price_df, on='ano', how='left')

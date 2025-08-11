@@ -11,7 +11,9 @@
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
     "python.defaultInterpreterPath": "python",
-    "editor.rulers": [100],
+    "editor.rulers": [
+        100
+    ],
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "files.encoding": "utf8",
@@ -42,14 +44,14 @@
     "python.analysis.autoImportCompletions": true,
     "python.analysis.typeCheckingMode": "basic",
     "files.exclude": {
+        ".idea/**": true,
         "**/__pycache__": true,
         "**/*.pyc": true,
         "**/.pytest_cache": true,
-        "**/results": true,
         "**/logs": true,
-        "serra-penitente-analysis/data/generated": true,
+        // "serra-penitente-analysis/data/generated": true,
         "serra-penitente-analysis/data/downloads": true,
-        "serra-penitente-analysis/data/archive": true
+        // "serra-penitente-analysis/data/archive": true
     },
     "search.exclude": {
         "**/node_modules": true,

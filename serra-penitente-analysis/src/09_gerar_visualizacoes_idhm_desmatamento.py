@@ -164,6 +164,48 @@ def gerar_scatter_idhm_desmatamento(df):
     print(f"Gráfico de evolução temporal salvo em: {caminho_evolucao}")
 
 
+def gerar_heatmap_correlacao_idhm(df):
+    """
+    Gera heatmap de correlação entre indicadores IDHM e variáveis ambientais.
+    """
+    print("Gerando heatmap de correlação IDHM...")
+
+    # Criar diretório para figuras
+    fig_dir = Path("results/figures")
+    fig_dir.mkdir(parents=True, exist_ok=True)
+
+    # Selecionar colunas para correlação
+    colunas_correlacao = [
+        'idhm_', 'idhm_renda', 'idhm_educação', 'idhm_longevidade',
+        'area_desmatada_ha', 'GEE_tCO2e', 'pib'
+    ]
+    
+    # Filtrar apenas colunas que existem no DataFrame
+    colunas_existentes = [col for col in colunas_correlacao if col in df.columns]
+    
+    if len(colunas_existentes) < 2:
+        print("[AVISO] Dados insuficientes para gerar heatmap de correlação")
+        return
+    
+    # Calcular matriz de correlação
+    df_corr = df[colunas_existentes].corr()
+    
+    # Criar heatmap
+    plt.figure(figsize=(10, 8))
+    mask = np.triu(np.ones_like(df_corr, dtype=bool))
+    
+    sns.heatmap(df_corr, mask=mask, annot=True, cmap='RdBu_r', center=0,
+                square=True, linewidths=0.5, cbar_kws={"shrink": .8})
+    
+    plt.title('Matriz de Correlação: IDHM vs Variáveis Ambientais\nSerra do Penitente')
+    plt.tight_layout()
+    
+    caminho_heatmap = fig_dir / "Figura12_Heatmap_Correlacao_IDHM.png"
+    plt.savefig(caminho_heatmap, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"Heatmap de correlação salvo em: {caminho_heatmap}")
+
+
 def main():
     """Função principal para gerar todas as visualizações de IDHM e desmatamento."""
     # Carregar dados consolidados
@@ -180,6 +222,7 @@ def main():
     # Gerar visualizações
     try:
         gerar_scatter_idhm_desmatamento(df)
+        gerar_heatmap_correlacao_idhm(df)
 
         print("\n" + "="*60)
         print("[OK] VISUALIZAÇÕES GERADAS COM SUCESSO!")
@@ -188,6 +231,7 @@ def main():
         print("\nFiguras geradas:")
         print("- Figura10_Correlacao_IDHM_Desmatamento.png")
         print("- Figura11_Evolucao_Temporal_IDHM_Desmatamento.png")
+        print("- Figura12_Heatmap_Correlacao_IDHM.png")
 
     except Exception as e:
         print(f"Erro durante a geração das visualizações: {e}")

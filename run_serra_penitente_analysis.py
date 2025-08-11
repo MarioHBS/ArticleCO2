@@ -17,6 +17,7 @@ Uso:
 """
 
 import argparse
+import re
 import subprocess
 import sys
 from datetime import datetime
@@ -179,6 +180,24 @@ class SerraAnalysisRunner:
         """Executa o pipeline de análise."""
         self.print_step(5, "Executando análise Serra Penitente")
 
+        # Initialize analysis
+        start_time, log_file = self._initialize_analysis()
+
+        try:
+            # Run the pipeline and monitor progress
+            success = self._run_pipeline_with_monitoring(log_file, start_time)
+
+            # Generate completion summary
+            self._generate_completion_summary(start_time, success)
+
+            return success
+
+        except Exception as e:
+            print(f"❌ Erro durante execução: {e}")
+            return False
+
+    def _initialize_analysis(self):
+        """Initialize analysis and create log file."""
         start_time = datetime.now()
         log_file = self.logs_dir / f"serra_analysis_{start_time.strftime('%Y%m%d_%H%M%S')}.log"
 
@@ -186,52 +205,169 @@ class SerraAnalysisRunner:
         print(f"📝 Log: {log_file}")
         print(f"⏰ Início: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
-        try:
-            # Executar pipeline
-            with open(log_file, 'w', encoding='utf-8') as f:
-                f.write(f"Análise Serra Penitente - {start_time}\n")
-                f.write("=" * 50 + "\n\n")
+        return start_time, log_file
 
-                process = subprocess.Popen(
-                    [sys.executable, str(self.pipeline_script)],
-                    cwd=self.serra_dir,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True,
-                    encoding='utf-8'
-                )
+    def _run_pipeline_with_monitoring(self, log_file, start_time):
+        """Run the analysis pipeline with progress monitoring."""
 
-                # Monitorar progresso
-                print("\n📊 PROGRESSO:")
-                for line in process.stdout:
-                    print(f"   {line.rstrip()}")
-                    f.write(line)
-                    f.flush()
+        # Initialize pipeline process
+        process = self._create_pipeline_process()
 
-                # Aguardar conclusão
-                return_code = process.wait()
+        with open(log_file, 'w', encoding='utf-8') as f:
+            f.write(f"Análise Serra Penitente - {start_time}\n")
+            f.write("=" * 50 + "\n\n")
 
-                end_time = datetime.now()
-                duration = end_time - start_time
+            print("\n📊 PROGRESSO EM TEMPO REAL:")
+            print("-" * 50)
 
-                f.write(f"\n\nConcluído em: {end_time}\n")
-                f.write(f"Duração: {duration}\n")
-                f.write(f"Código de saída: {return_code}\n")
+            # Monitor and log progress
+            success = self._monitor_pipeline_progress(process, f)
 
-            print(f"\n⏰ Fim: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-            print(f"⌛ Duração: {duration}")
+        return success
 
-            if return_code == 0:
-                print("✅ Análise concluída com sucesso!")
-                return True
-            else:
-                print(f"❌ Análise falhou (código: {return_code})")
-                print(f"📝 Verifique o log: {log_file}")
-                return False
+    def _create_pipeline_process(self):
+        """Create and return the pipeline subprocess."""
+        return subprocess.Popen(
+            [sys.executable, "run_pipeline_validation.py"],
+            cwd=self.serra_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding='cp1252',
+            errors='replace',
+            bufsize=1,
+            universal_newlines=True
+        )
 
-        except Exception as e:
-            print(f"❌ Erro durante execução: {e}")
+    def _monitor_pipeline_progress(self, process, log_file):
+        """Monitor pipeline progress and return success status."""
+
+        step_count = 0
+
+        for line in process.stdout:
+            line_clean = line.rstrip()
+            if not line_clean:
+                continue
+
+            step_count = self._process_pipeline_output(line_clean, step_count)
+
+            # Write to log
+            log_file.write(line)
+            log_file.flush()
+
+        # Wait for completion
+        return_code = process.wait()
+
+        # Log completion info
+        end_time = datetime.now()
+        log_file.write(f"\n\nConcluído em: {end_time}\n")
+        log_file.write(f"Código de saída: {return_code}\n")
+
+        # Display final status
+        print(f"\n📊 Etapas processadas: {step_count}")
+
+        if return_code == 0:
+            print("🎉 Análise concluída com sucesso!")
+            return True
+        else:
+            print(f"❌ Análise falhou (código: {return_code})")
             return False
+
+    def _process_pipeline_output(self, line_clean, step_count):
+        """Process a single line of pipeline output and return updated step count."""
+
+        # Detect new step
+        if re.search(r'Etapa \d+', line_clean):
+            step_count += 1
+            print(f"\n🔄 {line_clean}")
+            print("   " + "-" * 40)
+            return step_count
+
+        # Detect script execution
+        elif re.search(r'Executando.*\.py', line_clean):
+            script_name = re.search(r'(\d+_.*\.py)', line_clean)
+            if script_name:
+                print(f"   ⚙️  Executando: {script_name.group(1)}")
+            else:
+                print(f"   ⚙️  {line_clean}")
+
+        # Detect file operations
+        elif re.search(r'Salvando.*\.(csv|png|pdf)', line_clean):
+            self._display_file_operation(line_clean)
+
+        # Detect figure generation
+        elif re.search(r'Figura\d+', line_clean):
+            print(f"   📊 {line_clean}")
+
+        # Detect status messages
+        elif any(pattern in line_clean for pattern in ['✅', '❌', 'SUCESSO', 'ERRO', 'WARNING', 'FALHA']):
+            self._display_status_message(line_clean)
+
+        # Other important lines
+        elif any(keyword in line_clean.lower() for keyword in ['processando', 'carregando', 'gerando', 'validando']):
+            print(f"   ℹ️  {line_clean}")
+
+        return step_count
+
+    def _display_file_operation(self, line_clean):
+        """Display file operation message with appropriate icon."""
+
+        file_match = re.search(r'Salvando (.+)', line_clean)
+        if file_match:
+            file_name = file_match.group(1)
+            if '.csv' in file_name:
+                print(f"   💾 Dados salvos: {file_name}")
+            elif '.png' in file_name:
+                print(f"   🖼️  Figura salva: {file_name}")
+            elif '.pdf' in file_name:
+                print(f"   📄 PDF salvo: {file_name}")
+
+    def _display_status_message(self, line_clean):
+        """Display status message with appropriate icon."""
+
+        if re.search(r'✅.*concluída', line_clean):
+            print(f"   ✅ {line_clean}")
+        elif re.search(r'❌.*falhou', line_clean):
+            print(f"   ❌ {line_clean}")
+        elif 'SUCESSO' in line_clean.upper():
+            print(f"   🎉 {line_clean}")
+        elif any(keyword in line_clean.upper() for keyword in ['ERRO', 'FALHA']):
+            print(f"   🚨 {line_clean}")
+        elif 'WARNING' in line_clean.upper():
+            print(f"   ⚠️  {line_clean}")
+
+    def _generate_completion_summary(self, start_time, success):
+        """Generate and display completion summary with execution metrics."""
+        end_time = datetime.now()
+        duration = end_time - start_time
+
+        # Display timing info
+        self._display_timing_info(end_time, duration)
+
+        # Display status
+        self._display_completion_status(success)
+
+    def _display_timing_info(self, end_time, duration):
+        """Display execution timing information."""
+        print("\n" + "=" * 50)
+        print(f"⏰ Fim: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"⌛ Duração: {duration}")
+
+    def _display_completion_status(self, success):
+        """Display final execution status with appropriate message."""
+        if success:
+            self._display_success_message()
+        else:
+            self._display_failure_message()
+
+    def _display_success_message(self):
+        """Display success completion message."""
+        print("🎉 Análise concluída com sucesso!")
+
+    def _display_failure_message(self):
+        """Display failure completion message."""
+        print("❌ Análise falhou")
+        print("📝 Verifique o log em logs/")
 
     def generate_summary(self):
         """Gera resumo dos resultados."""

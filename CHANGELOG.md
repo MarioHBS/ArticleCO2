@@ -20,17 +20,30 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - Configurações de teste unificadas (`pyproject.toml`, `pytest.ini`)
 - Configurações de formatação de código (`.flake8`, `.editorconfig`)
 - Estrutura de diretórios padronizada
+- Integração de dados IDHM (Índice de Desenvolvimento Humano Municipal)
+- Funções auxiliares para validação de colunas e testes de causalidade individual
+- Visualizações de correlação entre IDHM e desmatamento
+- Análise de políticas por estratos de desenvolvimento humano
 
 ### Modificado
 - Reorganização da estrutura de pastas para monorepo
 - Atualização dos caminhos no `variaveis.py` para estrutura relativa
 - Configuração do `.gitignore` para ignorar arquivos gerados
 - Padronização das configurações de desenvolvimento
+- Refatoração da função `granger_causality_matrix` para reduzir complexidade ciclomática
+- Melhoria na estrutura de scripts numerados com função `main()` padronizada
+- Atualização de nomenclatura de "Índice de Correlação" para "Índice de Causalidade"
+- Otimização do pipeline de validação e correção de dependências
 
 ### Corrigido
 - Caminhos relativos para compatibilidade com monorepo
 - Configurações de ambiente para ambos os projetos
 - Estrutura de testes para projetos separados
+- Correção de chamadas de função inexistentes em scripts de visualização
+- Resolução de problemas de importação em scripts numerados
+- Correção de caminhos de arquivos para estrutura relativa do projeto
+- Eliminação de código órfão e melhoria da organização de scripts
+- Correção de avisos do Flake8 relacionados à complexidade ciclomática
 
 ## [1.0.0] - 2024-01-XX
 
