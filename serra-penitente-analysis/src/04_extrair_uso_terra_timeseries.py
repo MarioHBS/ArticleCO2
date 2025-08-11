@@ -24,7 +24,8 @@ SHEET_NAME = "COVERAGE_9"
 SERRA_CODES = [2100501, 2101400, 2112001]
 
 
-    """
+def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
+    """Carrega dados de cobertura do solo do arquivo Excel do MapBiomas."""
     try:
         if not os.path.exists(fp):
             raise FileNotFoundError(f"Arquivo não encontrado: {fp}")

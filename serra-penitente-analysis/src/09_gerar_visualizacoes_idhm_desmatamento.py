@@ -15,7 +15,6 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from scipy.stats import pearsonr, spearmanr
-
 from variaveis import CARBONO_CONSOLIDADO_COM_IDHM
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -106,7 +105,6 @@ def gerar_scatter_idhm_desmatamento(df):
     plt.close()
     print(f"Scatter plots salvos em: {caminho_scatter}")
 
-
     # Agrupar por ano
     df_temporal = df.groupby('ano').agg({
         'area_desmatada_ha': 'sum',
@@ -166,28 +164,30 @@ def gerar_scatter_idhm_desmatamento(df):
     print(f"Gráfico de evolução temporal salvo em: {caminho_evolucao}")
 
 
-        caminho_heatmap = fig_dir / "Figura12_Heatmap_Correlacao_IDHM.png"
-        plt.savefig(caminho_heatmap, dpi=300, bbox_inches='tight')
-        plt.close()
-        print(f"Heatmap de correlação salvo em: {caminho_heatmap}")
-    else:
-        print("Dados insuficientes para gerar heatmap de correlação.")
-
+def main():
+    """Função principal para gerar todas as visualizações de IDHM e desmatamento."""
+    # Carregar dados consolidados
+    try:
+        df = pd.read_csv(CARBONO_CONSOLIDADO_COM_IDHM)
+        print(f"Dados carregados: {len(df)} registros")
+    except FileNotFoundError:
+        print(f"Erro: Arquivo não encontrado: {CARBONO_CONSOLIDADO_COM_IDHM}")
+        return
+    except Exception as e:
+        print(f"Erro ao carregar dados: {e}")
+        return
 
     # Gerar visualizações
     try:
         gerar_scatter_idhm_desmatamento(df)
-        gerar_evolucao_temporal_idhm_desmatamento(df)
-        gerar_heatmap_correlacao_idhm(df)
 
         print("\n" + "="*60)
-        print("[OK] TODAS AS VISUALIZAÇÕES GERADAS COM SUCESSO!")
+        print("[OK] VISUALIZAÇÕES GERADAS COM SUCESSO!")
         print("="*60)
 
         print("\nFiguras geradas:")
         print("- Figura10_Correlacao_IDHM_Desmatamento.png")
         print("- Figura11_Evolucao_Temporal_IDHM_Desmatamento.png")
-        print("- Figura12_Heatmap_Correlacao_IDHM.png")
 
     except Exception as e:
         print(f"Erro durante a geração das visualizações: {e}")

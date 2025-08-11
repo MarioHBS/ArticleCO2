@@ -21,10 +21,11 @@ REGIAO_ESTUDO = "Serra do Penitente"
 
 # Caminhos de entrada (relativos à raiz do projeto)
 INPUT_PATHS = SimpleNamespace(
-    pib_2002_2009="serra-penitente-analysis/data/raw/pib_municipios_ibge_2002_2009.xls",
-    pib_2010_2021="serra-penitente-analysis/data/raw/pib_municipios_ibge_2010_2021.xlsx",
-    mapbiomas="serra-penitente-analysis/data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
-    precos_carbono="serra-penitente-analysis/data/raw/precos_carbono_eu_ets.xlsx",
+    pib_2002_2009="data/raw/pib_municipios_ibge_2002_2009.xls",
+    pib_2010_2021="data/raw/pib_municipios_ibge_2010_2021.xlsx",
+    mapbiomas="data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
+    precos_carbono="data/raw/precos_carbono_eu_ets.xlsx",
+    idhm="data/raw/idhm_municipios_serra_penitente.xlsx",
 )
 
 
@@ -43,12 +44,12 @@ SCRIPTS = SimpleNamespace(
 )
 # Caminhos de saída (relativos à raiz do projeto)
 GENERATED_PATHS = SimpleNamespace(
-    pib_ibge_csv="serra-penitente-analysis/data/generated/pib_municipal_serra_penitente_ibge.csv",
-    mapbiomas_long_csv="serra-penitente-analysis/data/generated/mapbiomas_cobertura_municipal_long.csv",
-    alertas_csv="serra-penitente-analysis/data/generated/alertas_serra_penitente.csv",
-    uso_timeseries_csv="serra-penitente-analysis/data/generated/uso_terra_serra_penitente_timeseries.csv",
-    carbono_consolidado_csv="serra-penitente-analysis/data/generated/carbono_serra_penitente.csv",
-    carbono_consolidado_com_idhm_csv="serra-penitente-analysis/data/generated/carbono_serra_penitente_com_idhm.csv",
+    pib_ibge_csv="data/generated/pib_municipal_serra_penitente_ibge.csv",
+    mapbiomas_long_csv="data/generated/mapbiomas_cobertura_municipal_long.csv",
+    alertas_csv="data/generated/alertas_serra_penitente.csv",
+    uso_timeseries_csv="data/generated/uso_terra_serra_penitente_timeseries.csv",
+    carbono_consolidado_csv="data/generated/carbono_serra_penitente.csv",
+    carbono_consolidado_com_idhm_csv="data/generated/carbono_serra_penitente_com_idhm.csv",
 )
 
 # Caminhos de resultados CSV (relativos à raiz do projeto)
@@ -211,9 +212,77 @@ FEATURE_COLS_EXPANDIDO = [
 ]
 
 
+def _validar_colunas_para_causalidade(df, columns, verbose=False):
+    """
+    Valida quais colunas são adequadas para teste de causalidade.
+
+    Args:
+        df: DataFrame com dados de séries temporais
+        columns: Lista de colunas para validar
+        verbose: Se True, imprime mensagens de debug
+
+    Returns:
+        Lista de colunas válidas para teste de causalidade
+    """
+    valid_columns = []
+    for col in columns:
+        if col not in df.columns:
+            if verbose:
+                print(f"[SKIP] Coluna '{col}' não encontrada no DataFrame")
+            continue
+
+        col_data = df[col].dropna()
+        if len(col_data) > 0 and col_data.nunique() > 1:
+            valid_columns.append(col)
+        elif verbose:
+            print(f"[SKIP] Coluna '{col}' tem valores constantes ou insuficientes")
+
+    return valid_columns
+
+
+def _testar_causalidade_individual(df, col_x, col_y, maxlag, test, verbose=False):
+    """
+    Testa causalidade de Granger entre duas variáveis específicas.
+
+    Args:
+        df: DataFrame com dados de séries temporais
+        col_x: Variável independente (causa)
+        col_y: Variável dependente (efeito)
+        maxlag: Número máximo de lags para teste
+        test: Tipo de teste estatístico
+        verbose: Se True, imprime resultados detalhados
+
+    Returns:
+        P-valor do teste de causalidade (1.0 se erro ou dados insuficientes)
+    """
+    from statsmodels.tsa.stattools import grangercausalitytests
+
+    try:
+        data = df[[col_y, col_x]].dropna()
+
+        if len(data) <= maxlag * 2:
+            if verbose:
+                print(f"Dados insuficientes para {col_x} -> {col_y}")
+            return 1.0
+
+        result = grangercausalitytests(data, maxlag=maxlag, verbose=False)
+        p_values = [result[lag + 1][0][test][1] for lag in range(maxlag)]
+        min_p_value = min(p_values)
+
+        if verbose:
+            print(f"{col_x} -> {col_y}: p-valor = {min_p_value:.4f}")
+        return min_p_value
+
+    except Exception as e:
+        if verbose:
+            print(f"Erro ao testar {col_x} -> {col_y}: {e}")
+        return 1.0
+
+
 def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose=False):
     """
     Calcula matriz de causalidade de Granger entre variáveis.
+
     Args:
         df: DataFrame com dados de séries temporais
         columns: Lista de colunas para testar causalidade
@@ -227,18 +296,8 @@ def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose
     """
     import numpy as np
     import pandas as pd
-    from statsmodels.tsa.stattools import grangercausalitytests
-    # Verificar quais colunas têm variação (não são constantes)
-    valid_columns = []
-    for col in columns:
-        if col in df.columns:
-            col_data = df[col].dropna()
-            if len(col_data) > 0 and col_data.nunique() > 1:  # Tem mais de um valor único
-                valid_columns.append(col)
-            elif verbose:
-                print(f"[SKIP] Coluna '{col}' tem valores constantes ou insuficientes")
-        elif verbose:
-            print(f"[SKIP] Coluna '{col}' não encontrada no DataFrame")
+
+    valid_columns = _validar_colunas_para_causalidade(df, columns, verbose)
 
     if len(valid_columns) < 2:
         if verbose:
@@ -248,34 +307,14 @@ def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose
             )
         return pd.DataFrame(np.ones((len(columns), len(columns))), columns=columns, index=columns)
 
-    # Criar matriz de p-valores
     causality_matrix = pd.DataFrame(
         np.ones((len(columns), len(columns))), columns=columns, index=columns
     )
+
     for col_y in valid_columns:
         for col_x in valid_columns:
             if col_y != col_x:
-                try:
-                    # Preparar dados (remover NaN)
-                    data = df[[col_y, col_x]].dropna()
-
-                    if len(data) > maxlag * 2:  # Verificar se há dados suficientes
-                        # Teste de causalidade: col_x causa col_y?
-                        result = grangercausalitytests(data, maxlag=maxlag, verbose=False)
-
-                        # Extrair menor p-valor entre os lags testados
-                        p_values = [result[lag + 1][0][test][1] for lag in range(maxlag)]
-                        min_p_value = min(p_values)
-
-                        causality_matrix.loc[col_x, col_y] = min_p_value
-                        if verbose:
-                            print(f"{col_x} -> {col_y}: p-valor = {min_p_value:.4f}")
-                    else:
-                        if verbose:
-                            print(f"Dados insuficientes para {col_x} -> {col_y}")
-                except Exception as e:
-                    if verbose:
-                        print(f"Erro ao testar {col_x} -> {col_y}: {e}")
-                    causality_matrix.loc[col_x, col_y] = 1.0  # p-valor = 1 (sem causalidade)
+                p_value = _testar_causalidade_individual(df, col_x, col_y, maxlag, test, verbose)
+                causality_matrix.loc[col_x, col_y] = p_value
 
     return causality_matrix
