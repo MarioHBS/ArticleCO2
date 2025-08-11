@@ -1,6 +1,6 @@
 [flake8]
 max-line-length = 100
-extend-ignore = E203, W503
+extend-ignore = E203, W503, E501
 exclude = 
     .git,
     __pycache__,
@@ -8,4 +8,16 @@ exclude =
     .env,
     build,
     dist,
-    *.egg-info
+    *.egg-info,
+    results,
+    logs,
+    resultados_fixos,
+    serra-penitente-analysis/data/generated,
+    serra-penitente-analysis/data/downloads,
+    serra-penitente-analysis/data/archive,
+    .pytest_cache,
+    .trae
+per-file-ignores =
+    __init__.py:F401
+    **/tests/**:F401,F811
+max-complexity = 10

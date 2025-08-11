@@ -1,3 +1,7 @@
+# =============================================================================
+# Dependências do Projeto Serra do Penitente + MapBiomas API Server
+# =============================================================================
+
 # Data Processing
 pandas==2.2.3
 numpy==2.2.5
@@ -22,7 +26,13 @@ earthengine-api==1.5.14
 # OCR
 easyocr==1.7.2
 
-# Utilities
+# Web Framework (MapBiomas API Server)
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+python-multipart==0.0.20
+
+# HTTP Utilities
 requests==2.32.3
 unidecode==1.4.0
 
@@ -35,5 +45,27 @@ coverage==7.6.9
 black==24.10.0
 flake8==7.1.1
 
+# Environment Management
+python-dotenv==1.0.1
+
 # Logging (built-in, but documenting for clarity)
 # logging - built-in Python module
+
+# =============================================================================
+# Notas de Instalação:
+# =============================================================================
+# 1. Para instalar todas as dependências:
+#    pip install -r requirements.txt
+#
+# 2. Para desenvolvimento, instale também as dependências de teste:
+#    pip install -r requirements.txt
+#    pip install pytest-xdist  # Para testes paralelos
+#
+# 3. Para usar o servidor MapBiomas API:
+#    - Configure as variáveis de ambiente no arquivo .env
+#    - Execute: python mapbiomas-alert-api/run_server.py
+#
+# 4. Para executar a análise Serra do Penitente:
+#    - Configure as variáveis de ambiente no arquivo .env
+#    - Execute: python serra-penitente-analysis/run_pipeline_validation.py
+# =============================================================================

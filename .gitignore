@@ -1,19 +1,41 @@
-.idea/
+# Configurações específicas do monorepo
+
+# Ambientes Python
 .venv/
 venv/
-.iaenv/
 __pycache__/
-.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
 
-# Environment variables
-.env
+# IDEs e Editores
+.idea/
 
+# Resultados de análises (pasta results/ é temporária)
 /results/
 
-/data/archive/
-/data/downloads/
-/data/generated/
-/data/SEEG-12-dados-municipais.xlsx
+# Logs do sistema
+/logs/
 
-/zdelete
-.trae/rules/project_rules.md
+# Arquivos de desenvolvimento
+/zdelete/
+
+# Configurações específicas do Trae AI
+/.trae/rules/
+
+# Variáveis de Ambiente
+.env
+.env.local
+.env.*.local
+
+# Testes e Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build e distribuição
+build/
+dist/
+*.egg-info/
+
+# Nota: resultados_fixos/ deve ser versionada (contém resultados consolidados)

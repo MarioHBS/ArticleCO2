@@ -27,7 +27,8 @@ ensure_newline_before_comments = true
 minversion = "6.0"
 addopts = "-ra -q --strict-markers --strict-config"
 testpaths = [
-    "tests",
+    "serra-penitente-analysis/tests",
+    "mapbiomas-alert-api/tests",
 ]
 python_files = [
     "test_*.py",
@@ -43,8 +44,12 @@ markers = [
     "slow: marks tests as slow (deselect with '-m 'not slow'')",
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
+    "mapbiomas: marks tests related to MapBiomas API",
+    "serra_penitente: marks tests related to Serra Penitente analysis",
 ]
 filterwarnings = [
     "ignore::UserWarning",
     "ignore::DeprecationWarning",
+    "ignore::FutureWarning:statsmodels.*",
+    "ignore::PendingDeprecationWarning",
 ]

@@ -1,0 +1,14 @@
+# Configurações específicas do mapbiomas-alert-api
+
+# Cache específico do src
+src/__pycache__/
+
+# Dados sensíveis e configurações específicas
+config/local.json
+config/production.json
+*.key
+*.pem
+*.crt
+
+# Arquivos de desenvolvimento específicos
+.gitO/

@@ -1,0 +1,187 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🚀 Debug: Configuração Rápida",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/quick_setup.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "🔧 Debug: Setup Ambiente",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/setup_environment.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "🌐 Debug: Servidor MapBiomas",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/start_mapbiomas_server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "📊 Debug: Análise Serra Penitente",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_serra_penitente_analysis.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "📊 Debug: Análise (Sem Servidor)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_serra_penitente_analysis.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": ["--skip-server-check"],
+            "justMyCode": true
+        },
+        {
+            "name": "🔬 Debug: Pipeline Validação",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/serra-penitente-analysis/run_pipeline_validation.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/serra-penitente-analysis",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/serra-penitente-analysis:${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "🌐 Debug: FastAPI MapBiomas",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/mapbiomas-alert-api/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/mapbiomas-alert-api",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/mapbiomas-alert-api:${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "🧪 Debug: Testes Pytest",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [
+                "-v",
+                "--tb=short"
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "🧪 Debug: Testes Serra Penitente",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/serra-penitente-analysis:${workspaceFolder}"
+            },
+            "args": [
+                "serra-penitente-analysis/tests/",
+                "-v",
+                "--tb=short"
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "🧪 Debug: Testes MapBiomas API",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/mapbiomas-alert-api:${workspaceFolder}"
+            },
+            "args": [
+                "mapbiomas-alert-api/tests/",
+                "-v",
+                "--tb=short"
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "🔍 Debug: Script Atual",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}:${fileDirname}"
+            },
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "🐍 Debug: Python Interativo",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/debug_interactive.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "🚀 Debug: Pipeline Completo",
+            "configurations": [
+                "🌐 Debug: Servidor MapBiomas",
+                "📊 Debug: Análise Serra Penitente"
+            ],
+            "stopAll": true,
+            "presentation": {
+                "hidden": false,
+                "group": "pipeline",
+                "order": 1
+            }
+        }
+    ]
+}

@@ -1,0 +1,253 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🚀 Configuração Rápida",
+            "type": "shell",
+            "command": "python",
+            "args": ["quick_setup.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Configura todo o ambiente do projeto automaticamente"
+        },
+        {
+            "label": "🔧 Configuração Ambiente",
+            "type": "shell",
+            "command": "python",
+            "args": ["setup_environment.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Configura o ambiente passo a passo"
+        },
+        {
+            "label": "🌐 Iniciar Servidor MapBiomas",
+            "type": "shell",
+            "command": "python",
+            "args": ["start_mapbiomas_server.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Inicia o servidor MapBiomas API em background"
+        },
+        {
+            "label": "📊 Executar Análise Serra Penitente",
+            "type": "shell",
+            "command": "python",
+            "args": ["run_serra_penitente_analysis.py"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "detail": "Executa a análise completa do projeto Serra Penitente"
+        },
+        {
+            "label": "📊 Análise Serra Penitente (Sem Servidor)",
+            "type": "shell",
+            "command": "python",
+            "args": ["run_serra_penitente_analysis.py", "--skip-server-check"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "detail": "Executa análise sem verificar servidor MapBiomas"
+        },
+        {
+            "label": "🧪 Executar Testes",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "pytest", "-v"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Executa todos os testes do projeto"
+        },
+        {
+            "label": "🧪 Testes Serra Penitente",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "pytest", "serra-penitente-analysis/tests/", "-v"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Executa testes do projeto Serra Penitente"
+        },
+        {
+            "label": "🧪 Testes MapBiomas API",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "pytest", "mapbiomas-alert-api/tests/", "-v"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Executa testes da API MapBiomas"
+        },
+        {
+            "label": "🔍 Verificar Saúde do Servidor",
+            "type": "shell",
+            "command": "curl",
+            "args": ["http://localhost:8000/health"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Verifica se o servidor MapBiomas está funcionando"
+        },
+        {
+            "label": "🎨 Formatar Código",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "black", "."],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Formata todo o código Python usando Black"
+        },
+        {
+            "label": "🔍 Verificar Código (Flake8)",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "flake8", "."],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Verifica qualidade do código com Flake8"
+        },
+        {
+            "label": "📦 Instalar Dependências",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "pip", "install", "-r", "requirements.txt"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Instala todas as dependências do projeto"
+        },
+        {
+            "label": "🧹 Limpar Arquivos Temporários",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Get-ChildItem -Path . -Recurse -Include '__pycache__', '*.pyc', '.pytest_cache' | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue; Write-Host '✅ Arquivos temporários removidos'"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "detail": "Remove arquivos temporários e cache do Python"
+        },
+        {
+            "label": "📋 Pipeline Completo",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🚀 Configuração Rápida",
+                "🌐 Iniciar Servidor MapBiomas",
+                "📊 Executar Análise Serra Penitente"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "detail": "Executa o pipeline completo: configuração + servidor + análise"
+        }
+    ]
+}

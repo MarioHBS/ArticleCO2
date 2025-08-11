@@ -1,0 +1,18 @@
+# Configurações específicas do serra-penitente-analysis
+
+# Resultados de análises (temporários)
+results/
+
+# Figuras geradas (temporárias)
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.svg
+!data/raw/*.png
+!data/raw/*.jpg
+!data/raw/*.jpeg
+!data/raw/*.pdf
+!data/raw/*.svg
+
+# Nota: dados processados são ignorados via data/.gitignore

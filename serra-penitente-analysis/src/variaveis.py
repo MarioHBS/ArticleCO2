@@ -19,12 +19,12 @@ MUNICIPIOS_ALVO = [
 # Região de estudo
 REGIAO_ESTUDO = "Serra do Penitente"
 
-# Caminhos de entrada
+# Caminhos de entrada (relativos à raiz do projeto)
 INPUT_PATHS = SimpleNamespace(
-    pib_2002_2009="data/raw/pib_municipios_ibge_2002_2009.xls",
-    pib_2010_2021="data/raw/pib_municipios_ibge_2010_2021.xlsx",
-    mapbiomas="data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
-    precos_carbono="data/raw/precos_carbono_eu_ets.xlsx",
+    pib_2002_2009="serra-penitente-analysis/data/raw/pib_municipios_ibge_2002_2009.xls",
+    pib_2010_2021="serra-penitente-analysis/data/raw/pib_municipios_ibge_2010_2021.xlsx",
+    mapbiomas="serra-penitente-analysis/data/raw/cobertura_solo_mapbiomas_municipios_brasil.xlsx",
+    precos_carbono="serra-penitente-analysis/data/raw/precos_carbono_eu_ets.xlsx",
 )
 
 
@@ -41,36 +41,41 @@ SCRIPTS = SimpleNamespace(
     analisar_politicas_por_estratos_idhm="src/10_analisar_politicas_por_estratos_idhm.py",
     comparar_modelos_com_sem_idhm="src/comparar_modelos_com_sem_idhm.py",
 )
-# Caminhos de saída
+# Caminhos de saída (relativos à raiz do projeto)
 GENERATED_PATHS = SimpleNamespace(
-    pib_ibge_csv="data/generated/pib_municipal_serra_penitente_ibge.csv",
-    mapbiomas_long_csv="data/generated/mapbiomas_cobertura_municipal_long.csv",
-    alertas_csv="data/generated/alertas_serra_penitente.csv",
-    uso_timeseries_csv="data/generated/uso_terra_serra_penitente_timeseries.csv",
-    carbono_consolidado_csv="data/generated/carbono_serra_penitente.csv",
-    carbono_consolidado_com_idhm_csv="data/generated/carbono_serra_penitente_com_idhm.csv",
+    pib_ibge_csv="serra-penitente-analysis/data/generated/pib_municipal_serra_penitente_ibge.csv",
+    mapbiomas_long_csv="serra-penitente-analysis/data/generated/mapbiomas_cobertura_municipal_long.csv",
+    alertas_csv="serra-penitente-analysis/data/generated/alertas_serra_penitente.csv",
+    uso_timeseries_csv="serra-penitente-analysis/data/generated/uso_terra_serra_penitente_timeseries.csv",
+    carbono_consolidado_csv="serra-penitente-analysis/data/generated/carbono_serra_penitente.csv",
+    carbono_consolidado_com_idhm_csv="serra-penitente-analysis/data/generated/carbono_serra_penitente_com_idhm.csv",
 )
 
-# Caminhos de resultados CSV
+# Caminhos de resultados CSV (relativos à raiz do projeto)
 RESULT_PATHS = SimpleNamespace(
-    # Resultados de modelos
+    # Resultados de modelos (pasta results/)
     model_results_csv="results/resultados_modelos_precificacao_carbono.csv",
     carbon_price_model_all_results_csv="results/carbon_price_model_all_results.csv",
     metricas_modelos_com_idhm_csv="results/metricas_modelos_com_idhm.csv",
     comparacao_modelos_idhm_csv="results/comparacao_modelos_idhm.csv",
-    # Importância de features
+    # Importância de features (pasta results/)
     feature_importance_rf_csv="results/importancia_variaveis_random_forest_com_idhm.csv",
     feature_importance_dt_csv="results/importancia_variaveis_decision_tree_com_idhm.csv",
     feature_importance_xgb_csv="results/importancia_variaveis_xgboost_com_idhm.csv",
-    # Relatórios
+    # Relatórios (pasta results/)
     relatorio_impacto_idhm_txt="results/relatorio_impacto_idhm.txt",
     relatorio_analise_estratos_desenvolvimento_txt=(
         "results/relatorio_analise_estratos_desenvolvimento.txt"
     ),
     analise_idhm_output_txt="results/analise_idhm_output.txt",
+    # Relatórios fixos (pasta resultados_fixos/)
+    relatorio_academico_precos_carbono_txt="resultados_fixos/relatorio_academico_precos_carbono.txt",
+    relatorio_analise_estratos_desenvolvimento_fixo_txt="resultados_fixos/relatorio_analise_estratos_desenvolvimento.txt",
+    relatorio_impacto_idhm_fixo_txt="resultados_fixos/relatorio_impacto_idhm.txt",
+    relatorio_precos_carbono_detalhado_txt="resultados_fixos/relatorio_precos_carbono_detalhado.txt",
 )
 
-# Caminhos de figuras
+# Caminhos de figuras (relativos à raiz do projeto)
 FIGURE_PATHS = SimpleNamespace(
     # Figuras principais numeradas
     figura01_evolucao_pib_png="results/figures/Figura01_Evolucao_PIB.png",
