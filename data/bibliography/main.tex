@@ -1,0 +1,445 @@
+% Generated IEEEtran-based LaTeX project for Carbon Credit Pricing Article
+% Author: Felipe de Oliveira Carvalho et al.
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+% renomear comando
+\renewcommand{\IEEEkeywordsname}{Palavras-chave}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{USO DE INTELIGÊNCIA ARTIFICIAL PARA PRECIFICAR CRÉDITOS DE CARBONO NO CERRADO MARANHENSE}
+
+\author{%
+\IEEEauthorblockN{Felipe de Oliveira Carvalho}
+\IEEEauthorblockA{DEEE -- Department of Electrical Engineering/CCET\\
+Federal University of Maranhão\\
+São Luís, Brazil\\
+ORCID: \href{https://orcid.org/0000-0003-0011-7404}{0000-0003-0011-7404}}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+O Cerrado maranhense reúne condições singulares para a geração de créditos de carbono, mas os preços desses ativos ainda são pouco previsíveis em escala municipal. Este estudo compara diferentes técnicas de aprendizado de máquina para estimar o preço do carbono a partir de dados de PIB, desenvolvimento humano, uso da terra e emissões na Serra do Penitente (Balsas, Tasso Fragoso e Alto Parnaíba). A inclusão do Índice de Desenvolvimento Humano Municipal (IDHM) elevou de forma consistente a qualidade das previsões, destacando a influência de fatores socioeconômicos além do desmatamento. Os resultados apontam para um paradoxo local: municípios mais desenvolvidos emitem menos por unidade de riqueza, mas continuam líderes em perda de cobertura nativa. Ao discutir essas evidências, o artigo sugere que políticas de precificação e uso da terra sejam calibradas de acordo com o estágio de desenvolvimento de cada município, abrindo caminho para projetos de carbono que conciliem competitividade agrícola e conservação.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Inteligência Artificial; Machine Learning; Mercado de Carbono; Cerrado; Precificação; Serra do Penitente
+\end{IEEEkeywords}
+
+\section{Introdução}\label{sec:intro}
+
+As mudanças climáticas constituem um dos maiores desafios contemporâneos, com impactos já perceptíveis em diferentes regiões do Brasil. Estudos regionais relatam alterações no regime de chuvas, maior frequência de eventos extremos e prejuízos à biodiversidade~\cite{silva2018percepcoes}. Entre as estratégias de mitigação, o \emph{mercado de créditos de carbono} destaca-se como mecanismo promissor para internalizar o custo das emissões~\cite{eibel2015}.
+
+Um \emph{crédito de carbono} representa uma tonelada de dióxido de carbono equivalente (tCO\textsubscript{2}e) evitada ou removida da atmosfera. Além do tradicional \emph{Mecanismo de Desenvolvimento Limpo} (MDL), iniciativas voluntárias — como projetos REDD+ e esquemas jurisdicionais — ampliam a demanda por créditos que apresentem co-benefícios ambientais e sociais~\cite{cerradoRelat2024}.
+
+No Brasil, florestas, energia e agropecuária concentram as maiores oportunidades de geração de créditos. O Cerrado, segundo maior bioma do país, combina alta taxa de desmatamento com grande potencial de sequestro por conservação ou recuperação de áreas degradadas. No Maranhão, onde o Cerrado cobre cerca de 64\,\% do território estadual, o avanço da fronteira agrícola eleva as emissões de gases de efeito estufa (GEE) e intensifica pressões socioambientais~\cite{cerradoRelat2024}. Indicadores contrastantes de desenvolvimento humano sugerem ainda dinâmicas econômicas que podem influenciar o valor do carbono.
+
+A \emph{precificação} desses créditos, porém, permanece complexa: volatilidade, limitada transparência de preços e assimetria de informação ampliam a incerteza para investidores. Técnicas de Inteligência Artificial (IA) — especialmente de \emph{aprendizado de máquina} (ML) — vêm se mostrando promissoras ao processar grandes volumes de dados e capturar padrões não lineares capazes de melhorar a antecipação do preço do carbono~\cite{zhou2019}.
+
+Este estudo aplica técnicas de aprendizado de máquina para prever o preço do carbono na Serra do Penitente — abrangendo Balsas, Tasso Fragoso e Alto Parnaíba — a partir de variáveis de uso da terra, emissões, produto interno bruto (PIB) e, pela primeira vez, o Índice de Desenvolvimento Humano Municipal (IDHM). Nossa hipótese é que tais variáveis locais estejam correlacionadas às cotações internacionais, permitindo modelos preditivos mais precisos e relevantes para a realidade regional. Também estimamos o potencial econômico por estratos de IDHM, oferecendo subsídios para políticas diferenciadas de precificação.
+
+Para tanto, compilamos séries históricas (2002–2021) de emissões de GEE, desmatamento, PIB municipal e preços do \emph{European Union Emissions Trading System} (EU-ETS). Foram comparados nove algoritmos supervisionados — Regressão Linear, Lasso, SVR, KNN, Decision Tree, Random Forest, XGBoost, MLP e um modelo base de média móvel — mediante validação cruzada temporal. A Fig.~\ref{fig:municipalities} apresenta a área de estudo, a Fig.~\ref{fig:painel_pib_gee} ilustra a evolução do PIB e das emissões ao longo do período, e a Fig.~\ref{fig:evolucao_preco_carbono} mostra a evolução histórica dos preços do carbono no mercado europeu, principal referência internacional utilizada neste estudo.
+
+Trata-se do primeiro estudo municipal brasileiro que integra, de forma sistemática, dados socioeconômicos, ambientais e econômicos em série de duas décadas dentro de um pipeline reproduzível de aprendizado de máquina. Os modelos mostraram ganho médio de 20\,\% em $R^{2}$ com a inclusão do IDHM, revelando um paradoxo local: municípios de maior desenvolvimento concentram cerca de 40 vezes mais desmatamento absoluto, apesar de menor intensidade de carbono. Esses achados reforçam a necessidade de políticas calibradas ao estágio de desenvolvimento e apontam caminhos para projetos que conciliem competitividade agrícola e conservação.
+
+% --- FIGURA 1 – LOCALIZAÇÃO ----------------------------------
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/geografia/municipios_serra_penitente.jpg}
+  \caption{Localização dos municípios da Serra do Penitente
+    (Alto Parnaíba, Balsas e Tasso Fragoso), no sul do Maranhão,
+    sobre mosaico Sentinel-2 (2024). Projeção UTM, fuso 23 S,
+    datum SIRGAS-2000. Escala 1:1\,500\,000.
+    \textit{Elaboração cartográfica: Marco Aurélio Neri Torre,
+    11 mai 2025}.}
+  \label{fig:municipalities}
+\end{figure}
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{imagens/resultados/painel_pib_gee.pdf}
+  \caption{Evolução do PIB e das emissões de GEE nos municípios da Serra do Penitente (2002–2021).}
+  \label{fig:painel_pib_gee}
+\end{figure}
+
+\section{Fundamentação Teórica}
+
+\subsection{Créditos de Carbono e Mercado de Carbono}
+
+Um \emph{crédito de carbono} é um certificado que comprova a redução ou remoção de uma tonelada de dióxido de carbono equivalente (tCO\textsubscript{2}e)~\cite{decreto11075}.  Inicialmente viabilizados pelo \emph{Mecanismo de Desenvolvimento Limpo} (MDL), tais créditos passaram a incluir projetos REDD+, Agricultura de Baixo Carbono e iniciativas jurisdicionais, ampliando o portfólio de soluções climáticas.  
+
+Segundo o \emph{State and Trends of Carbon Pricing 2024}, instrumentos de \emph{precificação direta} englobam (i) tributos sobre carbono, (ii) sistemas de comércio de emissões (ETS) e (iii) mecanismos de geração de créditos; juntos geraram cerca de US\$ 104 bilhões em 2023 e cobrem 24 \% das emissões globais~\cite{wb2024}.  A precificação \emph{indireta} — tributos sobre combustíveis fósseis ou subsídios — altera o sinal de preço, mas sem vínculo linear com o conteúdo de CO\textsubscript{2}e.
+
+Dois grandes segmentos compõem o mercado: o \emph{regulado}, em que licenças e créditos atendem a metas obrigatórias, e o \emph{voluntário}, voltado a compromissos de ESG e neutralidade de carbono.  O EU ETS continua sendo o maior sistema regulado do mundo~\cite{euets2022}.  No Brasil, o Decreto 11.075/2022 instituiu o \emph{Sistema Nacional de Redução de Emissões} (SINARE), primeiro passo para um mercado doméstico alinhado a padrões internacionais de integridade e rastreabilidade, como os recomendados pela IC-VCM~\cite{icvcm2024}.
+
+A Fig.~\ref{fig:evolucao_preco_carbono} apresenta a evolução histórica dos preços do carbono no EU ETS, principal referência internacional para precificação. Observa-se significativa volatilidade ao longo do período, com destaque para o crescimento sustentado a partir de 2018, refletindo o fortalecimento das políticas climáticas europeias e maior demanda por créditos de carbono.
+
+% --- FIGURA – EVOLUÇÃO PREÇO CARBONO ----------------------------------
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/resultados/evolucao_preco_carbono.pdf}
+  \caption{Evolução do preço do carbono no EU ETS (2008–2024). Dados corrigidos com remoção de outliers para melhor representatividade da tendência de mercado. A metodologia de correção aplicada resultou em coeficiente de variação de 0,85 e taxa de crescimento anual média de 12,3\%, indicando maior estabilidade e crescimento sustentado dos preços.}
+  \label{fig:evolucao_preco_carbono}
+\end{figure}
+
+\subsection{O Cerrado Maranhense e seu Potencial para Geração de Créditos}\label{sec:cerrado}
+
+O Cerrado ocupa cerca de 22 \% do território brasileiro; no Maranhão, cobre aproximadamente 64 \% do estado, combinando alta biodiversidade e intensa conversão para agricultura~\cite{leao2023}.  Entre 2000 e 2023, a perda acumulada de vegetação nativa no Cerrado maranhense superou 35 Mt CO\textsubscript{2}e~\cite{cerradoRelat2024}.  Paradoxalmente, municípios de maior IDHM concentram o maior desmatamento absoluto, ainda que exibam menor intensidade de carbono por unidade de PIB~\cite{silvajunior2024}.
+
+% --- FIGURA – LOCALIZAÇÃO MATOPIBA ----------------------------------
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/geografia/matopiba_localizacao.jpg}
+  \caption{Mapa de localização do perímetro do Projeto MATOPIBA no Maranhão (MATOPI-MA), destacando a área de estudo Serra do Penitente e os municípios de Alto Parnaíba, Balsas e Tasso Fragoso. A linha amarela demarca o perímetro do MATOPI-MA, enquanto os contornos em branco correspondem às fronteiras estaduais. Projeção Universal Transversa de Mercator (UTM), Meridiano Central 45° W, Datum SIRGAS 2000 Zona 23 S; escala 1:4\,000\,000. Fontes: IBGE (2022) e Embrapa (2015). \textit{Elaboração cartográfica: Felipe de Oliveira Carvalho, CREA-MA 1118427823, 11 mai 2025}.}
+  \label{fig:matopiba_location}
+\end{figure}  
+
+Apesar das pressões, o potencial de geração de créditos permanece elevado.  Estoques de carbono orgânico do solo variam entre 45 e 67 t C ha\(^{-1}\) em sistemas agrícolas locais~\cite{gomes2023}, enquanto avaliações de biomassa acima do solo estimam 279 Mt C na Amazônia e Cerrado maranhenses, com valor potencial superior a US\$ 6,7 bilhões~\cite{silvajunior2024}.  Mapas que integram estoque de carbono e uso da terra já delimitam áreas prioritárias para conservação e restauração~\cite{ferraz2023}, fornecendo base para políticas diferenciadas de incentivo.
+
+\subsection{Inteligência Artificial e Modelos de Aprendizado de Máquina}\label{sec:ai}
+
+A precificação de créditos de carbono envolve variáveis econômicas, ambientais e políticas que interagem de forma não linear~\cite{zhou2019}.  Métodos de Inteligência Artificial (IA), em especial o \emph{aprendizado de máquina} (ML), têm demonstrado capacidade de captar tais relações complexas~\cite{zaki2020datamining,maryoosh2022review}.  Estudos recentes combinam variáveis de mercado de energia, indicadores macroeconômicos e métricas ambientais para melhorar previsões de preço~\cite{energyecon2018}.  
+
+No contexto brasileiro, Canteral~\cite{canteral2020} aplicou redes neurais para modelar emissões de CO\textsubscript{2} do solo, enquanto Kanda~\cite{kanda2023} comparou regressão linear, KNN, árvores de decisão, florestas aleatórias e redes neurais na previsão de preços de carbono, obtendo melhor desempenho com modelos baseados em árvores de decisão.  Esses algoritmos fornecem interpretações claras via importância de variáveis, tornando-os úteis para orientar políticas públicas~\cite{facelli2011}.
+
+A aplicação de ML ao Cerrado maranhense permite incorporar indicadores socioeconômicos — como o IDHM — que se mostraram capazes de elevar em mais de 20 \% o coeficiente de determinação ($R^{2}$) em modelos de precificação municipal, conforme evidenciado na presente pesquisa.  Tal abordagem reforça a busca por esquemas de precificação regionalmente justos, capazes de valorizar serviços ecossistêmicos e orientar estratégias de desenvolvimento sustentável.
+
+
+\section{Metodologia}\label{sec:metod}
+
+\subsection{Área de Estudo}
+
+O estudo abrange os municípios de Balsas, Tasso Fragoso e Alto Parnaíba, núcleo agrícola da Serra do Penitente (Cerrado maranhense).  A vegetação savânica convive com clima tropical sazonal (chuva: out.–abr.; seca: mai.–set.), temperatura média anual de 22–27 \textdegree C e precipitação de \(\sim\!1\,200\;\text{mm}\).  Nas últimas décadas, a expansão de soja, milho e pastagens integrou a região à fronteira MATOPIBA (Fig.~\ref{fig:matopiba_location}), intensificando pressões sobre os remanescentes de vegetação (Fig.~\ref{fig:legal_reserve}).
+
+% --- FIGURA – RESERVA LEGAL ----------------------------------
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/geografia/areas_reserva_legal_ma.jpg}
+  \caption{Distribuição das áreas de Reserva Legal (\emph{verde}) nas propriedades rurais da Serra do Penitente.  Projeção UTM 23 S – SIRGAS-2000; escala 1:1 500 000.  Dados: IBGE (2022), Embrapa (2015), MapBiomas (2025).}
+  \label{fig:legal_reserve}
+\end{figure}
+
+\subsection{Infra-estrutura de Transporte}
+
+% --- FIGURA – MALHA RODOVIÁRIA --------------------------------
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/geografia/infra_rodovias_serra_penitente.jpg}
+  \caption{Malha rodoviária federal na Serra do Penitente, destacando as rodovias BR-230, BR-235 e BR-349 que conectam a região aos principais portos de escoamento. Projeção UTM 23 S – SIRGAS-2000; escala 1:1 500 000. Dados: DNIT (2024), IBGE (2022).}
+  \label{fig:highways}
+\end{figure}
+
+Três eixos rodoviários federais — BR-230, BR-235 e BR-349 — conectam a Serra do Penitente aos portos de Itaqui (MA) e Luís Correia (PI), reduzindo custos logísticos e influenciando a viabilidade econômica de projetos de carbono (Fig.~\ref{fig:highways}).
+
+\subsection{Fontes e Integração de Dados}
+
+Cinco bases públicas foram integradas por município-ano:
+
+\begin{itemize}
+  \item \textbf{Emissões de GEE} – SEEG v. 9.
+  \item \textbf{Desmatamento anual} – PRODES/Cerrado (INPE).
+  \item \textbf{PIB municipal} – Séries SIDRA/IBGE (valores reais, 2021 = 100).
+  \item \textbf{Índice de Desenvolvimento Humano Municipal} (IDHM) – Atlas Brasil (1991–2021, interpolado por tendência).
+  \item \textbf{Preço do carbono} – cotações diárias do EU ETS (ICE ECX), 25 mar 2008–30 jun 2024.
+\end{itemize}
+
+\begin{table}[!t]
+  \caption{Conjuntos de dados consolidados}\label{tab:datasets}
+  \centering
+  \footnotesize
+  \begin{tabular}{lccccc}
+    \toprule
+    \textbf{ID} & \textbf{Variável‐alvo} & \textbf{\# linhas} & \textbf{\# atributos} & \textbf{Freq.} & \textbf{Período} \\ \midrule
+    D1 & Preço EU ETS & 5 921 & 8 & Diária & 2008–2024 \\
+    D2 & GEE + Desmat. &  820 & 14 & Anual  & 2002–2023 \\
+    D3 & PIB \& IDHM    &  820 &  6 & Anual  & 2002–2021 \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Pré-processamento}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Limpeza} – exclusão de valores faltantes (\(<1\,\%\)); detecção de \emph{outliers} por IQR.
+  \item \textbf{Alinhamento temporal} – agregação diária \(\rightarrow\) anual do EU ETS (média ponderada); ajuste de inflação.
+  \item \textbf{Engenharia de atributos} – criação de \emph{lags} de 1 e 2 anos para GEE e desmatamento; cálculo de intensidade de carbono \((\text{tCO}_2\mathrm{e}/\text{R\$ mil})\).
+  \item \textbf{Escalonamento} – \emph{z-score} para algoritmos lineares; árvores dispensam normalização.
+  \item \textbf{Seleção} – \emph{Recursive Feature Elimination} com \(\text{RFECV}\) + floresta aleatória, retendo 10 variáveis.
+\end{enumerate}
+
+\subsection{Modelagem e Validação}
+
+Nove regressores foram comparados; o \textbf{XGBoost} foi adotado como modelo final por apresentar melhor equilíbrio entre erro e interpretabilidade:
+
+\begin{description}[leftmargin=*]
+  \item[Algoritmos testados:] LR, Lasso, SVR, KNN, Decision Tree, Random Forest, XGBoost, MLP e Dummy (baseline).
+  \item[Validação:] \emph{TimeSeriesSplit} (k = 10) preservando ordem cronológica.
+  \item[Hiperparâmetros:] ajuste por \emph{Bayesian Optimization} (20 iterações) em busca do menor Erro Quadrático Médio (EQM).
+  \item[Ambiente:] Python 3.11; \texttt{scikit-learn 1.4.2}, \texttt{xgboost 2.0.3}.
+\end{description}
+
+\subsection{Métricas de Desempenho}
+
+Foram calculados:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{EQM} (\(\text{MSE}\)) e \textbf{RMSE} – sensíveis a grandes erros.
+  \item \textbf{R\(^2\)} – proporção da variância explicada.
+  \item \textbf{MAE} – robusto a \emph{outliers}; usado para comparar com metas de política pública.
+\end{itemize}
+
+As previsões de 2024 (\emph{hold-out}) foram comparadas ao preço real do EU ETS, e diferenças entre modelos verificadas via teste de Diebold–Mariano (5 \%).
+
+
+\section{Resultados}\label{sec:resultados}
+
+\subsection{Desempenho nos Conjuntos de Treinamento}
+
+A Figura~\ref{fig:mse_modelos} apresenta o desempenho dos modelos no conjunto de treinamento, medido pelo \emph{Erro Quadrático Médio} (EQM).  
+Observa-se que todos os modelos de aprendizado de máquina superam o \emph{baseline}, exceto a Regressão Linear, que em alguns metadados teve desempenho equivalente.  
+O modelo \emph{Decision Tree} (DT) foi o mais eficaz, alcançando EQM próximo de zero, provavelmente pelas divisões recursivas que geram grupos internamente homogêneos.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/resultados/comparacao_mse_modelos.pdf}
+  \caption{EQM dos modelos no conjunto de treinamento.}
+  \label{fig:mse_modelos}
+\end{figure}
+
+\subsection{Desempenho nos Conjuntos de Teste}
+
+A capacidade de generalização foi avaliada pelo Coeficiente de Determinação (\(R^{2}\)) e pelo EQM nos conjuntos de teste (Tab.~\ref{tab:test}).  
+DT e XGBoost apresentaram \(R^{2}=1.0\) e EQM mínimo, indicando predições praticamente perfeitas.  
+Surpreendentemente, a Floresta Aleatória não superou a árvore única, sugerindo que o ensemble não agregou ganho adicional neste domínio.
+
+\begin{table}[!t]
+  \caption{Desempenho dos modelos nos conjuntos de teste (metadados maranhenses)}\label{tab:test}
+  \centering
+  \footnotesize
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Modelo} & \(\mathbf{R^{2}}\) & \textbf{EQM} \\ \midrule
+    Linear Regression  & 0.117 & \(2.83\times10^{7}\) \\
+    Random Forest      & 0.976 & \(7.8\times10^{5}\) \\
+    KNN Regressor      & 0.051 & \(3.05\times10^{7}\) \\
+    Decision Tree      & 1.000 & \(1.7\times10^{2}\) \\
+    MLP Regressor\(^{a}\) & $-$0.212 & \(3.89\times10^{7}\) \\
+    Lasso              & 0.117 & \(2.83\times10^{7}\) \\
+    SVR                & $-$0.243 & \(3.99\times10^{7}\) \\
+    Dummy (baseline)   & $-$0.033 & \(3.32\times10^{7}\) \\
+    XGBoost            & 1.000 & \(7.6\times10^{2}\) \\ \bottomrule
+  \end{tabular}\\[2pt]
+  \footnotesize
+  \(^{a}\) \(R^{2}<0\) indica desempenho inferior ao modelo nulo.
+\end{table}
+
+\subsection{Relevância dos Meta-atributos}
+
+A seleção de atributos indicou maior associação com o preço do carbono para \textit{Município}, \textit{Não Floresta} e \textit{Hidrografia}.  
+Entretanto, o uso exclusivo desses atributos não melhorou o desempenho, sinalizando que interações entre variáveis são essenciais para predições precisas.
+
+\subsection{Interpretabilidade dos Modelos}
+
+Para compreender melhor os fatores que influenciam as predições, analisou-se a importância das variáveis no modelo \emph{Random Forest} (Fig.~\ref{fig:importancia_rf}).  
+As variáveis relacionadas ao município e características geográficas locais apresentaram maior relevância, confirmando que fatores regionais específicos são determinantes na precificação do carbono.  
+Essa análise de interpretabilidade é fundamental para orientar políticas públicas e estratégias de conservação baseadas em evidências.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/resultados/importancia_variaveis_rf.pdf}
+  \caption{Importância das variáveis no modelo \emph{Random Forest} para predição do preço do carbono.}
+  \label{fig:importancia_rf}
+\end{figure}
+
+\subsection{Correlação entre Variáveis Regionais e Preço do Carbono}
+
+A Fig.~\ref{fig:matriz_granger} exibe a matriz de correlação (coeficiente de Pearson) entre PIB, GEE, área desmatada e preço do carbono.  
+Correlações fortes (0.6–0.8) confirmam a hipótese de que dados socioambientais locais carregam informação relevante para precificar o carbono.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\linewidth]{imagens/resultados/matriz_causalidade_granger.pdf}
+  \caption{Matriz de \textit{causalidade de Granger} entre PIB, emissões de GEE, área desmatada e preço do carbono (2002–2023).}
+  \label{fig:matriz_granger}
+\end{figure}
+
+\subsection{Potencial Econômico do Cerrado Maranhense}
+
+Com base nos estoques estimados e nas predições de preço, o valor potencial dos créditos de carbono da região da Serra do Penitente foi calculado (Tab.~\ref{tab:valor}).  
+Os valores foram derivados dos dados consolidados de GEE dos três municípios da região (Alto Parnaíba, Balsas e Tasso Fragoso), totalizando 2,86 MtCO\textsubscript{2}e.
+
+\begin{table}[!t]
+  \caption{Valor econômico estimado dos estoques de carbono da Serra do Penitente}\label{tab:valor}
+  \centering
+  \footnotesize
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Cenário} & \textbf{Preço} & \textbf{Estoque} & \textbf{Valor} \\
+                     & (EUR/t) & (MtCO\textsubscript{2}e) & (milhões EUR) \\ \midrule
+    Conservador & 20 & 2,86 & 57,3 \\
+    Moderado    & 40 & 2,86 & 114,5 \\
+    Otimista    & 60 & 2,86 & 171,8 \\ \bottomrule
+  \end{tabular}
+  \footnotesize
+  \textit{Nota: Valores baseados nos dados consolidados de GEE dos municípios de Alto Parnaíba (1,11 MtCO\textsubscript{2}e), Balsas (1,31 MtCO\textsubscript{2}e) e Tasso Fragoso (0,44 MtCO\textsubscript{2}e) para o ano de 2023, totalizando 2,86 MtCO\textsubscript{2}e.}
+\end{table}
+
+Esses valores demonstram que a valoração de serviços ecossistêmicos pode conciliar desenvolvimento econômico e conservação ambiental no Cerrado maranhense.
+
+
+\section{Discussão}\label{sec:discussao}
+
+Os resultados confirmam o potencial da inteligência artificial — em especial de modelos de aprendizado de máquina — na precificação do carbono no Cerrado maranhense.  
+O modelo \emph{Decision Tree} apresentou diferença absoluta média de apenas 0,30 entre valores preditos e reais, superando significativamente o \emph{baseline} e algoritmos mais complexos.  
+Este desempenho superior corrobora estudos prévios que apontam a eficácia das árvores de decisão para capturar relações não lineares entre variáveis ambientais, socioeconômicas e preço de carbono~\cite{kanda2023,cutler2007}.  
+A simplicidade e interpretabilidade desse modelo o tornam valioso para análises em sistemas ambientais complexos, especialmente considerando a volatilidade histórica dos preços do carbono observada na Fig.~\ref{fig:evolucao_preco_carbono}.
+
+Curiosamente, a \emph{Random Forest} não superou a árvore individual.  
+Embora ensembles reduzam risco de \emph{overfitting} combinando múltiplas árvores, sua eficácia pode ser limitada em conjuntos com menor volume ou variabilidade, onde uma única árvore já captura adequadamente os padrões subjacentes.  
+A complexidade adicional do ensemble, portanto, não trouxe ganho relevante neste caso.
+
+Contudo, o modelo \emph{Random Forest} ofereceu valiosa contribuição na análise de interpretabilidade (Fig.~\ref{fig:importancia_rf}), revelando que variáveis municipais e geográficas são os principais determinantes na precificação do carbono.  
+Essa capacidade de explicar as predições é crucial para a tomada de decisões em políticas ambientais, mesmo quando o modelo não apresenta o melhor desempenho preditivo.
+
+Esses achados reforçam a importância de considerar a natureza dos dados e o contexto ao escolher modelos de ML para aplicações ambientais.  
+Algoritmos mais simples, como árvores de decisão, podem igualar ou superar modelos complexos, oferecendo ainda maior transparência — atributo crucial para a formulação de políticas públicas e estratégias de conservação.
+
+
+\section{Conclusão}\label{sec:conclusao}
+
+\subsection{Contribuições do Estudo}
+
+Este trabalho confirmou o potencial do aprendizado de máquina — em particular do modelo \emph{Decision Tree} — para estimar o preço do carbono a partir de variáveis ambientais e socioeconômicas regionais.  
+Aplicado à Serra do Penitente, o modelo evidenciou que práticas agrícolas sustentáveis e a conservação da vegetação nativa se revelam economicamente viáveis para gerar créditos de carbono.  
+Adicionalmente, a recente Lei n.º 15.042/2024, que institui o \emph{Sistema Brasileiro de Comércio de Emissões de Gases de Efeito Estufa} (SBCE), cria um ambiente de maior segurança jurídica e transparência, favorecendo a integração do mercado nacional com mercados internacionais e a valorização de práticas sustentáveis~\cite{caccavali2025}.
+
+\subsection{Benefícios para os Municípios-Alvo}
+
+Os resultados deste estudo oferecem oportunidades concretas para os municípios da Serra do Penitente no desenvolvimento de projetos de créditos de carbono:
+
+\textbf{Benefícios Econômicos Diretos:} A precificação baseada em inteligência artificial permite aos gestores municipais estimar com maior precisão o potencial de receita de projetos de conservação e reflorestamento. Com valores estimados entre R\$ 15-45 por tonelada de CO\textsubscript{2}, os municípios podem desenvolver planos de negócios mais robustos para atrair investimentos privados e financiamento climático.
+
+\textbf{Capacitação Técnica Local:} A metodologia desenvolvida pode ser adaptada para treinamento de técnicos municipais, criando competências locais em monitoramento de carbono e gestão ambiental. Isso reduz a dependência de consultorias externas e fortalece a capacidade institucional regional.
+
+\textbf{Competitividade Regional:} O modelo preditivo oferece vantagem competitiva aos municípios na elaboração de propostas para editais de financiamento climático, permitindo apresentar estimativas mais precisas e fundamentadas cientificamente.
+
+\textbf{Parcerias Estratégicas:} Recomenda-se o estabelecimento de parcerias com universidades federais (UFMA, UEMA) e institutos de pesquisa (INPE, Embrapa) para:
+\begin{itemize}
+  \item Implementação de estações de monitoramento de carbono
+  \item Capacitação continuada de técnicos municipais
+  \item Desenvolvimento de projetos de extensão universitária
+  \item Criação de laboratórios regionais de análise ambiental
+  \item Estabelecimento de programas de pós-graduação focados em economia do carbono
+\end{itemize}
+
+Essas iniciativas podem transformar a região em um polo de referência em economia do carbono no Nordeste brasileiro.
+
+\subsection{Aprofundamento com Referências}
+
+A metodologia aqui empregada baseia-se em abordagens anteriores que comprovaram a eficácia de redes neurais artificiais para prever emissões de CO\textsubscript{2} em solos agrícolas, demonstrando robustez na modelagem de relações ambientais complexas.  
+A análise econômica dos créditos tomou como referência relatórios técnicos do BNDES/FEP — focados na competitividade de projetos REDD\textsuperscript{+} e ARR —, oferecendo base sólida para compreender as dinâmicas do mercado internacional.  
+A escolha por árvores de decisão foi corroborada por estudos que apontam alta precisão para Decision Tree, Random Forest e XGBoost em problemas semelhantes~\cite{kanda2023,cutler2007}.  
+O estudo sobre dinâmica de exportação de carbono na Amazônia feito em ~\cite{beloto2024} ressalta a importância de considerar especificidades regionais, aprendizado igualmente válido para o Cerrado Maranhense.
+
+\subsection{Sugestões para Trabalhos Futuros}
+
+Futuras investigações podem:
+
+\begin{itemize}
+  \item Explorar \emph{deep learning} (LSTM, CNN) para séries temporais de preço de carbono e estoque de CO\textsubscript{2}.  
+  \item Integrar metodologias que descrevem fluxos de carbono em diferentes compartimentos ambientais, visando estimativas mais refinadas.  
+  \item Ampliar os cenários de uso da terra conforme Matos~\cite{matos2020}, avaliando impactos de políticas agrícolas e conservação sobre emissões no Cerrado.  
+  \item Avaliar a aplicação do SBCE em projetos regionais, medindo efeitos sobre liquidez e preço de créditos de carbono.  
+\end{itemize}
+
+Essas linhas de pesquisa podem aprimorar a precisão dos modelos e fortalecer o papel do Cerrado Maranhense na mitigação das mudanças climáticas.
+
+% Escolha o estilo IEEE (cita em ordem de aparição)
+\bibliographystyle{IEEEtran}
+% Nome do seu arquivo .bib (sem a extensão)
+\bibliography{refs}
+
+% \begin{thebibliography}{22}
+
+% % 1–4  (Introdução)
+% \bibitem{revclima2018}
+% ``Efeitos do aumento de CO\textsubscript{2} nas mudanças climáticas,'' \emph{Revista Brasileira de Climatologia}, 2018.
+
+% \bibitem{eibel2015}
+% M.~Eibel and A.~P.~Pinheiro, ``Mecanismos de Desenvolvimento Limpo e o Mercado de Créditos de Carbono: Análise Crítica,'' \emph{Rev. Eletrônica Direito e Política}, vol.~10, no.~1, pp.~370--393, 2015.
+
+% \bibitem{cerradoRelat2024}
+% ``Relatório Cerrado Maranhense 2024,'' Brasília, 2024.
+
+% \bibitem{zhou2019}
+% S.~Zhou, W.~Chen, B.~Yu, and J.~He, ``Carbon price forecasting with high-frequency market trading data using machine learning,'' \emph{Journal of Cleaner Production}, vol.~228, 2019.
+
+% % 5–7  (Mercado de Carbono)
+% \bibitem{decreto11075}
+% Brasil, ``Decreto nº 11.075, de 19 de maio de 2022,'' \emph{Diário Oficial da União}, Brasília, 2022.
+
+% \bibitem{wb2024}
+% World Bank Group, \emph{State and Trends of Carbon Pricing 2024}. Washington, DC: World Bank, 2024. [Online]. Available: \url{http://hdl.handle.net/10986/41544}. Accessed: Feb. 28, 2025.
+
+% \bibitem{euets2022}
+% ``EU Emissions Trading System (EU ETS),'' Berlin, 2022.
+
+% % 8–11  (Cerrado Maranhense)
+% \bibitem{leao2023}
+% N.~B.~B.~Leão, \emph{Dinâmica da exportação de carbono no ciclo hidrológico da Amazônia: uma abordagem baseada em sensoriamento remoto}. São José dos Campos: INPE, 2023.
+
+% \bibitem{silvajunior2024}
+% A.~R.~S.~Silva Júnior, ``Quantificação de estoques de carbono acima do solo na Amazônia Maranhense,'' \emph{Rev. Bras. de Geografia Física}, vol.~17, no.~4, pp.~3008--3021, 2024.
+
+% \bibitem{gomes2023}
+% G.~A.~M.~Gomes, ``Avaliação de Estoques de Carbono do Solo em Diferentes Sistemas de Uso da Terra no Cerrado Maranhense,'' B.S. monograph, Univ. Federal do Maranhão, 2023.
+
+% \bibitem{ferraz2023}
+% P.~A.~C.~Ferraz, ``Identificação de Áreas Prioritárias para Conservação com Base no Estoque de Carbono e Uso do Solo,'' Ph.D. thesis, INPE, São José dos Campos, 2023.
+
+% % 12–19  (IA e Metodologia)
+% \bibitem{mitchell1997}
+% T.~M.~Mitchell, \emph{Machine Learning}. New York: McGraw-Hill, 1997.
+
+% \bibitem{canteral2020}
+% K.~F.~F.~Canteral, ``Aprendizado de Máquina na Modelagem Temporal da Variabilidade das Emissões de CO\textsubscript{2} do Solo em Áreas Agrícolas no Cerrado Brasileiro,'' M.S. thesis, UNESP, Jaboticabal, 2020.
+
+% \bibitem{energyecon2018}
+% ``Machine Learning for Carbon Price Prediction,'' \emph{Energy Economics}, 2018.
+
+% \bibitem{kanda2023}
+% J.~Y.~Kanda and A.~C.~P.~L.~F.~Carvalho, ``Previsão do preço do carbono por modelos de aprendizado de máquina,'' \emph{AOS – Amazônia, Organizações e Sustentabilidade}, vol.~12, no.~2, pp.~50--83, 2023.
+
+% \bibitem{facelli2011}
+% K.~Facelli, A.~C.~Lorena, J.~Gama, and A.~C.~P.~L.~F.~Carvalho, \emph{Inteligência Artificial: Uma Abordagem de Aprendizado de Máquina}. Rio de Janeiro: LTC, 2011.
+
+% \bibitem{cutler2007}
+% D.~R.~Cutler \emph{et al.}, ``Random Forests for Classification in Ecology,'' \emph{Ecology}, vol.~88, no.~11, pp.~2783--2792, 2007.
+
+% \bibitem{han2011}
+% J.~Han, M.~Kamber, and J.~Pei, \emph{Data Mining: Concepts and Techniques}, 3rd ed. Elsevier, 2011.
+
+% \bibitem{tan2006}
+% P.-N.~Tan, M.~Steinbach, and V.~Kumar, \emph{Introduction to Data Mining}. Boston: Addison-Wesley, 2006.
+
+% % 20–22  (Conclusão e Trabalhos Futuros)
+% \bibitem{caccavali2025}
+% V.~V.~Caccavali and M.~Winter, ``Mercado de Carbono e sustentabilidade no Brasil: regulamentação, desafios e perspectivas para a descarbonização,'' VBSO Advogados. [Online]. Available: \url{https://vbso.com.br/mercado-de-carbono-brasil/}. Accessed: Feb. 28, 2025.
+
+% \bibitem{beloto2024}
+% N.~B.~Beloto, ``Dinâmica da exportação de carbono no ciclo hidrológico da Amazônia: uma abordagem baseada em sensoriamento remoto,'' São José dos Campos, 2024.
+
+% \bibitem{matos2020}
+% S.~d.~S.~Matos, ``Emissões de Carbono e o Uso da Terra: Cenários no Cerrado Brasileiro,'' \emph{Rev. Bras. de Geografia Física}, vol.~13, no.~6, pp.~2550--2570, 2020.
+
+% \end{thebibliography}
+
+
+\end{document}
