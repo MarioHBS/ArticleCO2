@@ -44,6 +44,7 @@ coverage==7.6.9
 # Code Formatting and Linting
 black==24.10.0
 flake8==7.1.1
+isort==6.0.1
 
 # Environment Management
 python-dotenv==1.0.1

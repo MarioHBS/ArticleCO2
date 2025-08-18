@@ -400,3 +400,27 @@ Resultados de modelagem e figuras:
 - **Bibliotecas:** pandas, scikit-learn, matplotlib, seaborn, xgboost
 
 Este pipeline garante reprodutibilidade, rastreabilidade e validação automática de todo o processo de análise de dados de carbono para a região da Serra do Penitente.
+
+
+## Padronização de Períodos Temporais
+
+### Períodos Utilizados no Projeto:
+
+1. **Análise Principal (2002-2021)**:
+   - PIB municipal (IBGE): 2002-2021
+   - Emissões GEE (MapBiomas): 2002-2021 (subconjunto dos dados 1985-2023)
+   - Modelos de machine learning treinados neste período
+
+2. **Dados de Contexto Histórico (1985-2023)**:
+   - Emissões GEE completas (MapBiomas): 1985-2023
+   - Utilizados para contextualização e visualizações históricas
+
+3. **Dados Pontuais Recentes (2023)**:
+   - Valores específicos para cálculos de créditos de carbono
+   - Dados mais recentes disponíveis para estimativas atuais
+
+### Justificativa da Padronização:
+
+- O período 2002-2021 garante sobreposição completa entre PIB e GEE
+- Dados de 2023 são utilizados apenas para valores pontuais e contexto
+- A análise de machine learning foca no período com dados completos
