@@ -1,5 +1,4 @@
 # src/01_extrair_pib_municipal.py
-# -*- coding: utf-8 -*-
 """Script para extração e processamento de dados do PIB municipal.
 
 Este script processa dados do PIB municipal do IBGE para os municípios
@@ -14,7 +13,6 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-
 from validacao import check_data_integrity, validate_pib_schema
 from variaveis import GENERATED_PATHS, INPUT_PATHS, MUNICIPIOS
 
@@ -47,15 +45,15 @@ def load_pib(path: Path) -> pd.DataFrame:
             year_col = next(c for c in df.columns if c.strip().lower() == "ano")
             pib_col = next(c for c in df.columns if "Produto Interno Bruto" in c)
         except StopIteration as e:
-            logging.error(f"Colunas esperadas não encontradas no arquivo {path}")
-            logging.error(f"Colunas disponíveis: {list(df.columns)}")
+            logging.exception(f"Colunas esperadas não encontradas no arquivo {path}")
+            logging.exception(f"Colunas disponíveis: {list(df.columns)}")
             raise ValueError(f"Schema inválido no arquivo {path}: colunas obrigatórias não encontradas") from e
 
         df = df.rename(columns={
             code_col:   "codigo_ibge",
             name_col:   "municipio",
             year_col:   "ano",
-            pib_col:    "pib"
+            pib_col:    "pib",
         })
 
         # Garante apenas as 4 colunas necessárias
@@ -66,7 +64,7 @@ def load_pib(path: Path) -> pd.DataFrame:
             validate_pib_schema(result_df)
             logging.info("Schema PIB validado com sucesso")
         except ValueError as e:
-            logging.error(f"Erro de validação de schema: {str(e)}")
+            logging.exception(f"Erro de validação de schema: {e!s}")
             raise
 
         # Verificação de integridade dos dados
@@ -76,7 +74,7 @@ def load_pib(path: Path) -> pd.DataFrame:
         return result_df
 
     except Exception as e:
-        logging.error(f"Erro ao carregar arquivo PIB {path}: {str(e)}")
+        logging.exception(f"Erro ao carregar arquivo PIB {path}: {e!s}")
         raise
 
 
@@ -124,30 +122,30 @@ def main(input_old: str, input_new: str, output_csv: str):
         logging.info(f"Arquivo PIB salvo com sucesso: {output_csv} ({len(df)} registros)")
 
     except Exception as e:
-        logging.error(f"Erro durante execução do pipeline PIB: {str(e)}")
+        logging.exception(f"Erro durante execução do pipeline PIB: {e!s}")
         raise
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Extrai e consolida série temporal de PIB municipal."
+        description="Extrai e consolida série temporal de PIB municipal.",
     )
     parser.add_argument(
         "--input-old", default=INPUT_PATHS.pib_2002_2009,
-        help="Caminho do arquivo XLS (2002–2009)"
+        help="Caminho do arquivo XLS (2002–2009)",
     )
     parser.add_argument(
         "--input-new", default=INPUT_PATHS.pib_2010_2021,
-        help="Caminho do arquivo XLSX (2010–2021)"
+        help="Caminho do arquivo XLSX (2010–2021)",
     )
     parser.add_argument(
         "--output", default=GENERATED_PATHS.pib_ibge_csv,
-        help="CSV de saída consolidado"
+        help="CSV de saída consolidado",
     )
     args = parser.parse_args()
 
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s"
+        format="%(asctime)s [%(levelname)s] %(message)s",
     )
     main(args.input_old, args.input_new, args.output)

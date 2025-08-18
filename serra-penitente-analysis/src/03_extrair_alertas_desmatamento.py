@@ -1,5 +1,4 @@
 # src/03_extrair_alertas_desmatamento.py
-# -*- coding: utf-8 -*-
 """Script para extração de alertas de desmatamento via API MapBiomas.
 
 Este script utiliza a API do MapBiomas para extrair dados de alertas de
@@ -15,7 +14,6 @@ import sys
 import pandas as pd
 import requests
 from requests.exceptions import ConnectionError, RequestException, Timeout
-
 from variaveis import GENERATED_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +27,7 @@ def get_token(base_url: str) -> str:
 
         if not email or not pwd:
             raise ValueError(
-                "Credenciais não configuradas: defina MAPBIOMAS_EMAIL e MAPBIOMAS_PASSWORD"
+                "Credenciais não configuradas: defina MAPBIOMAS_EMAIL e MAPBIOMAS_PASSWORD",
             )
 
         logging.info(f"Autenticando na API: {base_url}")
@@ -37,7 +35,7 @@ def get_token(base_url: str) -> str:
         resp = requests.post(
             f"{base_url}/token",
             json={"email": email, "password": pwd},
-            timeout=30
+            timeout=30,
         )
         resp.raise_for_status()
 
@@ -49,16 +47,16 @@ def get_token(base_url: str) -> str:
         return token_data["token"]
 
     except Timeout:
-        logging.error(f"Timeout ao conectar com a API: {base_url}")
+        logging.exception(f"Timeout ao conectar com a API: {base_url}")
         raise
     except ConnectionError:
-        logging.error(f"Erro de conexão com a API: {base_url}")
+        logging.exception(f"Erro de conexão com a API: {base_url}")
         raise
     except RequestException as e:
-        logging.error(f"Erro na requisição de autenticação: {str(e)}")
+        logging.exception(f"Erro na requisição de autenticação: {e!s}")
         raise
     except Exception as e:
-        logging.error(f"Erro inesperado durante autenticação: {str(e)}")
+        logging.exception(f"Erro inesperado durante autenticação: {e!s}")
         raise
 
 
@@ -76,14 +74,14 @@ def fetch_all_alerts(base_url: str,
         params = {
             "startDate":     start_date,
             "endDate":       end_date,
-            "territoryIds":  ",".join(str(i) for i in territory_ids)
+            "territoryIds":  ",".join(str(i) for i in territory_ids),
         }
 
         resp = requests.get(
             f"{base_url}/alerts/all",
             headers=headers,
             params=params,
-            timeout=300
+            timeout=300,
         )
         resp.raise_for_status()
 
@@ -98,16 +96,16 @@ def fetch_all_alerts(base_url: str,
         return alerts
 
     except Timeout:
-        logging.error("Timeout ao buscar alertas da API")
+        logging.exception("Timeout ao buscar alertas da API")
         raise
     except ConnectionError:
-        logging.error("Erro de conexão ao buscar alertas")
+        logging.exception("Erro de conexão ao buscar alertas")
         raise
     except RequestException as e:
-        logging.error(f"Erro na requisição de alertas: {str(e)}")
+        logging.exception(f"Erro na requisição de alertas: {e!s}")
         raise
     except Exception as e:
-        logging.error(f"Erro inesperado ao buscar alertas: {str(e)}")
+        logging.exception(f"Erro inesperado ao buscar alertas: {e!s}")
         raise
 
 
@@ -116,34 +114,34 @@ def fetch_all_alerts(base_url: str,
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Extrai todos os alertas de desmatamento via API MapBiomas"
+        description="Extrai todos os alertas de desmatamento via API MapBiomas",
     )
     parser.add_argument(
         "--start", "-s",
         default="2019-01-01",
-        help="Data inicial (YYYY-MM-DD). Padrão: %(default)s"
+        help="Data inicial (YYYY-MM-DD). Padrão: %(default)s",
     )
     parser.add_argument(
         "--end", "-e",
         default="2025-03-31",
-        help="Data final (YYYY-MM-DD). Padrão: %(default)s"
+        help="Data final (YYYY-MM-DD). Padrão: %(default)s",
     )
     parser.add_argument(
         "--territories", "-t",
         default="19606,17294,17994",
-        help="IDs de territórios separados por vírgula. Padrão: %(default)s"
+        help="IDs de territórios separados por vírgula. Padrão: %(default)s",
     )
     parser.add_argument(
         "--server", "-u",
         default="http://localhost:8000",
-        help="URL base do servidor API. Padrão: %(default)s"
+        help="URL base do servidor API. Padrão: %(default)s",
     )
     args = parser.parse_args()
 
     # Configurar logging
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s"
+        format="%(asctime)s [%(levelname)s] %(message)s",
     )
 
     try:
@@ -153,7 +151,7 @@ def main():
         # Autenticar e buscar alerts
         token = get_token(args.server)
         alerts = fetch_all_alerts(
-            args.server, token, args.start, args.end, territory_ids
+            args.server, token, args.start, args.end, territory_ids,
         )
 
         if not alerts:
@@ -172,10 +170,10 @@ def main():
         logging.info(f"Alertas salvos com sucesso em: {output_path} ({len(df)} registros)")
 
     except ValueError as e:
-        logging.error(f"Erro de validação: {str(e)}")
+        logging.exception(f"Erro de validação: {e!s}")
         sys.exit(1)
     except Exception as e:
-        logging.error(f"Erro durante extração de alertas: {str(e)}")
+        logging.exception(f"Erro durante extração de alertas: {e!s}")
         sys.exit(1)
 
 

@@ -1,5 +1,4 @@
 # src/07_gerar_figuras_carbono.py
-# -*- coding: utf-8 -*-
 """Gera todas as figuras finais do artigo com nomenclatura numerada e explicativa:
 
 Figura01_Evolucao_PIB.png
@@ -39,8 +38,6 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
-
 from variaveis import (
     CARBONO_CONSOLIDADO_COM_IDHM,
     FEATURE_COLS,
@@ -50,10 +47,11 @@ from variaveis import (
     RESULT_PATHS,
     granger_causality_matrix,
 )
+from xgboost import XGBRegressor
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-sns.set(style='whitegrid')
+sns.set(style="whitegrid")
 fig_dir = os.path.dirname(FIGURE_PATHS.evolucao_pib_png)
 os.makedirs(fig_dir, exist_ok=True)
 
@@ -62,7 +60,7 @@ fig_num = 1
 
 # 1) Carregar dados consolidados e verificar
 print("[INFO] Carregando dados consolidados de:", GENERATED_PATHS.carbono_consolidado_csv)
-df = pd.read_csv(GENERATED_PATHS.carbono_consolidado_csv, encoding='utf-8-sig')
+df = pd.read_csv(GENERATED_PATHS.carbono_consolidado_csv, encoding="utf-8-sig")
 print(
     f"[INFO] DataFrame carregado: {df.shape[0]} linhas, {df.shape[1]} colunas")
 
@@ -72,54 +70,54 @@ print("[INFO] Carregando série de preços de carbono de:",
 price_raw = pd.read_excel(
     INPUT_PATHS.precos_carbono,
     sheet_name=0,
-    header=1
+    header=1,
 )
 print(
     f"[INFO] Série de preços carregada: {price_raw.shape[0]} linhas, {price_raw.shape[1]} colunas")
 year_cols = [c for c in price_raw.columns if isinstance(c, int)]
 price_df = price_raw.melt(
-    id_vars=['Instrument name'],
+    id_vars=["Instrument name"],
     value_vars=year_cols,
-    var_name='ano',
-    value_name='carbon_price_usd'
+    var_name="ano",
+    value_name="carbon_price_usd",
 )
-price_df = price_df[price_df['Instrument name'] == 'EU ETS']
-price_df['ano'] = price_df['ano'].astype(int)
-price_df['carbon_price_usd'] = pd.to_numeric(
-    price_df['carbon_price_usd'], errors='coerce')
-price_df = price_df[['ano', 'carbon_price_usd']].dropna().drop_duplicates()
+price_df = price_df[price_df["Instrument name"] == "EU ETS"]
+price_df["ano"] = price_df["ano"].astype(int)
+price_df["carbon_price_usd"] = pd.to_numeric(
+    price_df["carbon_price_usd"], errors="coerce")
+price_df = price_df[["ano", "carbon_price_usd"]].dropna().drop_duplicates()
 
 # Filtrar outlier de 2018 (valor anômalo identificado)
 price_df_original = price_df.copy()
-price_df = price_df[price_df['ano'] != 2018]
+price_df = price_df[price_df["ano"] != 2018]
 print(f"[INFO] Preços filtrados EU ETS (sem outlier 2018): {price_df.shape[0]} anos")
 if len(price_df_original) > len(price_df):
-    outlier_2018 = price_df_original[price_df_original['ano'] == 2018]['carbon_price_usd'].iloc[0]
+    outlier_2018 = price_df_original[price_df_original["ano"] == 2018]["carbon_price_usd"].iloc[0]
     print(f"[INFO] Outlier removido - 2018: ${outlier_2018:,.2f} USD/tCO2e")
 
 # 3) Mesclar preços
-df = df.merge(price_df, on='ano', how='left')
+df = df.merge(price_df, on="ano", how="left")
 print(
     f"[INFO] Após merge de preços: {df.shape[0]} linhas, {df.shape[1]} colunas")
 
 # 4) Agregar por município e ano
 print("[INFO] Agregando dados por município e ano...")
-df_agg = df.groupby(['municipio', 'ano'], as_index=False).agg({
-    'pib': 'first',
-    'GEE_tCO2e': 'sum',
-    'area_desmatada_ha': 'sum',
-    'carbon_price_usd': 'first'
+df_agg = df.groupby(["municipio", "ano"], as_index=False).agg({
+    "pib": "first",
+    "GEE_tCO2e": "sum",
+    "area_desmatada_ha": "sum",
+    "carbon_price_usd": "first",
 })
 print(f"[INFO] DataFrame agregado: {df_agg.shape[0]} registros únicos")
 
 # --- Figura 01: Evolução do PIB Municipal ---
 print("[INFO] Gerando Figura 01")
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Evolucao_PIB.png')
+path = os.path.join(fig_dir, f"Figura{fig_num:02d}_Evolucao_PIB.png")
 plt.figure(figsize=(8, 5))
-sns.lineplot(data=df_agg, x='ano', y='pib', hue='municipio', marker='o')
-plt.xlabel('Ano')
-plt.ylabel('PIB (R$)')
-plt.title('Figura 01. Evolução do PIB Municipal')
+sns.lineplot(data=df_agg, x="ano", y="pib", hue="municipio", marker="o")
+plt.xlabel("Ano")
+plt.ylabel("PIB (R$)")
+plt.title("Figura 01. Evolução do PIB Municipal")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -129,19 +127,19 @@ fig_num += 1
 # --- Figura 06: Causalidade IDHM × Desmatamento ---
 print("[INFO] Gerando Figura 06")
 if os.path.exists(CARBONO_CONSOLIDADO_COM_IDHM):
-    df_idhm_full = pd.read_csv(CARBONO_CONSOLIDADO_COM_IDHM, encoding='utf-8-sig')
-    idhm_cols = [c for c in df_idhm_full.columns if c.startswith('idhm_')]
-    caus_cols2 = idhm_cols + ['area_desmatada_ha']
-    df_idhm_sorted = df_idhm_full.sort_values('ano')
+    df_idhm_full = pd.read_csv(CARBONO_CONSOLIDADO_COM_IDHM, encoding="utf-8-sig")
+    idhm_cols = [c for c in df_idhm_full.columns if c.startswith("idhm_")]
+    caus_cols2 = idhm_cols + ["area_desmatada_ha"]
+    df_idhm_sorted = df_idhm_full.sort_values("ano")
     matrix2 = granger_causality_matrix(df_idhm_sorted, caus_cols2, maxlag=2, verbose=True)
     path = FIGURE_PATHS.figura06_causalidade_idhm_desmat_png
     plt.figure(figsize=(8, 6))
-    sns.heatmap(1 - matrix2, annot=True, fmt='.3f', cmap='Reds',
+    sns.heatmap(1 - matrix2, annot=True, fmt=".3f", cmap="Reds",
                 xticklabels=caus_cols2, yticklabels=caus_cols2,
-                cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
+                cbar_kws={"label": "Força da Causalidade (1 - p-valor)"})
     plt.xticks(rotation=45)
     plt.yticks(rotation=0)
-    plt.title('Figura 06. Causalidade de Granger – IDHM × Desmatamento')
+    plt.title("Figura 06. Causalidade de Granger – IDHM × Desmatamento")
     plt.tight_layout()
     plt.savefig(path)
     plt.close()
@@ -152,12 +150,12 @@ fig_num += 1
 
 # --- Figura 02: Evolução das Emissões de GEE Municipais ---
 print("[INFO] Gerando Figura 02")
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Evolucao_GEE.png')
+path = os.path.join(fig_dir, f"Figura{fig_num:02d}_Evolucao_GEE.png")
 plt.figure(figsize=(8, 5))
-sns.lineplot(data=df_agg, x='ano', y='GEE_tCO2e', hue='municipio', marker='o')
-plt.xlabel('Ano')
-plt.ylabel('Emissões de GEE (tCO2e)')
-plt.title('Figura 02. Evolução das Emissões de GEE Municipais')
+sns.lineplot(data=df_agg, x="ano", y="GEE_tCO2e", hue="municipio", marker="o")
+plt.xlabel("Ano")
+plt.ylabel("Emissões de GEE (tCO2e)")
+plt.title("Figura 02. Evolução das Emissões de GEE Municipais")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -166,13 +164,13 @@ fig_num += 1
 
 # --- Figura 03: Evolução do Desmatamento Municipal ---
 print("[INFO] Gerando Figura 03")
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Evolucao_Desmatamento.png')
+path = os.path.join(fig_dir, f"Figura{fig_num:02d}_Evolucao_Desmatamento.png")
 plt.figure(figsize=(8, 5))
-sns.lineplot(data=df_agg, x='ano', y='area_desmatada_ha',
-             hue='municipio', marker='o')
-plt.xlabel('Ano')
-plt.ylabel('Área Desmatada (ha)')
-plt.title('Figura 03. Evolução do Desmatamento Municipal')
+sns.lineplot(data=df_agg, x="ano", y="area_desmatada_ha",
+             hue="municipio", marker="o")
+plt.xlabel("Ano")
+plt.ylabel("Área Desmatada (ha)")
+plt.title("Figura 03. Evolução do Desmatamento Municipal")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -184,13 +182,13 @@ print("[INFO] Carregando métricas de modelos")
 df_res = pd.read_csv(RESULT_PATHS.model_results_csv)
 print(f"[INFO] Métricas carregadas: {df_res.shape[0]} modelos")
 print("[INFO] Gerando Figura 04")
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_EQM_Modelos.png')
+path = os.path.join(fig_dir, f"Figura{fig_num:02d}_EQM_Modelos.png")
 plt.figure(figsize=(8, 5))
-sns.barplot(data=df_res, x='model', y='MSE')
-plt.xticks(rotation=45, ha='right')
-plt.ylabel('EQM (MSE)')
-plt.xlabel('Modelos')
-plt.title('Figura 04. Comparação de Erro Quadrático Médio (MSE)')
+sns.barplot(data=df_res, x="model", y="MSE")
+plt.xticks(rotation=45, ha="right")
+plt.ylabel("EQM (MSE)")
+plt.xlabel("Modelos")
+plt.title("Figura 04. Comparação de Erro Quadrático Médio (MSE)")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -199,20 +197,20 @@ fig_num += 1
 
 # --- Figura 05: Causalidade de Granger entre Variáveis ---
 print("[INFO] Gerando Figura 05")
-causality_cols = FEATURE_COLS + ['carbon_price_usd']
+causality_cols = FEATURE_COLS + ["carbon_price_usd"]
 # Ordenar dados por ano para análise temporal
-df_sorted = df_agg.sort_values('ano')
+df_sorted = df_agg.sort_values("ano")
 causality_matrix = granger_causality_matrix(df_sorted, causality_cols, maxlag=2, verbose=True)
-path = os.path.join(fig_dir, f'Figura{fig_num:02d}_Causalidade_Granger.png')
+path = os.path.join(fig_dir, f"Figura{fig_num:02d}_Causalidade_Granger.png")
 plt.figure(figsize=(8, 6))
 # Usar 1-p_valor para mostrar força da causalidade (valores altos = causalidade forte)
 causality_strength = 1 - causality_matrix
-sns.heatmap(causality_strength, annot=True, fmt='.3f', cmap='Reds',
+sns.heatmap(causality_strength, annot=True, fmt=".3f", cmap="Reds",
             xticklabels=causality_cols, yticklabels=causality_cols,
-            cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
+            cbar_kws={"label": "Força da Causalidade (1 - p-valor)"})
 plt.xticks(rotation=45)
 plt.yticks(rotation=0)
-plt.title('Figura 05. Causalidade de Granger entre Variáveis\n(Linha causa Coluna)')
+plt.title("Figura 05. Causalidade de Granger entre Variáveis\n(Linha causa Coluna)")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -221,10 +219,10 @@ fig_num += 1
 
 # --- Preparar dados para scatter ------------------------------------------------
 print("[INFO] Preparando dados para scatters")
-model_df = df_agg.dropna(subset=FEATURE_COLS + ['carbon_price_usd'])
+model_df = df_agg.dropna(subset=FEATURE_COLS + ["carbon_price_usd"])
 print(f"[INFO] Amostras válidas para modelagem: {model_df.shape}")
 X = model_df[FEATURE_COLS]
-y = model_df['carbon_price_usd']
+y = model_df["carbon_price_usd"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
 scaler = StandardScaler()
@@ -234,15 +232,15 @@ X_test_s = scaler.transform(X_test)
 # --- Figura 07_x: Scatter Real vs Previsto para cada modelo ---
 print("[INFO] Gerando scatters para cada modelo")
 models = {
-    'LinearRegression': LinearRegression(),
-    'RandomForest': RandomForestRegressor(random_state=42),
-    'KNN': KNeighborsRegressor(),
-    'DecisionTree': DecisionTreeRegressor(random_state=42),
-    'MLP': MLPRegressor(max_iter=1000, random_state=42),
-    'Lasso': Lasso(alpha=0.01, random_state=42),
-    'SVR': SVR(kernel='rbf'),
-    'Dummy': DummyRegressor(),
-    'XGBoost': XGBRegressor(random_state=42)
+    "LinearRegression": LinearRegression(),
+    "RandomForest": RandomForestRegressor(random_state=42),
+    "KNN": KNeighborsRegressor(),
+    "DecisionTree": DecisionTreeRegressor(random_state=42),
+    "MLP": MLPRegressor(max_iter=1000, random_state=42),
+    "Lasso": Lasso(alpha=0.01, random_state=42),
+    "SVR": SVR(kernel="rbf"),
+    "Dummy": DummyRegressor(),
+    "XGBoost": XGBRegressor(random_state=42),
 }
 for idx, (name, model) in enumerate(models.items(), start=1):
     print(f"[INFO] Treinando modelo {name} (scatter {idx})")
@@ -252,10 +250,10 @@ for idx, (name, model) in enumerate(models.items(), start=1):
     path = os.path.join(fig_dir, filename)
     plt.figure(figsize=(6, 6))
     sns.scatterplot(x=y_test, y=y_pred)
-    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-    plt.xlabel('Real')
-    plt.ylabel('Previsto')
-    plt.title(f'Figura 07_{idx}. Real vs Previsto – {name}')
+    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], "r--")
+    plt.xlabel("Real")
+    plt.ylabel("Previsto")
+    plt.title(f"Figura 07_{idx}. Real vs Previsto – {name}")
     plt.tight_layout()
     plt.savefig(path)
     plt.close()
@@ -266,13 +264,13 @@ print("[INFO] Gerando Figura 08")
 model_rf = RandomForestRegressor(random_state=42)
 model_rf.fit(X_train_s, y_train)
 importances = model_rf.feature_importances_
-path = os.path.join(fig_dir, 'Figura08_Importancia_Variaveis.png')
+path = os.path.join(fig_dir, "Figura08_Importancia_Variaveis.png")
 plt.figure(figsize=(6, 5))
 sns.barplot(x=FEATURE_COLS, y=importances)
 plt.xticks(rotation=45)
-plt.ylabel('Importância Relativa')
-plt.xlabel('Variáveis')
-plt.title('Figura 08. Importância de Variáveis – Random Forest')
+plt.ylabel("Importância Relativa")
+plt.xlabel("Variáveis")
+plt.title("Figura 08. Importância de Variáveis – Random Forest")
 plt.tight_layout()
 plt.savefig(path)
 plt.close()
@@ -280,16 +278,16 @@ print(f"[OK] Figura08 salva em {path}")
 
 # --- Figura 09: Evolução temporal do preço de carbono (sem outlier) ---
 print("[INFO] Gerando Figura 09")
-path_png = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.png')
-path_pdf = os.path.join(fig_dir, 'Figura09_Evolucao_Preco_Carbono.pdf')
+path_png = os.path.join(fig_dir, "Figura09_Evolucao_Preco_Carbono.png")
+path_pdf = os.path.join(fig_dir, "Figura09_Evolucao_Preco_Carbono.pdf")
 
 plt.figure(figsize=(8, 5))
-sns.lineplot(data=price_df, x='ano', y='carbon_price_usd', marker='o', linewidth=2, markersize=8)
-plt.xlabel('Ano', fontsize=12)
-plt.ylabel('Preço do Carbono (USD/tCO₂e)', fontsize=12)
+sns.lineplot(data=price_df, x="ano", y="carbon_price_usd", marker="o", linewidth=2, markersize=8)
+plt.xlabel("Ano", fontsize=12)
+plt.ylabel("Preço do Carbono (USD/tCO₂e)", fontsize=12)
 plt.title(
-    'Figura 09. Evolução Temporal do Preço de Carbono – EU ETS\n'
-    '(Série corrigida sem outlier de 2018)',
+    "Figura 09. Evolução Temporal do Preço de Carbono – EU ETS\n"
+    "(Série corrigida sem outlier de 2018)",
     fontsize=14, pad=20)
 plt.grid(True, alpha=0.3)
 plt.xticks(fontsize=11)
@@ -299,19 +297,19 @@ plt.yticks(fontsize=11)
 for _, row in price_df.iterrows():
     plt.annotate(
         f'${row["carbon_price_usd"]:.1f}',
-        xy=(row['ano'], row['carbon_price_usd']),
-        xytext=(0, 10), textcoords='offset points',
-        ha='center', va='bottom', fontsize=9)
+        xy=(row["ano"], row["carbon_price_usd"]),
+        xytext=(0, 10), textcoords="offset points",
+        ha="center", va="bottom", fontsize=9)
 
 plt.tight_layout()
 
 # Salvar em PNG
-plt.savefig(path_png, dpi=300, bbox_inches='tight')
+plt.savefig(path_png, dpi=300, bbox_inches="tight")
 print(f"[OK] Figura09 PNG salva em {path_png}")
 
 # Salvar em PDF (vetorial)
-plt.savefig(path_pdf, format='pdf', bbox_inches='tight')
+plt.savefig(path_pdf, format="pdf", bbox_inches="tight")
 print(f"[OK] Figura09 PDF salva em {path_pdf}")
 
 plt.close()
-print('[OK] Todas as figuras numeradas geradas com sucesso!')
+print("[OK] Todas as figuras numeradas geradas com sucesso!")

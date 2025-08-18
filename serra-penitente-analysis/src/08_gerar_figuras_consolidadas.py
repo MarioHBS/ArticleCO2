@@ -1,5 +1,4 @@
 # src/08_gerar_figuras_consolidadas.py
-# -*- coding: utf-8 -*-
 """src/08_gerar_figuras_consolidadas.py
 
 Gera as figuras finais em formato vetorial PDF para uso em LaTeX
@@ -27,9 +26,8 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
-
 from variaveis import FEATURE_COLS, GENERATED_PATHS, INPUT_PATHS, granger_causality_matrix
+from xgboost import XGBRegressor
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -114,7 +112,7 @@ X = Xy[FEATURE_COLS]
 y = Xy["carbon_price_usd"]
 
 # Configura validacao temporal k-fold
-tscv = TimeSeriesSplit(n_splits=10)
+tscv = TimeSeriesSplit(n_splits=5)
 models = {
     "Linear": LinearRegression(),
     "RandomForest": RandomForestRegressor(random_state=0),
@@ -154,7 +152,7 @@ plt.close()
 # 4 ▪ FIGURA 03 – Importância de variáveis (RF)
 # ---------------------------------------------------------------------------
 rf = RandomForestRegressor(random_state=0).fit(
-    StandardScaler().fit_transform(X), y
+    StandardScaler().fit_transform(X), y,
 )
 plt.figure(figsize=(6, 4))
 sns.barplot(x=FEATURE_COLS, y=rf.feature_importances_)
@@ -175,8 +173,8 @@ causality_strength = 1 - causality_matrix
 plt.figure(figsize=(6.5, 6))
 sns.heatmap(causality_strength, annot=True, fmt=".3f",
             cmap="Reds", linewidths=0.5, square=True,
-            cbar_kws={'label': 'Força da Causalidade (1 - p-valor)'})
-plt.title('Causalidade de Granger entre Variáveis\n(Linha causa Coluna)', fontsize=10)
+            cbar_kws={"label": "Força da Causalidade (1 - p-valor)"})
+plt.title("Causalidade de Granger entre Variáveis\n(Linha causa Coluna)", fontsize=10)
 plt.tight_layout()
 plt.savefig(figura04_path, format="pdf", bbox_inches="tight")
 plt.close()

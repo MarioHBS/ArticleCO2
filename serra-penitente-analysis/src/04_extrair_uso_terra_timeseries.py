@@ -1,5 +1,4 @@
 # src/04_extrair_uso_terra_timeseries.py
-# -*- coding: utf-8 -*-
 """Script para extração de séries temporais de uso da terra.
 
 Este script processa dados históricos de uso e cobertura da terra do MapBiomas
@@ -12,7 +11,6 @@ import os
 import sys
 
 import pandas as pd
-
 from variaveis import GENERATED_PATHS, INPUT_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -39,13 +37,13 @@ def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
         logging.info(f"Dados carregados: {df.shape[0]} registros, {df.shape[1]} colunas")
 
         df = df.rename(columns={
-            'geocode': 'codigo_ibge',
-            'municipality': 'municipio',
-            'class': 'uso'
+            "geocode": "codigo_ibge",
+            "municipality": "municipio",
+            "class": "uso",
         })
 
         # Verificar colunas essenciais
-        required_cols = ['codigo_ibge', 'municipio', 'uso']
+        required_cols = ["codigo_ibge", "municipio", "uso"]
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
             logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
@@ -53,10 +51,10 @@ def load_coverage_excel(fp: str, sheet_name: str = SHEET_NAME) -> pd.DataFrame:
         return df
 
     except FileNotFoundError:
-        logging.error(f"Arquivo não encontrado: {fp}")
+        logging.exception(f"Arquivo não encontrado: {fp}")
         raise
     except Exception as e:
-        logging.error(f"Erro ao carregar arquivo Excel: {str(e)}")
+        logging.exception(f"Erro ao carregar arquivo Excel: {e!s}")
         raise
 
 
@@ -67,23 +65,23 @@ def transform_long(df: pd.DataFrame) -> pd.DataFrame:
     """
     # detecta colunas-numéricas (anos)
     year_cols = [c for c in df.columns if isinstance(c, (int, float))]
-    id_vars = ['codigo_ibge', 'municipio', 'uso']
+    id_vars = ["codigo_ibge", "municipio", "uso"]
     df_long = df.melt(
         id_vars=id_vars,
         value_vars=year_cols,
-        var_name='year',
-        value_name='area_ha'
+        var_name="year",
+        value_name="area_ha",
     )
-    df_long['year'] = df_long['year'].astype(int)
-    df_long['area_ha'] = df_long['area_ha'].astype(float)
+    df_long["year"] = df_long["year"].astype(int)
+    df_long["area_ha"] = df_long["area_ha"].astype(float)
     # 1 hectare = 0.01 km²
-    df_long['area_km2'] = df_long['area_ha'] * 0.01
+    df_long["area_km2"] = df_long["area_ha"] * 0.01
     return df_long
 
 
 def filter_municipalities(df: pd.DataFrame, codes: list[int]) -> pd.DataFrame:
     """Filtra apenas os municípios de Serra do Penitente."""
-    return df[df['codigo_ibge'].isin(codes)].reset_index(drop=True)
+    return df[df["codigo_ibge"].isin(codes)].reset_index(drop=True)
 
 
 def summarize_by_use_year(df: pd.DataFrame) -> pd.DataFrame:
@@ -95,9 +93,9 @@ def summarize_by_use_year(df: pd.DataFrame) -> pd.DataFrame:
     summary = (
         df
         .groupby(
-            ['codigo_ibge', 'municipio', 'year', 'uso'],
-            as_index=False
-        )[['area_ha', 'area_km2']]
+            ["codigo_ibge", "municipio", "year", "uso"],
+            as_index=False,
+        )[["area_ha", "area_km2"]]
         .sum()
     )
     return summary
@@ -107,10 +105,10 @@ def save_partial(df: pd.DataFrame, out_fp: str):
     """Salva o CSV parcial em data/generated."""
     try:
         os.makedirs(os.path.dirname(out_fp), exist_ok=True)
-        df.to_csv(out_fp, index=False, encoding='utf-8-sig')
+        df.to_csv(out_fp, index=False, encoding="utf-8-sig")
         logging.info(f"CSV de uso da terra salvo com sucesso: {out_fp} ({len(df)} registros)")
     except Exception as e:
-        logging.error(f"Erro ao salvar CSV: {str(e)}")
+        logging.exception(f"Erro ao salvar CSV: {e!s}")
         raise
 
 
@@ -118,7 +116,7 @@ def main():
     # Configurar logging
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s"
+        format="%(asctime)s [%(levelname)s] %(message)s",
     )
 
     try:
@@ -148,7 +146,7 @@ def main():
         logging.info("Extração de séries temporais concluída com sucesso")
 
     except Exception as e:
-        logging.error(f"Erro durante a extração de séries temporais: {str(e)}")
+        logging.exception(f"Erro durante a extração de séries temporais: {e!s}")
         raise
 
 

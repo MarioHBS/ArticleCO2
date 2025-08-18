@@ -1,5 +1,4 @@
 # src/02_extrair_cobertura_municipal.py
-# -*- coding: utf-8 -*-
 """Script para extração de dados de cobertura do solo municipal.
 
 Este script processa dados de cobertura do solo do MapBiomas para os municípios
@@ -12,7 +11,6 @@ import os
 import sys
 
 import pandas as pd
-
 from variaveis import GENERATED_PATHS, INPUT_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -40,10 +38,10 @@ def load_mapbiomas_data(arquivo_path: str) -> pd.DataFrame:
         return df
 
     except FileNotFoundError:
-        logging.error(f"Arquivo não encontrado: {arquivo_path}")
+        logging.exception(f"Arquivo não encontrado: {arquivo_path}")
         raise
     except Exception as e:
-        logging.error(f"Erro ao carregar dados MapBiomas: {str(e)}")
+        logging.exception(f"Erro ao carregar dados MapBiomas: {e!s}")
         raise
 
 
@@ -63,7 +61,7 @@ def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
     })
 
     # Verificar colunas essenciais
-    required_cols = ['codigo_ibge', 'municipio', 'bioma']
+    required_cols = ["codigo_ibge", "municipio", "bioma"]
     missing_cols = [col for col in required_cols if col not in df_renamed.columns]
     if missing_cols:
         logging.warning(f"Colunas ausentes após renomeação: {missing_cols}")
@@ -79,8 +77,8 @@ def get_year_columns(df: pd.DataFrame) -> list:
         col for col in df.columns
         if (isinstance(col, str) and col.isdigit()) or isinstance(col, int)
     ]
-    min_year = 'N/A' if not anos else min(anos)
-    max_year = 'N/A' if not anos else max(anos)
+    min_year = "N/A" if not anos else min(anos)
+    max_year = "N/A" if not anos else max(anos)
     logging.info(f"Colunas de ano identificadas: {len(anos)} anos ({min_year}-{max_year})")
     return anos
 
@@ -91,7 +89,7 @@ def filter_municipalities(df: pd.DataFrame, municipios_alvo: list) -> pd.DataFra
     """
     df_filtered = df[df["codigo_ibge"].isin(municipios_alvo)].copy()
     logging.info(
-        f"Dados filtrados: {len(df_filtered)} registros para {len(municipios_alvo)} municípios"
+        f"Dados filtrados: {len(df_filtered)} registros para {len(municipios_alvo)} municípios",
     )
     return df_filtered
 
@@ -114,7 +112,7 @@ def transform_to_long_format(df: pd.DataFrame, anos: list) -> pd.DataFrame:
     id_vars = [
         "codigo_ibge", "municipio", "uf", "bioma",
         "classe_codigo", "classe_level_0",
-        "classe_level_1", "classe_level_2"
+        "classe_level_1", "classe_level_2",
     ]
 
     df_long = df.melt(
@@ -143,10 +141,10 @@ def save_data(df: pd.DataFrame, output_path: str):
         df.to_csv(output_path, index=False)
         logging.info(
             f"CSV de cobertura MapBiomas salvo: {output_path} "
-            f"({len(df)} registros)"
+            f"({len(df)} registros)",
         )
     except Exception as e:
-        logging.error(f"Erro ao salvar CSV: {str(e)}")
+        logging.exception(f"Erro ao salvar CSV: {e!s}")
         raise
 
 
@@ -154,7 +152,7 @@ def main():
     # Configurar logging
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s"
+        format="%(asctime)s [%(levelname)s] %(message)s",
     )
 
     try:
@@ -187,7 +185,7 @@ def main():
         logging.info("Extração de dados de cobertura concluída com sucesso")
 
     except Exception as e:
-        logging.error(f"Erro durante a extração de cobertura: {str(e)}")
+        logging.exception(f"Erro durante a extração de cobertura: {e!s}")
         raise
 
 

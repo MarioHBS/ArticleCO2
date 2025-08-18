@@ -303,12 +303,12 @@ def granger_causality_matrix(df, columns, maxlag=4, test="ssr_chi2test", verbose
         if verbose:
             print(
                 f"[WARN] Apenas {len(valid_columns)} colunas válidas encontradas. "
-                "Retornando matriz vazia."
+                "Retornando matriz vazia.",
             )
         return pd.DataFrame(np.ones((len(columns), len(columns))), columns=columns, index=columns)
 
     causality_matrix = pd.DataFrame(
-        np.ones((len(columns), len(columns))), columns=columns, index=columns
+        np.ones((len(columns), len(columns))), columns=columns, index=columns,
     )
 
     for col_y in valid_columns:

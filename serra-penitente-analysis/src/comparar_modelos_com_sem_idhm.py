@@ -1,5 +1,4 @@
 # src/comparar_modelos_com_sem_idhm.py
-# -*- coding: utf-8 -*-
 """
 Script para comparar a performance dos modelos de predição de preço de carbono
 com e sem os indicadores do IDHM.
@@ -16,20 +15,19 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
 from variaveis import FIGURE_PATHS, RESULT_PATHS
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 # Configurar matplotlib para português
-plt.rcParams['font.size'] = 10
-plt.rcParams['axes.titlesize'] = 12
-plt.rcParams['axes.labelsize'] = 10
-plt.rcParams['xtick.labelsize'] = 9
-plt.rcParams['ytick.labelsize'] = 9
-plt.rcParams['legend.fontsize'] = 9
+plt.rcParams["font.size"] = 10
+plt.rcParams["axes.titlesize"] = 12
+plt.rcParams["axes.labelsize"] = 10
+plt.rcParams["xtick.labelsize"] = 9
+plt.rcParams["ytick.labelsize"] = 9
+plt.rcParams["legend.fontsize"] = 9
 
 
 def carregar_resultados():
@@ -45,17 +43,17 @@ def carregar_resultados():
     try:
         df_sem_idhm = pd.read_csv(RESULT_PATHS.model_results_csv)
         # Padronizar nomes das colunas
-        if 'model' in df_sem_idhm.columns:
+        if "model" in df_sem_idhm.columns:
             df_sem_idhm = df_sem_idhm.rename(
-                columns={'model': 'modelo', 'R2': 'r2_score', 'MSE': 'mse'}
+                columns={"model": "modelo", "R2": "r2_score", "MSE": "mse"},
             )
-        df_sem_idhm['tipo'] = 'Sem IDHM'
+        df_sem_idhm["tipo"] = "Sem IDHM"
     except FileNotFoundError:
         print("Arquivo de métricas originais não encontrado. Criando dados simulados...")
         # Criar dados simulados baseados no modelo original
         modelos = [
-            'Linear Regression', 'Random Forest', 'KNN', 'Decision Tree',
-            'MLP Regressor', 'Lasso', 'SVR', 'Dummy', 'XGBoost'
+            "Linear Regression", "Random Forest", "KNN", "Decision Tree",
+            "MLP Regressor", "Lasso", "SVR", "Dummy", "XGBoost",
         ]
 
         # Valores simulados baseados em performance típica
@@ -63,18 +61,18 @@ def carregar_resultados():
         mse_scores = [0.35, 0.28, 0.42, 0.39, 0.32, 0.37, 0.34, 0.55, 0.25]
 
         df_sem_idhm = pd.DataFrame({
-            'modelo': modelos,
-            'r2_score': r2_scores,
-            'mse': mse_scores,
-            'features_utilizadas': [3] * len(modelos),
-            'features_idhm': [0] * len(modelos),
-            'tipo': 'Sem IDHM'
+            "modelo": modelos,
+            "r2_score": r2_scores,
+            "mse": mse_scores,
+            "features_utilizadas": [3] * len(modelos),
+            "features_idhm": [0] * len(modelos),
+            "tipo": "Sem IDHM",
         })
 
     # Carregar resultados com IDHM
     try:
         df_com_idhm = pd.read_csv(RESULT_PATHS.metricas_modelos_com_idhm_csv)
-        df_com_idhm['tipo'] = 'Com IDHM'
+        df_com_idhm["tipo"] = "Com IDHM"
     except FileNotFoundError:
         print("[ERROR] Arquivo de métricas com IDHM não encontrado!")
         print("Execute primeiro o script src/06_consolidar_dados_carbono_com_idhm.py")
@@ -102,30 +100,30 @@ def comparar_metricas(df_sem_idhm, df_com_idhm):
     # Calcular melhorias
     comparacao = []
 
-    for modelo in df_sem_idhm['modelo'].unique():
-        sem_idhm = df_sem_idhm[df_sem_idhm['modelo'] == modelo].iloc[0]
-        com_idhm_data = df_com_idhm[df_com_idhm['modelo'] == modelo]
+    for modelo in df_sem_idhm["modelo"].unique():
+        sem_idhm = df_sem_idhm[df_sem_idhm["modelo"] == modelo].iloc[0]
+        com_idhm_data = df_com_idhm[df_com_idhm["modelo"] == modelo]
 
         if len(com_idhm_data) > 0:
             com_idhm = com_idhm_data.iloc[0]
 
-            melhoria_r2 = com_idhm['r2_score'] - sem_idhm['r2_score']
-            melhoria_mse = sem_idhm['mse'] - com_idhm['mse']  # Redução é melhoria
+            melhoria_r2 = com_idhm["r2_score"] - sem_idhm["r2_score"]
+            melhoria_mse = sem_idhm["mse"] - com_idhm["mse"]  # Redução é melhoria
             melhoria_r2_pct = 0
-            if sem_idhm['r2_score'] != 0:
-                melhoria_r2_pct = (melhoria_r2 / abs(sem_idhm['r2_score'])) * 100
-            melhoria_mse_pct = (melhoria_mse / sem_idhm['mse']) * 100 if sem_idhm['mse'] != 0 else 0
+            if sem_idhm["r2_score"] != 0:
+                melhoria_r2_pct = (melhoria_r2 / abs(sem_idhm["r2_score"])) * 100
+            melhoria_mse_pct = (melhoria_mse / sem_idhm["mse"]) * 100 if sem_idhm["mse"] != 0 else 0
 
             comparacao.append({
-                'modelo': modelo,
-                'r2_sem_idhm': sem_idhm['r2_score'],
-                'r2_com_idhm': com_idhm['r2_score'],
-                'melhoria_r2': melhoria_r2,
-                'melhoria_r2_pct': melhoria_r2_pct,
-                'mse_sem_idhm': sem_idhm['mse'],
-                'mse_com_idhm': com_idhm['mse'],
-                'melhoria_mse': melhoria_mse,
-                'melhoria_mse_pct': melhoria_mse_pct
+                "modelo": modelo,
+                "r2_sem_idhm": sem_idhm["r2_score"],
+                "r2_com_idhm": com_idhm["r2_score"],
+                "melhoria_r2": melhoria_r2,
+                "melhoria_r2_pct": melhoria_r2_pct,
+                "mse_sem_idhm": sem_idhm["mse"],
+                "mse_com_idhm": com_idhm["mse"],
+                "melhoria_mse": melhoria_mse,
+                "melhoria_mse_pct": melhoria_mse_pct,
             })
 
     df_comparacao = pd.DataFrame(comparacao)
@@ -149,93 +147,93 @@ def gerar_visualizacoes(df_combinado, df_comparacao):
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     # Configurar estilo
-    plt.style.use('default')
+    plt.style.use("default")
     sns.set_palette("husl")
 
     # 1. Gráfico de barras comparativo - R²
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
     # R² Score
-    df_r2 = df_combinado.pivot(index='modelo', columns='tipo', values='r2_score')
-    df_r2.plot(kind='bar', ax=ax1, width=0.8)
-    ax1.set_title('Comparação R² Score: Com vs Sem IDHM')
-    ax1.set_ylabel('R² Score')
-    ax1.set_xlabel('Modelo')
-    ax1.legend(title='Tipo')
-    ax1.tick_params(axis='x', rotation=45)
+    df_r2 = df_combinado.pivot(index="modelo", columns="tipo", values="r2_score")
+    df_r2.plot(kind="bar", ax=ax1, width=0.8)
+    ax1.set_title("Comparação R² Score: Com vs Sem IDHM")
+    ax1.set_ylabel("R² Score")
+    ax1.set_xlabel("Modelo")
+    ax1.legend(title="Tipo")
+    ax1.tick_params(axis="x", rotation=45)
     ax1.grid(True, alpha=0.3)
 
     # MSE
-    df_mse = df_combinado.pivot(index='modelo', columns='tipo', values='mse')
-    df_mse.plot(kind='bar', ax=ax2, width=0.8, color=['orange', 'red'])
-    ax2.set_title('Comparação MSE: Com vs Sem IDHM')
-    ax2.set_ylabel('MSE')
-    ax2.set_xlabel('Modelo')
-    ax2.legend(title='Tipo')
-    ax2.tick_params(axis='x', rotation=45)
+    df_mse = df_combinado.pivot(index="modelo", columns="tipo", values="mse")
+    df_mse.plot(kind="bar", ax=ax2, width=0.8, color=["orange", "red"])
+    ax2.set_title("Comparação MSE: Com vs Sem IDHM")
+    ax2.set_ylabel("MSE")
+    ax2.set_xlabel("Modelo")
+    ax2.legend(title="Tipo")
+    ax2.tick_params(axis="x", rotation=45)
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(FIGURE_PATHS.comparacao_modelos_com_sem_idhm_png, dpi=300, bbox_inches='tight')
+    plt.savefig(FIGURE_PATHS.comparacao_modelos_com_sem_idhm_png, dpi=300, bbox_inches="tight")
     plt.show()
 
     # 2. Gráfico de melhorias percentuais
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
     # Melhoria R²
-    df_comparacao_sorted = df_comparacao.sort_values('melhoria_r2_pct', ascending=True)
-    colors_r2 = ['green' if x > 0 else 'red' for x in df_comparacao_sorted['melhoria_r2_pct']]
+    df_comparacao_sorted = df_comparacao.sort_values("melhoria_r2_pct", ascending=True)
+    colors_r2 = ["green" if x > 0 else "red" for x in df_comparacao_sorted["melhoria_r2_pct"]]
 
     ax1.barh(
-        df_comparacao_sorted['modelo'],
-        df_comparacao_sorted['melhoria_r2_pct'],
-        color=colors_r2
+        df_comparacao_sorted["modelo"],
+        df_comparacao_sorted["melhoria_r2_pct"],
+        color=colors_r2,
     )
-    ax1.set_title('Melhoria Percentual no R² Score com IDHM')
-    ax1.set_xlabel('Melhoria (%)')
-    ax1.axvline(x=0, color='black', linestyle='-', alpha=0.3)
+    ax1.set_title("Melhoria Percentual no R² Score com IDHM")
+    ax1.set_xlabel("Melhoria (%)")
+    ax1.axvline(x=0, color="black", linestyle="-", alpha=0.3)
     ax1.grid(True, alpha=0.3)
 
     # Melhoria MSE
-    df_comparacao_sorted_mse = df_comparacao.sort_values('melhoria_mse_pct', ascending=True)
-    colors_mse = ['green' if x > 0 else 'red' for x in df_comparacao_sorted_mse['melhoria_mse_pct']]
+    df_comparacao_sorted_mse = df_comparacao.sort_values("melhoria_mse_pct", ascending=True)
+    colors_mse = ["green" if x > 0 else "red" for x in df_comparacao_sorted_mse["melhoria_mse_pct"]]
 
     ax2.barh(
-        df_comparacao_sorted_mse['modelo'],
-        df_comparacao_sorted_mse['melhoria_mse_pct'],
-        color=colors_mse
+        df_comparacao_sorted_mse["modelo"],
+        df_comparacao_sorted_mse["melhoria_mse_pct"],
+        color=colors_mse,
     )
-    ax2.set_title('Melhoria Percentual no MSE com IDHM')
-    ax2.set_xlabel('Redução MSE (%)')
-    ax2.axvline(x=0, color='black', linestyle='-', alpha=0.3)
+    ax2.set_title("Melhoria Percentual no MSE com IDHM")
+    ax2.set_xlabel("Redução MSE (%)")
+    ax2.axvline(x=0, color="black", linestyle="-", alpha=0.3)
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(FIGURE_PATHS.melhorias_percentuais_idhm_png, dpi=300, bbox_inches='tight')
+    plt.savefig(FIGURE_PATHS.melhorias_percentuais_idhm_png, dpi=300, bbox_inches="tight")
     plt.show()
 
     # 3. Scatter plot R² vs MSE
     _, ax = plt.subplots(figsize=(10, 6))
 
-    for tipo in df_combinado['tipo'].unique():
-        data = df_combinado[df_combinado['tipo'] == tipo]
-        ax.scatter(data['r2_score'], data['mse'], label=tipo, s=100, alpha=0.7)
+    for tipo in df_combinado["tipo"].unique():
+        data = df_combinado[df_combinado["tipo"] == tipo]
+        ax.scatter(data["r2_score"], data["mse"], label=tipo, s=100, alpha=0.7)
 
         # Adicionar labels dos modelos
         for _, row in data.iterrows():
             ax.annotate(
-                row['modelo'], (row['r2_score'], row['mse']),
-                xytext=(5, 5), textcoords='offset points', fontsize=8
+                row["modelo"], (row["r2_score"], row["mse"]),
+                xytext=(5, 5), textcoords="offset points", fontsize=8,
             )
 
-    ax.set_xlabel('R² Score')
-    ax.set_ylabel('MSE')
-    ax.set_title('R² Score vs MSE: Comparação Com e Sem IDHM')
+    ax.set_xlabel("R² Score")
+    ax.set_ylabel("MSE")
+    ax.set_title("R² Score vs MSE: Comparação Com e Sem IDHM")
     ax.legend()
     ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(FIGURE_PATHS.scatter_r2_vs_mse_comparacao_png, dpi=300, bbox_inches='tight')
+    plt.savefig(FIGURE_PATHS.scatter_r2_vs_mse_comparacao_png, dpi=300, bbox_inches="tight")
     plt.show()
 
 
@@ -255,7 +253,7 @@ def gerar_relatorio_estatistico(df_comparacao):
     print(f"Numero de modelos analisados: {len(df_comparacao)}")
 
     # Melhorias no R²
-    melhorias_r2 = df_comparacao['melhoria_r2']
+    melhorias_r2 = df_comparacao["melhoria_r2"]
     modelos_melhoraram_r2 = (melhorias_r2 > 0).sum()
     melhoria_media_r2 = melhorias_r2.mean()
 
@@ -264,19 +262,19 @@ def gerar_relatorio_estatistico(df_comparacao):
     improvement_pct = modelos_melhoraram_r2/total_models*100
     print(
         f"Modelos que melhoraram: {modelos_melhoraram_r2}/{total_models} "
-        f"({improvement_pct:.1f}%)"
+        f"({improvement_pct:.1f}%)",
     )
     print(
         f"Melhoria media: {melhoria_media_r2:.4f} "
-        f"({melhoria_media_r2*100:.2f} pontos percentuais)"
+        f"({melhoria_media_r2*100:.2f} pontos percentuais)",
     )
-    modelo_melhor = df_comparacao.loc[melhorias_r2.idxmax(), 'modelo']
+    modelo_melhor = df_comparacao.loc[melhorias_r2.idxmax(), "modelo"]
     print(f"Maior melhoria: {melhorias_r2.max():.4f} ({modelo_melhor})")
-    modelo_pior = df_comparacao.loc[melhorias_r2.idxmin(), 'modelo']
+    modelo_pior = df_comparacao.loc[melhorias_r2.idxmin(), "modelo"]
     print(f"Menor melhoria: {melhorias_r2.min():.4f} ({modelo_pior})")
 
     # Melhorias no MSE
-    melhorias_mse = df_comparacao['melhoria_mse']
+    melhorias_mse = df_comparacao["melhoria_mse"]
     modelos_melhoraram_mse = (melhorias_mse > 0).sum()
     melhoria_media_mse = melhorias_mse.mean()
 
@@ -285,33 +283,33 @@ def gerar_relatorio_estatistico(df_comparacao):
     improvement_pct = modelos_melhoraram_mse/total_models*100
     print(
         f"Modelos que melhoraram: {modelos_melhoraram_mse}/{total_models} "
-        f"({improvement_pct:.1f}%)"
+        f"({improvement_pct:.1f}%)",
     )
     print(f"Reducao media: {melhoria_media_mse:.4f}")
-    modelo_maior_reducao = df_comparacao.loc[melhorias_mse.idxmax(), 'modelo']
+    modelo_maior_reducao = df_comparacao.loc[melhorias_mse.idxmax(), "modelo"]
     print(f"Maior reducao: {melhorias_mse.max():.4f} ({modelo_maior_reducao})")
-    modelo_menor_reducao = df_comparacao.loc[melhorias_mse.idxmin(), 'modelo']
+    modelo_menor_reducao = df_comparacao.loc[melhorias_mse.idxmin(), "modelo"]
     print(f"Menor reducao: {melhorias_mse.min():.4f} ({modelo_menor_reducao})")
 
     # Top 3 modelos que mais melhoraram
     print("\n[INFO] TOP 3 MODELOS COM MAIOR MELHORIA (R2):")
-    top_r2 = df_comparacao.nlargest(3, 'melhoria_r2_pct')
+    top_r2 = df_comparacao.nlargest(3, "melhoria_r2_pct")
     for i, (_, row) in enumerate(top_r2.iterrows(), 1):
         print(
             f"{i}. {row['modelo']}: +{row['melhoria_r2_pct']:.2f}% "
-            f"(R2 {row['r2_sem_idhm']:.3f} -> {row['r2_com_idhm']:.3f})"
+            f"(R2 {row['r2_sem_idhm']:.3f} -> {row['r2_com_idhm']:.3f})",
         )
 
     print("\n[INFO] TOP 3 MODELOS COM MAIOR REDUCAO MSE:")
-    top_mse = df_comparacao.nlargest(3, 'melhoria_mse_pct')
+    top_mse = df_comparacao.nlargest(3, "melhoria_mse_pct")
     for i, (_, row) in enumerate(top_mse.iterrows(), 1):
         print(
             f"{i}. {row['modelo']}: -{row['melhoria_mse_pct']:.2f}% "
-            f"(MSE {row['mse_sem_idhm']:.3f} -> {row['mse_com_idhm']:.3f})"
+            f"(MSE {row['mse_sem_idhm']:.3f} -> {row['mse_com_idhm']:.3f})",
         )
 
     # Salvar relatório
-    with open(RESULT_PATHS.relatorio_impacto_idhm_txt, 'w', encoding='utf-8') as f:
+    with open(RESULT_PATHS.relatorio_impacto_idhm_txt, "w", encoding="utf-8") as f:
         f.write("RELATÓRIO DE IMPACTO DO IDHM NA PREDIÇÃO DE PREÇO DE CARBONO\n")
         f.write("="*60 + "\n\n")
 
@@ -332,7 +330,7 @@ def gerar_relatorio_estatistico(df_comparacao):
             f.write(f"  MSE com IDHM: {row['mse_com_idhm']:.4f}\n")
             f.write(
                 f"  Redução MSE: {row['melhoria_mse']:+.4f} "
-                f"({row['melhoria_mse_pct']:+.2f}%)\n"
+                f"({row['melhoria_mse_pct']:+.2f}%)\n",
             )
 
     print(f"\n[OK] Relatório detalhado salvo em: {RESULT_PATHS.relatorio_impacto_idhm_txt}")

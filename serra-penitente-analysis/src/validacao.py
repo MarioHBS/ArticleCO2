@@ -1,8 +1,9 @@
 # src/validacao.py
-import pandas as pd
-import numpy as np
 import logging
-from typing import Dict, Any
+from typing import Any
+
+import numpy as np
+import pandas as pd
 
 
 def validate_pib_schema(df: pd.DataFrame) -> bool:
@@ -18,7 +19,7 @@ def validate_pib_schema(df: pd.DataFrame) -> bool:
     Raises:
         ValueError: Se schema é inválido
     """
-    required_columns = ['codigo_ibge', 'municipio', 'ano', 'pib']
+    required_columns = ["codigo_ibge", "municipio", "ano", "pib"]
 
     # Verificar colunas obrigatórias
     missing_cols = [col for col in required_columns if col not in df.columns]
@@ -30,24 +31,24 @@ def validate_pib_schema(df: pd.DataFrame) -> bool:
         raise ValueError("DataFrame PIB está vazio")
 
     # Verificar tipos de dados
-    if not pd.api.types.is_integer_dtype(df['codigo_ibge']):
+    if not pd.api.types.is_integer_dtype(df["codigo_ibge"]):
         raise ValueError("Coluna 'codigo_ibge' deve ser do tipo inteiro")
 
-    if not pd.api.types.is_numeric_dtype(df['pib']):
+    if not pd.api.types.is_numeric_dtype(df["pib"]):
         raise ValueError("Coluna 'pib' deve ser numérica")
 
-    if not pd.api.types.is_integer_dtype(df['ano']):
+    if not pd.api.types.is_integer_dtype(df["ano"]):
         raise ValueError("Coluna 'ano' deve ser do tipo inteiro")
 
     # Verificar valores válidos
-    if (df['codigo_ibge'] <= 0).any():
+    if (df["codigo_ibge"] <= 0).any():
         raise ValueError("Códigos IBGE devem ser positivos")
 
     # Permitir valores negativos de PIB (podem representar déficits ou ajustes contábeis)
     # if (df['pib'] < 0).any():
     #     raise ValueError("Valores de PIB não podem ser negativos")
 
-    if (df['ano'] < 2000).any() or (df['ano'] > 2030).any():
+    if (df["ano"] < 2000).any() or (df["ano"] > 2030).any():
         raise ValueError("Anos devem estar entre 2000 e 2030")
 
     return True
@@ -67,7 +68,7 @@ def validate_carbono_schema(df: pd.DataFrame) -> bool:
         ValueError: Se schema é inválido
     """
     # Features padrão para modelagem
-    FEATURE_COLS = ['pib', 'GEE_tCO2e', 'area_desmatada_ha']
+    FEATURE_COLS = ["pib", "GEE_tCO2e", "area_desmatada_ha"]
 
     # Verificar colunas de features padrão
     for col in FEATURE_COLS:
@@ -82,7 +83,7 @@ def validate_carbono_schema(df: pd.DataFrame) -> bool:
         raise ValueError("DataFrame de carbono está vazio")
 
     # Verificar valores não negativos
-    for col in ['pib', 'GEE_tCO2e', 'area_desmatada_ha']:
+    for col in ["pib", "GEE_tCO2e", "area_desmatada_ha"]:
         if col in df.columns and (df[col] < 0).any():
             raise ValueError(f"Valores em '{col}' não podem ser negativos")
 
@@ -130,7 +131,7 @@ def validate_idhm_schema(df: pd.DataFrame) -> bool:
     Raises:
         ValueError: Se schema é inválido
     """
-    required_columns = ['codigo_ibge', 'idhm_']
+    required_columns = ["codigo_ibge", "idhm_"]
 
     # Verificar colunas obrigatórias
     missing_cols = [col for col in required_columns if col not in df.columns]
@@ -142,20 +143,20 @@ def validate_idhm_schema(df: pd.DataFrame) -> bool:
         raise ValueError("DataFrame IDHM está vazio")
 
     # Verificar tipos de dados
-    if not pd.api.types.is_integer_dtype(df['codigo_ibge']):
+    if not pd.api.types.is_integer_dtype(df["codigo_ibge"]):
         raise ValueError("Coluna 'codigo_ibge' deve ser do tipo inteiro")
 
-    if not pd.api.types.is_numeric_dtype(df['idhm_']):
+    if not pd.api.types.is_numeric_dtype(df["idhm_"]):
         raise ValueError("Coluna 'idhm_' deve ser numérica")
 
     # Verificar valores válidos para IDHM (entre 0 e 1)
-    if (df['idhm_'] < 0).any() or (df['idhm_'] > 1).any():
+    if (df["idhm_"] < 0).any() or (df["idhm_"] > 1).any():
         raise ValueError("Valores de IDHM devem estar entre 0 e 1")
 
     return True
 
 
-def check_data_integrity(df: pd.DataFrame, name: str = "DataFrame") -> Dict[str, Any]:
+def check_data_integrity(df: pd.DataFrame, name: str = "DataFrame") -> dict[str, Any]:
     """
     Verifica integridade básica dos dados.
 
@@ -167,13 +168,13 @@ def check_data_integrity(df: pd.DataFrame, name: str = "DataFrame") -> Dict[str,
         dict: Relatório de integridade com estatísticas
     """
     report = {
-        'total_rows': len(df),
-        'total_columns': len(df.columns),
-        'missing_values': df.isna().sum().sum(),
-        'duplicate_rows': df.duplicated().sum(),
-        'columns_with_na': df.columns[df.isna().any()].tolist(),
-        'numeric_columns': df.select_dtypes(include=[np.number]).columns.tolist(),
-        'object_columns': df.select_dtypes(include=['object']).columns.tolist()
+        "total_rows": len(df),
+        "total_columns": len(df.columns),
+        "missing_values": df.isna().sum().sum(),
+        "duplicate_rows": df.duplicated().sum(),
+        "columns_with_na": df.columns[df.isna().any()].tolist(),
+        "numeric_columns": df.select_dtypes(include=[np.number]).columns.tolist(),
+        "object_columns": df.select_dtypes(include=["object"]).columns.tolist(),
     }
 
     # Log do relatório
@@ -183,17 +184,17 @@ def check_data_integrity(df: pd.DataFrame, name: str = "DataFrame") -> Dict[str,
     logging.info(f"  - Valores ausentes: {report['missing_values']}")
     logging.info(f"  - Linhas duplicadas: {report['duplicate_rows']}")
 
-    if report['missing_values'] > 0:
+    if report["missing_values"] > 0:
         logging.warning(f"  - Colunas com valores ausentes: {report['columns_with_na']}")
 
-    if report['duplicate_rows'] > 0:
+    if report["duplicate_rows"] > 0:
         logging.warning(f"  - Encontradas {report['duplicate_rows']} linhas duplicadas")
 
     return report
 
 
 def validate_year_range(
-    df: pd.DataFrame, year_col: str = 'ano',
+    df: pd.DataFrame, year_col: str = "ano",
         min_year: int = 2000,
         max_year: int = 2030) -> bool:
     """
@@ -220,7 +221,7 @@ def validate_year_range(
         unique_invalid = invalid_years[year_col].unique()
         raise ValueError(
             f"Anos inválidos encontrados: {unique_invalid}. "
-            f"Esperado entre {min_year} e {max_year}"
+            f"Esperado entre {min_year} e {max_year}",
         )
 
     return True

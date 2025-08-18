@@ -1,5 +1,4 @@
 # src/09_gerar_visualizacoes_idhm_desmatamento.py
-# -*- coding: utf-8 -*-
 """Script para gerar visualizações específicas correlacionando IDHM com desmatamento.
 
 Este script cria gráficos que mostram a relação direta entre indicadores
@@ -21,8 +20,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Configurar estilo
 sns.set_style("whitegrid")
-plt.rcParams['figure.figsize'] = (10, 6)
-plt.rcParams['font.size'] = 10
+plt.rcParams["figure.figsize"] = (10, 6)
+plt.rcParams["font.size"] = 10
 
 
 def gerar_scatter_idhm_desmatamento(df):
@@ -37,10 +36,10 @@ def gerar_scatter_idhm_desmatamento(df):
 
     # Indicadores IDHM disponíveis
     indicadores_idhm = {
-        'idhm_': 'IDHM Geral',
-        'idhm_renda': 'IDHM Renda',
-        'idhm_educação': 'IDHM Educação',
-        'idhm_longevidade': 'IDHM Longevidade'
+        "idhm_": "IDHM Geral",
+        "idhm_renda": "IDHM Renda",
+        "idhm_educação": "IDHM Educação",
+        "idhm_longevidade": "IDHM Longevidade",
     }
 
     # Criar subplot para cada indicador
@@ -50,27 +49,27 @@ def gerar_scatter_idhm_desmatamento(df):
     for i, (col, nome) in enumerate(indicadores_idhm.items()):
         if col in df.columns:
             # Filtrar dados válidos para este indicador
-            dados_validos = df.dropna(subset=[col, 'area_desmatada_ha'])
+            dados_validos = df.dropna(subset=[col, "area_desmatada_ha"])
 
             if len(dados_validos) > 0:
                 # Calcular correlações
                 corr_pearson, p_pearson = pearsonr(
                     dados_validos[col],
-                    dados_validos['area_desmatada_ha']
+                    dados_validos["area_desmatada_ha"],
                 )
                 corr_spearman, p_spearman = spearmanr(
                     dados_validos[col],
-                    dados_validos['area_desmatada_ha']
+                    dados_validos["area_desmatada_ha"],
                 )
 
                 # Criar scatter plot
-                sns.scatterplot(data=dados_validos, x=col, y='area_desmatada_ha',
-                                hue='municipio', s=60, alpha=0.7, ax=axes[i])
+                sns.scatterplot(data=dados_validos, x=col, y="area_desmatada_ha",
+                                hue="municipio", s=60, alpha=0.7, ax=axes[i])
 
                 # Adicionar linha de tendência (se possível)
                 try:
                     if len(dados_validos) > 1 and dados_validos[col].var() > 0:
-                        z = np.polyfit(dados_validos[col], dados_validos['area_desmatada_ha'], 1)
+                        z = np.polyfit(dados_validos[col], dados_validos["area_desmatada_ha"], 1)
                         p = np.poly1d(z)
                         axes[i].plot(dados_validos[col], p(dados_validos[col]), "r--", alpha=0.8)
                 except (np.linalg.LinAlgError, ValueError):
@@ -79,87 +78,87 @@ def gerar_scatter_idhm_desmatamento(df):
 
                 # Configurar título e labels
                 axes[i].set_title(
-                    f'{nome} vs Área Desmatada\n'
-                    f'Pearson: {corr_pearson:.3f} (p={p_pearson:.3f})\n'
-                    f'Spearman: {corr_spearman:.3f} (p={p_spearman:.3f})'
+                    f"{nome} vs Área Desmatada\n"
+                    f"Pearson: {corr_pearson:.3f} (p={p_pearson:.3f})\n"
+                    f"Spearman: {corr_spearman:.3f} (p={p_spearman:.3f})",
                 )
                 axes[i].set_xlabel(nome)
-                axes[i].set_ylabel('Área Desmatada (ha)')
-                axes[i].legend(title='Município', bbox_to_anchor=(1.05, 1), loc='upper left')
+                axes[i].set_ylabel("Área Desmatada (ha)")
+                axes[i].legend(title="Município", bbox_to_anchor=(1.05, 1), loc="upper left")
             else:
                 axes[i].text(
-                    0.5, 0.5, f'Dados não disponíveis\npara {nome}',
-                    ha='center', va='center', transform=axes[i].transAxes
+                    0.5, 0.5, f"Dados não disponíveis\npara {nome}",
+                    ha="center", va="center", transform=axes[i].transAxes,
                 )
                 axes[i].set_title(nome)
         else:
             axes[i].text(
-                0.5, 0.5, f'Coluna {col}\nnão encontrada',
-                ha='center', va='center', transform=axes[i].transAxes
+                0.5, 0.5, f"Coluna {col}\nnão encontrada",
+                ha="center", va="center", transform=axes[i].transAxes,
             )
             axes[i].set_title(nome)
 
     plt.tight_layout()
     caminho_scatter = fig_dir / "Figura10_Correlacao_IDHM_Desmatamento.png"
-    plt.savefig(caminho_scatter, dpi=300, bbox_inches='tight')
+    plt.savefig(caminho_scatter, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Scatter plots salvos em: {caminho_scatter}")
 
     # Agrupar por ano
-    df_temporal = df.groupby('ano').agg({
-        'area_desmatada_ha': 'sum',
-        'idhm_': 'mean',
-        'idhm_renda': 'mean',
-        'idhm_educação': 'mean',
-        'idhm_longevidade': 'mean'
+    df_temporal = df.groupby("ano").agg({
+        "area_desmatada_ha": "sum",
+        "idhm_": "mean",
+        "idhm_renda": "mean",
+        "idhm_educação": "mean",
+        "idhm_longevidade": "mean",
     }).reset_index()
 
     # Criar gráfico com dois eixos Y
     fig, ax1 = plt.subplots(figsize=(12, 6))
 
     # Eixo principal - Desmatamento
-    color = 'tab:red'
-    ax1.set_xlabel('Ano')
-    ax1.set_ylabel('Área Desmatada Total (ha)', color=color)
+    color = "tab:red"
+    ax1.set_xlabel("Ano")
+    ax1.set_ylabel("Área Desmatada Total (ha)", color=color)
     line1 = ax1.plot(
-        df_temporal['ano'], df_temporal['area_desmatada_ha'],
-        color=color, marker='o', linewidth=2, label='Área Desmatada'
+        df_temporal["ano"], df_temporal["area_desmatada_ha"],
+        color=color, marker="o", linewidth=2, label="Área Desmatada",
     )
-    ax1.tick_params(axis='y', labelcolor=color)
+    ax1.tick_params(axis="y", labelcolor=color)
     ax1.grid(True, alpha=0.3)
 
     # Eixo secundário - IDHM
     ax2 = ax1.twinx()
-    color = 'tab:blue'
-    ax2.set_ylabel('IDHM Médio', color=color)
+    color = "tab:blue"
+    ax2.set_ylabel("IDHM Médio", color=color)
 
     # Plotar indicadores IDHM disponíveis
-    cores_idhm = ['tab:blue', 'tab:green', 'tab:orange', 'tab:purple']
-    indicadores = ['idhm_', 'idhm_renda', 'idhm_educação', 'idhm_longevidade']
-    nomes = ['IDHM Geral', 'IDHM Renda', 'IDHM Educação', 'IDHM Longevidade']
+    cores_idhm = ["tab:blue", "tab:green", "tab:orange", "tab:purple"]
+    indicadores = ["idhm_", "idhm_renda", "idhm_educação", "idhm_longevidade"]
+    nomes = ["IDHM Geral", "IDHM Renda", "IDHM Educação", "IDHM Longevidade"]
 
     lines2 = []
-    for i, (ind, nome, cor) in enumerate(zip(indicadores, nomes, cores_idhm)):
+    for i, (ind, nome, cor) in enumerate(zip(indicadores, nomes, cores_idhm, strict=False)):
         if ind in df_temporal.columns and not df_temporal[ind].isna().all():
             line = ax2.plot(
-                df_temporal['ano'], df_temporal[ind],
-                color=cor, marker='s', linewidth=2, linestyle='--',
-                label=nome, alpha=0.8
+                df_temporal["ano"], df_temporal[ind],
+                color=cor, marker="s", linewidth=2, linestyle="--",
+                label=nome, alpha=0.8,
             )
             lines2.extend(line)
 
-    ax2.tick_params(axis='y', labelcolor='tab:blue')
+    ax2.tick_params(axis="y", labelcolor="tab:blue")
 
     # Combinar legendas
     lines = line1 + lines2
     labels = [line.get_label() for line in lines]
-    ax1.legend(lines, labels, loc='upper left', bbox_to_anchor=(0, 1))
+    ax1.legend(lines, labels, loc="upper left", bbox_to_anchor=(0, 1))
 
-    plt.title('Evolução Temporal: IDHM vs Desmatamento\nSerra do Penitente (2012-2021)')
+    plt.title("Evolução Temporal: IDHM vs Desmatamento\nSerra do Penitente (2012-2021)")
     plt.tight_layout()
 
     caminho_evolucao = fig_dir / "Figura11_Evolucao_Temporal_IDHM_Desmatamento.png"
-    plt.savefig(caminho_evolucao, dpi=300, bbox_inches='tight')
+    plt.savefig(caminho_evolucao, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Gráfico de evolução temporal salvo em: {caminho_evolucao}")
 
@@ -176,32 +175,32 @@ def gerar_heatmap_correlacao_idhm(df):
 
     # Selecionar colunas para correlação
     colunas_correlacao = [
-        'idhm_', 'idhm_renda', 'idhm_educação', 'idhm_longevidade',
-        'area_desmatada_ha', 'GEE_tCO2e', 'pib'
+        "idhm_", "idhm_renda", "idhm_educação", "idhm_longevidade",
+        "area_desmatada_ha", "GEE_tCO2e", "pib",
     ]
-    
+
     # Filtrar apenas colunas que existem no DataFrame
     colunas_existentes = [col for col in colunas_correlacao if col in df.columns]
-    
+
     if len(colunas_existentes) < 2:
         print("[AVISO] Dados insuficientes para gerar heatmap de correlação")
         return
-    
+
     # Calcular matriz de correlação
     df_corr = df[colunas_existentes].corr()
-    
+
     # Criar heatmap
     plt.figure(figsize=(10, 8))
     mask = np.triu(np.ones_like(df_corr, dtype=bool))
-    
-    sns.heatmap(df_corr, mask=mask, annot=True, cmap='RdBu_r', center=0,
+
+    sns.heatmap(df_corr, mask=mask, annot=True, cmap="RdBu_r", center=0,
                 square=True, linewidths=0.5, cbar_kws={"shrink": .8})
-    
-    plt.title('Matriz de Correlação: IDHM vs Variáveis Ambientais\nSerra do Penitente')
+
+    plt.title("Matriz de Correlação: IDHM vs Variáveis Ambientais\nSerra do Penitente")
     plt.tight_layout()
-    
+
     caminho_heatmap = fig_dir / "Figura12_Heatmap_Correlacao_IDHM.png"
-    plt.savefig(caminho_heatmap, dpi=300, bbox_inches='tight')
+    plt.savefig(caminho_heatmap, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Heatmap de correlação salvo em: {caminho_heatmap}")
 

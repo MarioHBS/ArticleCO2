@@ -1,5 +1,4 @@
 # src/10_analisar_politicas_por_estratos_idhm.py
-# -*- coding: utf-8 -*-
 """Script para analisar a efetividade de politicas ambientais por estratos de desenvolvimento.
 
 Este script implementa o Passo 4 da analise, segmentando os municipios por niveis de IDHM
@@ -18,7 +17,7 @@ from sklearn.metrics import r2_score
 
 # Configurar path para imports locais
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from variaveis import (  # noqa: E402
+from variaveis import (
     FIGURE_PATHS,
     GENERATED_PATHS,
     RESULT_PATHS,
@@ -79,23 +78,22 @@ def definir_estratos_desenvolvimento(df):
         def classificar_estrato_idhm(idhm):
             if pd.isna(idhm) or idhm == 0:
                 return "Nao classificado"
-            elif idhm < 0.550:
+            if idhm < 0.550:
                 return "Muito baixo desenvolvimento"
-            elif idhm < 0.700:
+            if idhm < 0.700:
                 return "Baixo desenvolvimento"
-            elif idhm < 0.800:
+            if idhm < 0.800:
                 return "Medio desenvolvimento"
-            else:
-                return "Alto desenvolvimento"
+            return "Alto desenvolvimento"
 
         df_estratos["estrato_desenvolvimento"] = df_estratos["idhm_"].apply(
-            classificar_estrato_idhm
+            classificar_estrato_idhm,
         )
     else:
         # Criar IDHM sintetico baseado em PIB e area desmatada para demonstracao
         print(
             "[AVISO] Dados de IDHM nao encontrados ou zerados. "
-            "Criando estratos baseados em PIB per capita..."
+            "Criando estratos baseados em PIB per capita...",
         )
 
         # Calcular PIB per capita aproximado (usando populacao estimada)
@@ -107,17 +105,16 @@ def definir_estratos_desenvolvimento(df):
         def classificar_estrato_pib(pib_pc):
             if pd.isna(pib_pc) or pib_pc == 0:
                 return "Nao classificado"
-            elif pib_pc <= quartis[0.25]:
+            if pib_pc <= quartis[0.25]:
                 return "Baixo desenvolvimento"
-            elif pib_pc <= quartis[0.5]:
+            if pib_pc <= quartis[0.5]:
                 return "Medio-baixo desenvolvimento"
-            elif pib_pc <= quartis[0.75]:
+            if pib_pc <= quartis[0.75]:
                 return "Medio-alto desenvolvimento"
-            else:
-                return "Alto desenvolvimento"
+            return "Alto desenvolvimento"
 
         df_estratos["estrato_desenvolvimento"] = df_estratos["pib_per_capita"].apply(
-            classificar_estrato_pib
+            classificar_estrato_pib,
         )
 
     # Estatisticas dos estratos
@@ -270,7 +267,7 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
 
     plt.tight_layout()
     plt.savefig(
-        FIGURE_PATHS.figura13_analise_estratos_desenvolvimento_png, dpi=300, bbox_inches="tight"
+        FIGURE_PATHS.figura13_analise_estratos_desenvolvimento_png, dpi=300, bbox_inches="tight",
     )
     plt.close()
 
@@ -291,7 +288,7 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
                     metricas.get("intensidade_carbono", 0),
                     metricas.get("tendencia_desmatamento", 0),
                     metricas.get("tendencia_emissoes", 0),
-                ]
+                ],
             )
 
     if metricas_heatmap:
@@ -324,7 +321,7 @@ def gerar_visualizacoes_estratos(df_estratos, resultados):
 
         plt.tight_layout()
         plt.savefig(
-            FIGURE_PATHS.figura14_heatmap_metricas_estratos_png, dpi=300, bbox_inches="tight"
+            FIGURE_PATHS.figura14_heatmap_metricas_estratos_png, dpi=300, bbox_inches="tight",
         )
         plt.close()
 
@@ -353,31 +350,31 @@ def gerar_relatorio_estratos(resultados):
         relatorio.append(f"Numero de observacoes: {metricas.get('n_observacoes', 'N/A')}")
         relatorio.append(
             f"Desmatamento medio: {metricas.get('desmatamento_medio', 0):.2f} +/- "
-            f"{metricas.get('desmatamento_std', 0):.2f} ha"
+            f"{metricas.get('desmatamento_std', 0):.2f} ha",
         )
         relatorio.append(
             f"Emissoes medias: {metricas.get('emissoes_medias', 0):.2f} +/- "
-            f"{metricas.get('emissoes_std', 0):.2f} tCO2e"
+            f"{metricas.get('emissoes_std', 0):.2f} tCO2e",
         )
         relatorio.append(
             f"PIB medio: R$ {metricas.get('pib_medio', 0):,.2f} +/- "
-            f"{metricas.get('pib_std', 0):,.2f}"
+            f"{metricas.get('pib_std', 0):,.2f}",
         )
 
         if "intensidade_carbono" in metricas:
             relatorio.append(
                 f"Intensidade de carbono: {metricas['intensidade_carbono']:.6f} +/- "
-                f"{metricas.get('intensidade_carbono_std', 0):.6f} tCO2e/R$"
+                f"{metricas.get('intensidade_carbono_std', 0):.6f} tCO2e/R$",
             )
 
         if "tendencia_desmatamento" in metricas:
             relatorio.append(
                 f"Tendencia de desmatamento: {metricas['tendencia_desmatamento']:.2f} ha/ano "
-                f"(R2 = {metricas.get('r2_desmatamento', 0):.3f})"
+                f"(R2 = {metricas.get('r2_desmatamento', 0):.3f})",
             )
             relatorio.append(
                 f"Tendencia de emissoes: {metricas['tendencia_emissoes']:.2f} tCO2e/ano "
-                f"(R2 = {metricas.get('r2_emissoes', 0):.3f})"
+                f"(R2 = {metricas.get('r2_emissoes', 0):.3f})",
             )
 
         relatorio.append("")
@@ -443,7 +440,7 @@ def gerar_relatorio_estratos(resultados):
 
     # Salvar relatorio
     with open(
-        RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt, "w", encoding="utf-8"
+        RESULT_PATHS.relatorio_analise_estratos_desenvolvimento_txt, "w", encoding="utf-8",
     ) as f:
         f.write("\n".join(relatorio))
 
